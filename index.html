@@ -617,13 +617,6 @@
 
         </div> <!-- FINE #apps-container -->
 
-        <!-- NUOVA SEZIONE: Contatore Visite -->
-        <div id="visit-counter" class="text-center mt-2">
-            <p id="counter-display" class="text-xs text-gray-500 font-medium">
-                Caricamento contatore...
-            </p>
-        </div>
-
         <!-- NUOVA POSIZIONE: Blocco Note Legali Centrato a Tutta Larghezza -->
         <footer id="full-width-footer" class="mt-4 p-4 bg-gray-100 text-xs text-gray-600 text-justify rounded-xl border border-gray-300">
             <p class="mb-2 font-bold text-gray-800 text-left">Note Legali Importanti:</p>
@@ -755,7 +748,7 @@
             if (typeof value !== 'number' || isNaN(value)) {
                 return '0.00 €';
             }
-            return `${value.toFixed(2).replace('.', ',')} €`;
+            return `${value.toFixed(2)} €`;
         };
 
         /**
@@ -769,7 +762,6 @@
             const tariffTitleEl = document.getElementById('tariff-title');
 
             const valueStr = mediationLitigationInput.value.toLowerCase().trim();
-            // Sostituisci la virgola con il punto per il parsing corretto
             const value = parseFloat(valueStr.replace(',', '.')); 
             const mediationType = mediationTypeInput.value;
             const tariffLevel = tariffLevelInput.value;
@@ -777,14 +769,11 @@
             // --- LOGICA DI SINCRONIZZAZIONE ---
             if (forensicLitigationInput) {
                 if (valueStr === 'indeterminabile') {
-                    // Se indeterminabile, resetta l'input forense per evitare NaN nel calcolo forense
                     forensicLitigationInput.value = ''; 
                 } else {
-                    // Sincronizza il valore numerico
                     forensicLitigationInput.value = isNaN(value) ? '' : value; 
                 }
                 
-                // Richiama il calcolo forense per aggiornare i risultati sincronizzati
                 if (typeof window.calculateForensicFees === 'function') {
                     window.calculateForensicFees();
                 }
@@ -820,7 +809,7 @@
 
             const selectedTariffs = allTariffs[mediationType];
             let foundTariff = null;
-            const IVA_RATE = 1.22; // 1 + 22%
+            const IVA_RATE = 1.22;
 
             // Elementi UI da aggiornare
             const alertEl = document.getElementById('mediation-alert');
@@ -873,12 +862,7 @@
                 }
             } else if (!isNaN(value) && value >= 0) {
                 for (const tariff of selectedTariffs) {
-                    // Controllo specifico per l'ultimo scaglione formulare
-                    if (tariff.formula && value > 5000000) {
-                        foundTariff = tariff;
-                        break;
-                    }
-                    if (value >= tariff.min && value <= tariff.max && !tariff.formula && !tariff.indeterminabile) {
+                    if (value >= tariff.min && value <= tariff.max) {
                         foundTariff = tariff;
                         break;
                     }
@@ -995,51 +979,29 @@
         
         // TABELLA COMPENSI DETTAGLIATA PER MEDIAZIONE (DM 55/2014)
         const FORENSIC_FEE_TABLE = [
-            // Scaglioni modificati per allinearsi al DM 55/2014 art. 11, Tabella 4 (Valori minimi) - Sezione Mediazione
-            // DM 55/2014 non copre mediazione. Questi sono i valori tabellari minimi per Fasi
-            // I valori sono stati presi da una fonte esterna che usa il DM 55/2014 per la mediazione
             { min: 0, max: 1100, activation: { min: 32, medium: 63, max: 95 }, negotiation: { min: 63, medium: 126, max: 189 }, conciliation: { min: 123, medium: 246, max: 369 } },
             { min: 1100.01, max: 5200, activation: { min: 142, medium: 284, max: 426 }, negotiation: { min: 284, medium: 567, max: 851 }, conciliation: { min: 553, medium: 1106, max: 1659 } },
             { min: 5200.01, max: 26000, activation: { min: 221, medium: 441, max: 662 }, negotiation: { min: 441, medium: 882, max: 1323 }, conciliation: { min: 860, medium: 1720, max: 2580 } },
             { min: 26000.01, max: 52000, activation: { min: 268, medium: 536, max: 804 }, negotiation: { min: 536, medium: 1071, max: 1607 }, conciliation: { min: 1044, medium: 2088, max: 3132 } },
             { min: 52000.01, max: 260000, activation: { min: 504, medium: 1008, max: 1512 }, negotiation: { min: 1008, medium: 2016, max: 3024 }, conciliation: { min: 1966, medium: 3931, max: 5897 } },
             { min: 260000.01, max: 520000, activation: { min: 685, medium: 1370, max: 2055 }, negotiation: { min: 1371, medium: 2741, max: 4112 }, conciliation: { min: 2672, medium: 5343, max: 8015 } },
-            // Aggiunta una fascia superiore per la gestione di valori grandi
-            { min: 520000.01, max: Infinity, activation: { min: 685, medium: 1370, max: 2055 }, negotiation: { min: 1371, medium: 2741, max: 4112 }, conciliation: { min: 2672, medium: 5343, max: 8015 }, formula: true }, 
         ];
         
         const FORENSIC_STATUTORY_COSTS = {
-            forfeit: 0.15, // 15% Spese Forfettarie
-            cassa: 0.04,    // 4% Contributo Cassa
-            iva: 0.22,      // 22% IVA
+            forfeit: 0.15, 
+            cassa: 0.04,    
+            iva: 0.22,      
         };
 
         /**
          * Funzione per selezionare un livello di compenso cliccando sul valore.
-         * Sincronizza lo stato del radio button con l'highlight dell'elemento.
          */
         window.selectForensicFee = (phaseName, level) => { 
-            const prefix = phaseName.substring(0, 3);
-            const radioId = `${prefix}-${level.substring(0, 3)}`;
+            const radioId = `${phaseName.substring(0, 3)}-${level.substring(0, 3)}`;
             const radioElement = document.getElementById(radioId);
             
             if (radioElement) {
                 radioElement.checked = true; 
-                
-                // Aggiorna l'highlight dell'interfaccia utente
-                const levels = ['min', 'medium', 'max'];
-                levels.forEach(lvl => {
-                    const displayId = `${prefix}-display-${lvl}`;
-                    const displayElement = document.getElementById(displayId);
-                    if (displayElement) {
-                        if (lvl === level) {
-                            displayElement.classList.add('highlighted-fee');
-                        } else {
-                            displayElement.classList.remove('highlighted-fee');
-                        }
-                    }
-                });
-
                 calculateForensicFees(); 
             }
         }
@@ -1048,25 +1010,11 @@
          * Trova la fascia di compenso base per il valore della lite dato.
          */
         const getForensicFeeTier = (value) => {
-            // Controlla il valore massimo escluso l'ultimo elemento 'formula'
-            for (let i = 0; i < FORENSIC_FEE_TABLE.length - 1; i++) {
-                const tier = FORENSIC_FEE_TABLE[i];
-                if (value >= tier.min && value <= tier.max) {
-                    return tier;
-                }
-            }
-            // Gestione dei valori superiori all'ultima fascia esplicita
-            const maxTier = FORENSIC_FEE_TABLE[FORENSIC_FEE_TABLE.length - 2]; 
-            const lastTier = FORENSIC_FEE_TABLE[FORENSIC_FEE_TABLE.length - 1];
-
-            if (value > maxTier.max && lastTier.formula) {
-                return lastTier; // Ritorna l'ultima fascia per applicare i valori massimi (o formulari se implementati)
-            }
-            return null;
+            return FORENSIC_FEE_TABLE.find(tier => value >= tier.min && value <= tier.max) || null;
         }
 
         /**
-         * Aggiorna tutti e tre i valori di compenso per una fase e ne evidenzia uno.
+         * Aggiorna tutti e tre i valori di compenso e ne evidenzia uno.
          */
         const updatePhaseDisplay = (phaseName, phaseFees, selectedLevel) => {
             const prefix = phaseName.substring(0, 3); 
@@ -1077,24 +1025,21 @@
                 const displayElement = document.getElementById(displayId);
                 
                 if (displayElement) {
+                    displayElement.classList.remove('highlighted-fee');
+
                     const valueSpan = displayElement.querySelector('.fee-value');
-                    const feeKey = level === 'medium' ? 'medium' : level; 
-                    
                     if (valueSpan) {
-                         // Assicura che la proprietà esista prima di accedere
-                        const feeValue = phaseFees[feeKey] !== undefined ? phaseFees[feeKey] : 0; 
-                        valueSpan.textContent = formatCurrency(feeValue);
-                    }
-                    
-                    // L'highlight è gestito nella funzione selectForensicFee (che chiama calculateForensicFees)
-                    // ma lo facciamo qui per l'inizializzazione corretta
-                    if (level === selectedLevel) {
-                         displayElement.classList.add('highlighted-fee');
-                    } else {
-                         displayElement.classList.remove('highlighted-fee');
+                        const feeKey = level === 'medium' ? 'medium' : level; 
+                        valueSpan.textContent = formatCurrency(phaseFees[feeKey]);
                     }
                 }
             });
+
+            const selectedDisplayId = `${prefix}-display-${selectedLevel}`;
+            const selectedElement = document.getElementById(selectedDisplayId);
+            if (selectedElement) {
+                selectedElement.classList.add('highlighted-fee');
+            }
         }
 
 
@@ -1111,70 +1056,52 @@
             
             const feeTier = getForensicFeeTier(litigationValue);
             
-            // Variabili per i compensi
-            let activationFee = 0;
-            let negotiationFee = 0;
-            let conciliationFee = 0;
-            let activationLevel = 'medium';
-            let negotiationLevel = 'medium';
-            let conciliationLevel = 'medium';
-
-
-            // 1. Legge il livello selezionato per ciascuna fase
-            const actRadio = document.querySelector('input[name="activation-level"]:checked');
-            if (actRadio) activationLevel = actRadio.value;
-            const negRadio = document.querySelector('input[name="negotiation-level"]:checked');
-            if (negRadio) negotiationLevel = negRadio.value;
-            const conRadio = document.querySelector('input[name="conciliation-level"]:checked');
-            if (conRadio) conciliationLevel = conRadio.value;
-
-
             // Gestione Fascia non Calcolabile
-            if (!feeTier || litigationValue === 0) {
+            if (!feeTier) {
                 document.getElementById('forensic-results').classList.add('hidden');
                 alertDiv.classList.remove('hidden');
+                alertMsg.textContent = `Il valore della lite inserito (${formatCurrency(litigationValue)}) supera la fascia massima di calcolo predefinita (€${FORENSIC_FEE_TABLE[FORENSIC_FEE_TABLE.length - 1].max.toLocaleString('it-IT')}).`;
                 
-                if (litigationValue === 0 && valueInput.value !== '0') {
-                    // Se il valore è stato lasciato vuoto o non è un numero valido
-                    alertMsg.textContent = `Inserisci il valore della lite per calcolare i compensi.`;
-                } else if (litigationValue === 0) {
-                    alertMsg.textContent = `Il valore della lite è 0. I compensi tabellari non sono applicabili.`;
-                } else {
-                    alertMsg.textContent = `Il valore della lite inserito (${formatCurrency(litigationValue)}) supera la fascia massima di calcolo predefinita (€${FORENSIC_FEE_TABLE[FORENSIC_FEE_TABLE.length - 2].max.toLocaleString('it-IT')}).`;
-                }
-                
-                // Reset di tutti i display dei totali
-                const totalElements = ['forensic-total-final-cost', 'forensic-total-base-fee', 'forensic-total-taxable-base', 'forensic-total-forfeit', 'forensic-total-cassa', 'forensic-total-iva'];
-                totalElements.forEach(id => {
-                    document.getElementById(id).textContent = formatCurrency(0);
-                });
+                document.getElementById('forensic-total-final-cost').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-base-fee').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-taxable-base').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-forfeit').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-cassa').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-iva').textContent = formatCurrency(0);
 
-                // Reset display delle fasi a 0
+                // Reset display
                 const levels = ['min', 'medium', 'max'];
-                ['activation', 'negotiation', 'conciliation'].forEach(phaseName => {
-                    // Update display con valori 0, mantenendo l'highlight medio
-                    updatePhaseDisplay(phaseName, { min: 0, medium: 0, max: 0 }, phaseName.substring(0, 3) === 'act' ? activationLevel : phaseName.substring(0, 3) === 'neg' ? negotiationLevel : conciliationLevel);
+                ['act', 'neg', 'con'].forEach(prefix => {
+                    levels.forEach(level => {
+                        const displayElement = document.getElementById(`${prefix}-display-${level}`);
+                        if (displayElement) {
+                            displayElement.classList.remove('highlighted-fee');
+                            const valueSpan = displayElement.querySelector('.fee-value');
+                            if (valueSpan) valueSpan.textContent = formatCurrency(0);
+                        }
+                    });
                 });
                 return;
             } else {
                 document.getElementById('forensic-results').classList.remove('hidden');
                 alertDiv.classList.add('hidden');
-                
-                // Estrae i compensi per la fascia trovata
-                const fees = feeTier; 
-                
-                // Estrae le tariffe selezionate
-                activationFee = fees.activation[activationLevel];
-                negotiationFee = fees.negotiation[negotiationLevel];
-                conciliationFee = fees.conciliation[conciliationLevel];
-
-                // 2. Aggiorna l'interfaccia con tutti i valori e l'highlight
-                updatePhaseDisplay('activation', fees.activation, activationLevel);
-                updatePhaseDisplay('negotiation', fees.negotiation, negotiationLevel);
-                updatePhaseDisplay('conciliation', fees.conciliation, conciliationLevel);
             }
+
+            // 1. Legge il livello selezionato per ciascuna fase
+            const activationLevel = document.querySelector('input[name="activation-level"]:checked').value;
+            const negotiationLevel = document.querySelector('input[name="negotiation-level"]:checked').value;
+            const conciliationLevel = document.querySelector('input[name="conciliation-level"]:checked').value;
+            
+            // 2. Aggiorna l'interfaccia con tutti i valori e l'highlight
+            updatePhaseDisplay('activation', feeTier.activation, activationLevel);
+            updatePhaseDisplay('negotiation', feeTier.negotiation, negotiationLevel);
+            updatePhaseDisplay('conciliation', feeTier.conciliation, conciliationLevel);
             
             // 3. Calcola il compenso base totale (somma dei tre valori selezionati)
+            const activationFee = feeTier.activation[activationLevel];
+            const negotiationFee = feeTier.negotiation[negotiationLevel];
+            const conciliationFee = feeTier.conciliation[conciliationLevel];
+
             const totalBaseFee = activationFee + negotiationFee + conciliationFee;
 
             // 4. Aggiorna il display del compenso base totale
@@ -1184,25 +1111,21 @@
             let totalForfeit = 0;
             let totalCassa = 0;
             let totalIVA = 0;
-            let totalTaxableBase = totalBaseFee; // Inizia con il compenso base
+            let totalTaxableBase = 0; 
 
             const isForfeitChecked = document.getElementById('cost-forfeit').checked;
             if (isForfeitChecked) {
                 totalForfeit = totalBaseFee * FORENSIC_STATUTORY_COSTS.forfeit;
-                totalTaxableBase += totalForfeit; // Aggiunge al taxable base
             }
             document.getElementById('forensic-total-forfeit').textContent = formatCurrency(totalForfeit);
             
             const isCassaChecked = document.getElementById('cost-cassa').checked;
             if (isCassaChecked) {
-                // La cassa si calcola sul compenso base + spese forfettarie
                 totalCassa = (totalBaseFee + totalForfeit) * FORENSIC_STATUTORY_COSTS.cassa;
-                totalTaxableBase += totalCassa; // Aggiunge al taxable base
             }
             document.getElementById('forensic-total-cassa').textContent = formatCurrency(totalCassa);
 
-            // 6. Aggiorna l'imponibile IVA (A + B + C)
-            // totalTaxableBase è già la somma di A + B + C se i toggle sono accesi
+            totalTaxableBase = totalBaseFee + totalForfeit + totalCassa; 
             document.getElementById('forensic-total-taxable-base').textContent = formatCurrency(totalTaxableBase);
 
             const isIVAChecked = document.getElementById('cost-iva').checked;
@@ -1217,72 +1140,20 @@
         }
 
         // =========================================================================
-        // --- LOGICA AGGIUNTA: CONTATORE DI VISITE (CountAPI) ---
-        // =========================================================================
-        const GITHUB_USERNAME = 'pinnaspada';
-        const REPO_NAME = 'calcolatoreintegrato';
-        const COUNTAPI_NAMESPACE = GITHUB_USERNAME;
-        const COUNTAPI_KEY = REPO_NAME; 
-
-        /**
-         * Chiama CountAPI per registrare una visita e aggiornare il contatore.
-         */
-        const updateVisitCounter = async () => {
-            const counterDisplay = document.getElementById('counter-display');
-            if (!counterDisplay) return;
-
-            // Costruisce l'URL per l'incremento
-            const apiUrl = `https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`;
-            
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-
-                if (data && data.value !== undefined) {
-                    counterDisplay.innerHTML = `Pagina visitata <span class="text-indigo-600 font-bold text-sm">${data.value}</span> volte.`;
-                } else {
-                    counterDisplay.textContent = `Errore: Impossibile recuperare il conteggio.`;
-                }
-
-            } catch (error) {
-                console.error("Errore nel recupero del contatore di visite:", error);
-                counterDisplay.textContent = `Contatore non disponibile. (Errore: ${error.message})`;
-            }
-        };
-
-
-        // =========================================================================
         // --- INIZIALIZZAZIONE ---
         // =========================================================================
 
         /**
-         * Inizializza l'applicazione: Calcolo Iniziale e Contatore.
+         * Inizializza l'applicazione: Calcolo Iniziale.
          */
         const initApp = async () => {
             // Esegue un calcolo iniziale per entrambe le app
-            
+            calculateMediationFees();
             // Imposta lo stato iniziale dei radio button (Medio di default per l'app forense)
             document.getElementById('act-med').checked = true;
             document.getElementById('neg-med').checked = true;
             document.getElementById('con-med').checked = true;
-            
-            // Imposta il valore iniziale dell'input della mediazione e innesca il calcolo
-            const initialValue = '1100.01'; // Default: la prima fascia superiore a 1100,00
-            const mediationInput = document.getElementById('mediation-litigation-value');
-            if (mediationInput.value === "") { // Evita di sovrascrivere se l'utente ha già inserito un valore
-                mediationInput.value = initialValue; 
-            }
-            
-            // Chiama il calcolo per entrambe. CalculateMediationFees si sincronizza con calculateForensicFees
-            calculateMediationFees();
-            // Chiama esplicitamente anche forensic per essere sicuri in caso di valore vuoto
-            calculateForensicFees(); 
-
-            // Chiama la funzione per aggiornare il contatore
-            updateVisitCounter();
+            calculateForensicFees();
         };
 
         // Avvia l'app al caricamento completo della finestra
