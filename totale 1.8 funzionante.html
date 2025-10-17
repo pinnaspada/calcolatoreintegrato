@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannello di Controllo Spese Legali e Mediazione</title>
+    <!-- Caricamento di Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Definizione del Font Inter e stili unificati -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Century+Schoolbook&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header-font {
+            font-family: 'Century Schoolbook', 'Georgia', serif;
+        }
+        /* Stile per nascondere le frecce sugli input di tipo number (App Blu) */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Stili per il toggle (Oneri Fiscali - App Blu) */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            user-select: none;
+            gap: 0.25rem;
+        }
+        
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-track {
+            width: 2.5rem; 
+            height: 1.1rem; 
+            background-color: #ccc;
+            border-radius: 9999px;
+            position: relative;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toggle-thumb {
+            width: 0.9rem; 
+            height: 0.9rem; 
+            background-color: white;
+            border-radius: 9999px;
+            position: absolute;
+            top: 0.1rem; 
+            left: 0.1rem;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        /* Stato Checked per Toggle (Oneri Fiscali) - TEMA BLU */
+        #cost-forfeit:checked + .toggle-track, 
+        #cost-cassa:checked + .toggle-track, 
+        #cost-iva:checked + .toggle-track {
+            background-color: #3b82f6; /* blue-500 */
+        }
+
+        #cost-forfeit:checked + .toggle-track .toggle-thumb, 
+        #cost-cassa:checked + .toggle-track .toggle-thumb, 
+        #cost-iva:checked + .toggle-track .toggle-thumb {
+            transform: translateX(1.4rem); 
+        }
+
+        /* Stile per la colonna di calcolo per l'input - TEMA BLU */
+        #forensic-calculator .input-group-style {
+            background-color: #eff6ff; /* blue-50 */
+            border-color: #93c5fd; /* blue-300 */
+        }
+
+        /* Stili per il riquadro selezionabile (App Blu) */
+        .fee-display-item {
+            cursor: pointer; 
+            padding: 0.4rem 0.2rem; 
+            border-radius: 0.5rem; 
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #e5e7eb; 
+            background-color: #f9fafb; 
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+        
+        .fee-display-item:hover {
+            border-color: #bfdbfe; 
+            background-color: #eff6ff; 
+        }
+
+        .highlighted-fee {
+            background-color: #93c5fd; 
+            border-color: #1e40af; 
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+        }
+        .highlighted-fee .fee-value {
+            color: #1e40af; 
+            font-weight: 800; 
+            font-size: 1.25rem; 
+        }
+        .highlighted-fee span:first-child {
+             color: #1e40af; 
+        }
+        
+        .fee-display-item span:first-child {
+            font-size: 0.875rem; 
+            font-weight: 600; 
+            color: #4b5563; 
+        }
+        .fee-display-item .fee-value {
+            font-size: 1.125rem; 
+            font-weight: 700;
+            color: #1f2937; 
+        }
+
+        .single-phase-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .phase-content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr)); 
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* Stili per layout generale */
+        #main-container {
+            /* Flex layout per desktop, column per mobile */
+            display: flex;
+            flex-direction: column; 
+            gap: 2rem;
+            min-height: 100vh;
+            padding: 1rem;
+            max-width: 100%; /* Ensure it doesn't overflow */
+        }
+
+        .app-panel {
+            /* Base styling for each panel */
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            flex-shrink: 0; /* Important for flex layout */
+        }
+
+        /* NEW: Header Container full width */
+        #full-width-header {
+            width: 100%;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            /* Modifiche per aggiungere il bordo superiore e usare il colore blu dell'app forense */
+            border-top: 4px solid #1d4ed8; /* blue-custom-700 */
+            border-bottom: 4px solid #1d4ed8; /* blue-custom-700 */
+        }
+        
+        /* NEW: Container for the two side-by-side apps */
+        #apps-container {
+            display: flex;
+            flex-direction: column; 
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* MODIFICA: Stile per il Footer (full width) */
+        #full-width-footer {
+            width: 100%;
+            padding-left: 1rem; 
+            padding-right: 1rem; 
+        }
+
+        /* Stile aggiuntivo per giustificare il testo nel footer */
+        .text-justify {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+
+        @media (min-width: 1024px) { 
+            #main-container {
+                /* Changed to column to stack header above apps-container */
+                flex-direction: column; 
+                padding: 2rem;
+            }
+            #apps-container {
+                /* This is the new flex container for the side-by-side layout */
+                flex-direction: row; 
+            }
+            .app-panel {
+                width: 50%; /* Equal width on desktop */
+                max-width: none; 
+            }
+        }
+    </style>
+    <script>
+        // Configurazione Tailwind estesa per i colori dell'App Blu
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blue-custom': {
+                            50: '#eff6ff',
+                            300: '#93c5fd',
+                            500: '#3b82f6',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+
+    <div id="main-container">
+        
+        <!-- NUOVA SEZIONE: Intestazione a Tutta Larghezza -->
+        <div id="full-width-header" class="text-center">
+            <div class="flex flex-col items-center justify-center mb-4 border-b border-gray-200 pb-4">
+                <div class="flex flex-wrap items-center justify-center gap-6 mb-3">
+                    <!-- Logo -->
+                    <img
+                        src="https://logoccf.carrd.co/assets/images/image01.jpg?v=33becf42"
+                        alt="Logo Camera di Media-Conciliazione Forense"
+                        class="h-16 sm:h-20 w-auto object-contain rounded-lg shadow-md"
+                        onerror="this.onerror=null; this.src='https://placehold.co/150x80/284992/ffffff?text=Logo+Non+Trovato';"
+                    />
+                </div>
+                <div class="header-font">
+                    <!-- DIMENSIONE AUMENTATA: da text-xl sm:text-2xl a text-2xl sm:text-3xl -->
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">
+                        COORDINAMENTO DELLA CONCILIAZIONE FORENSE
+                    </h1>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 max-w-full mx-auto">
+                        Sede legale presso la Fondazione Forense di Milano, in Via Freguglia n. 1, 20122 Milano. Tel.025492921. Email: <a href="mailto:info@conciliazioneforense.it" class="text-indigo-600 hover:underline">info@conciliazioneforense.it</a> | PEC: <a href="mailto:conciliazioneforense@legalmail.it" class="text-indigo-600 hover:underline">conciliazioneforense@legalmail.it</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- FINE NUOVA SEZIONE INTESTAZIONE -->
+
+
+        <!-- CONTENITORE PRINCIPALE DELLE APP AFFIANCATE -->
+        <div id="apps-container" class="lg:flex">
+            
+            <!-- PARTE SINISTRA: Spese di Mediazione (spese test2.html) - TEMA VIOLA -->
+            <div id="mediation-app" class="app-panel border-t-8 border-indigo-600">
+                
+                <h2 class="text-2xl font-extrabold text-gray-800 text-center mb-6 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 h-6 w-6 text-gray-400"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> Calcolatore Spese di Mediazione
+                </h2>
+
+                <!-- Contenitore Calcolatore Mediazione -->
+                <div class="flex flex-col gap-6">
+                    
+                    <div id="mediation-calculator" class="space-y-4">
+                        <h2 id="tariff-title" class="text-xl sm:text-2xl font-extrabold text-indigo-700 text-center flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi
+                        </h2>
+                        <p class="text-sm text-gray-500 text-center -mt-2">DM 150/2023</p>
+
+                        <!-- Gruppo Input Mediazione -->
+                        <div class="space-y-3 p-3 bg-indigo-50 rounded-lg shadow-inner">
+                            <div>
+                                <label for="mediation-tariff-level" class="block text-gray-700 font-bold mb-1 text-sm">Livello Tariffario:</label>
+                                <select
+                                    id="mediation-tariff-level"
+                                    onchange="calculateMediationFees()"
+                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out font-medium bg-white"
+                                >
+                                    <option value="minimi">Valori Minimi</option>
+                                    <option value="medi">Valori Medi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="mediation-type" class="block text-gray-700 font-bold mb-1 text-sm">Tipo di Mediazione:</label>
+                                <select
+                                    id="mediation-type"
+                                    onchange="calculateMediationFees()"
+                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out font-medium bg-white"
+                                >
+                                    <option value="obbligatorie">Mediazioni obbligatorie o demandate (80% tariffa)</option>
+                                    <option value="volontarie">Mediazioni volontarie (100% tariffa)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="mediation-litigation-value" class="block text-gray-700 font-bold mb-1 text-sm">Valore della Lite (€):</label>
+                                <input
+                                    id="mediation-litigation-value"
+                                    type="text"
+                                    oninput="calculateMediationFees()"
+                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-base font-semibold"
+                                    placeholder="es. 15000 o Indeterminabile"
+                                />
+                            </div>
+                        </div>
+                        
+                        <!-- Alert Mediazione -->
+                        <div id="mediation-alert" class="hidden bg-yellow-100 p-3 rounded-lg border-l-4 border-yellow-500 text-yellow-800 text-sm font-medium"></div>
+
+                        <!-- Griglia Risultati Mediazione -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- 1. Spese di Avvio -->
+                            <div class="bg-white p-3 rounded-lg shadow-md border border-green-300">
+                                <h3 class="text-sm font-semibold text-green-700 mb-1">Spese di Avvio:</h3>
+                                <p id="fees-startup" class="text-xl font-extrabold text-green-800">0.00 €</p>
+                                <div class="text-sm text-gray-600 mt-1 space-y-0.5">
+                                    <p>Imponibile: <span id="fees-startup-imponibile" class="font-medium">0.00 €</span></p>
+                                    <p>IVA 22%: <span id="fees-startup-iva" class="font-medium">0.00 €</span></p>
+                                    <!-- NUOVA RIGA AGGIUNTA QUI -->
+                                    <p class="text-xs text-gray-500 font-medium pt-1 border-t border-gray-100 text-left">(Dovute al deposito della domanda e dell'adesione)</p>
+                                </div>
+                            </div>
+
+                            <!-- 2. Esito Negativo dopo 1° incontro -->
+                            <div class="bg-white p-3 rounded-lg shadow-md border border-purple-300">
+                                <h3 class="text-sm font-semibold text-purple-700 mb-1">Spese per esito negativo dopo 1° incontro:</h3>
+                                <p id="fees-negative" class="text-xl font-extrabold text-purple-800">0.00 €</p>
+                                <div class="text-sm text-gray-600 mt-1 space-y-0.5">
+                                    <p>Imponibile: <span id="fees-negative-imponibile" class="font-medium">0.00 €</span></p>
+                                    <p>IVA 22%: <span id="fees-negative-iva" class="font-medium">0.00 €</span></p>
+                                    <!-- Nuova riga aggiunta qui sotto l'IVA 22% -->
+                                    <p class="text-xs text-gray-500 font-medium pt-1 border-t border-gray-100 text-left">(Dovute dopo il 1° incontro non conclusivo)</p> 
+                                </div>
+                            </div>
+                            
+                            <!-- 3. Esito Positivo al 1° -->
+                            <div class="bg-white p-3 rounded-lg shadow-md border border-amber-300">
+                                <h3 class="text-sm font-semibold text-amber-700 mb-1">Spese per esito positivo 1° incontro:</h3>
+                                <p id="fees-positive-1" class="text-xl font-extrabold text-amber-800">0.00 €</p>
+                                <div class="text-sm text-gray-600 mt-1 space-y-0.5">
+                                    <p>Imponibile: <span id="fees-positive-1-imponibile" class="font-medium">0.00 €</span></p>
+                                    <p>IVA 22%: <span id="fees-positive-1-iva" class="font-medium">0.00 €</span></p>
+                                    <!-- AGGIUNTA NUOVA RIGA QUI -->
+                                    <p class="text-xs text-gray-500 font-medium pt-1 border-t border-gray-100 text-left">(Conciliazione al primo incontro)</p>
+                                </div>
+                            </div>
+
+                            <!-- 4. Esito Positivo dopo il 1° -->
+                            <div class="bg-white p-3 rounded-lg shadow-md border border-red-300">
+                                <h3 class="text-sm font-semibold text-red-700 mb-1">Spese per esito positivo dopo 1° incontro:</h3>
+                                <p id="fees-positive-after-1" class="text-xl font-extrabold text-red-800">0.00 €</p>
+                                <div class="text-sm text-gray-600 mt-1 space-y-0.5">
+                                    <p>Imponibile: <span id="fees-positive-after-1-imponibile" class="font-medium">0.00 €</span></p>
+                                    <p>IVA 22%: <span id="fees-positive-after-1-iva" class="font-medium">0.00 €</span></p>
+                                    <!-- AGGIUNTA NUOVA RIGA QUI -->
+                                    <p class="text-xs text-gray-500 font-medium pt-1 border-t border-gray-100 text-left">(Conciliazione dopo il primo incontro)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Riepilogo Totale Mediazione -->
+                        <div class="bg-indigo-600 text-white p-4 rounded-xl shadow-xl mt-4">
+                            <h3 class="text-sm font-bold text-center mb-3 border-b border-indigo-400 pb-2">
+                                Costo Totale Mediazione (Avvio + Spese)
+                            </h3>
+                            <!-- Modifica qui: da grid-cols-3 a grid-cols-4 -->
+                            <div class="grid grid-cols-4 gap-2 text-center text-sm"> 
+                                <!-- NUOVA CASELLA: Negativo 1° incontro (Solo Spese di Avvio) -->
+                                <div>
+                                    <p class="text-xs font-light opacity-90">Negativo 1° incontro</p>
+                                    <p id="total-startup" class="text-xl font-extrabold">0.00 €</p>
+                                    <div class="text-xs font-light mt-2 space-y-0.5">
+                                        <p>Imponibile: <span id="total-startup-imponibile" class="font-medium">0.00 €</span></p>
+                                        <p>IVA 22%: <span id="total-startup-iva" class="font-medium">0.00 €</span></p>
+                                    </div>
+                                </div>
+
+                                <!-- Vecchia Negativo dopo 1° incontro (ora è la 2a colonna) -->
+                                <div class="border-x border-indigo-400 pr-2">
+                                    <p class="text-xs font-light opacity-90">Negativo dopo 1° incontro</p>
+                                    <p id="total-negative" class="text-xl font-extrabold">0.00 €</p>
+                                    <div class="text-xs font-light mt-2 space-y-0.5">
+                                        <p>Imponibile: <span id="total-negative-imponibile" class="font-medium">0.00 €</span></p>
+                                        <p>IVA 22%: <span id="total-negative-iva" class="font-medium">0.00 €</span></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Vecchia Positivo al 1° incontro (ora è la 3a colonna) -->
+                                <div>
+                                    <p class="text-xs font-light opacity-90">Positivo al 1° incontro</p>
+                                    <p id="total-positive-1" class="text-xl font-extrabold">0.00 €</p>
+                                    <div class="text-xs font-light mt-2 space-y-0.5">
+                                        <p>Imponibile: <span id="total-positive-1-imponibile" class="font-medium">0.00 €</span></p>
+                                        <p>IVA 22%: <span id="total-positive-1-iva" class="font-medium">0.00 €</span></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Vecchia Positivo dopo 1° incontro (ora è la 4a colonna) -->
+                                <div class="border-l border-indigo-400 pl-2">
+                                    <p class="text-xs font-light opacity-90">Positivo dopo 1° incontro</p>
+                                    <p id="total-positive-after-1" class="text-xl font-extrabold">0.00 €</p>
+                                    <div class="text-xs font-light mt-2 space-y-0.5">
+                                        <p>Imponibile: <span id="total-positive-after-1-imponibile" class="font-medium">0.00 €</span></p>
+                                        <p>IVA 22%: <span id="total-positive-after-1-iva" class="font-medium">0.00 €</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEZIONE RIMOSSA: Blocco per ID Utente e Contatore -->
+                        
+                    </div>
+
+                    <!-- FOOTER RIMOSSO DA QUI e spostato alla fine del #main-container -->
+                </div>
+            </div>
+            
+            <!-- PARTE DESTRA: Spese Legali (spese legali blu.html) - TEMA BLU -->
+            <div id="forensic-app" class="app-panel border-t-8 border-blue-custom-700">
+                <!-- Contenuto dell'app "Spese Legali Blu" -->
+                
+                <h2 class="text-2xl font-extrabold text-blue-custom-700 text-center mb-6 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-custom-600"><path d="m16 16-3-3m0 0 3-3m-3 3h3"/></svg> Calcolatore Compensi Avvocato
+                </h2>
+                <p class="text-sm text-gray-500 text-center -mt-2 mb-4">DM 55/2014 - Valori tabellari (Mediazione).</p>
+
+                <!-- Gruppo Input Valore Lite -->
+                <div id="forensic-calculator" class="space-y-2 p-3 input-group-style rounded-xl shadow-inner">
+                    <div>
+                        <label for="forensic-litigation-value" class="block text-gray-700 font-bold text-base mb-1">Valore della Lite (€):</label>
+                        <input
+                            id="forensic-litigation-value"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value="1100.01"
+                            oninput="calculateForensicFees()"
+                            class="w-full p-2 border border-blue-custom-300 rounded-lg shadow-sm focus:ring-blue-custom-500 focus:border-blue-custom-500 transition duration-150 ease-in-out text-base font-semibold bg-white"
+                            placeholder="Inserisci qui il valore"
+                        />
+                    </div>
+                </div>
+
+                <!-- Alert/Risultati Compensi Avvocato -->
+                <div id="forensic-alert" class="hidden bg-blue-100 p-3 rounded-lg shadow-md border-l-4 border-blue-custom-500 text-blue-custom-800 font-medium text-sm mt-4">
+                    <p class="font-bold">Attenzione:</p>
+                    <p id="alert-message">Valore lite non rientrante nelle fasce calcolabili.</p>
+                </div>
+
+                <!-- Risultati per Fase (Select by clicking value) -->
+                <div id="forensic-results" class="grid grid-cols-1 gap-3 mt-4">
+                    
+                    <h3 class="text-base font-extrabold text-blue-custom-700 border-b border-blue-custom-300 pb-1 mt-2">Compensi per Fase (Seleziona il Valore)</h3>
+
+                    <!-- FASE 1: Iniziale -->
+                    <div id="phase-activation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-blue-custom-700">Fase Iniziale</h3>
+                        <div class="phase-content-grid">
+                            <div id="act-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('activation', 'min')">
+                                <span class="font-medium">Minimo</span>
+                                <span class="fee-value font-black" data-value-type="min">0,00 €</span>
+                            </div>
+                            <div id="act-display-medium" class="fee-display-item flex flex-col justify-center items-center highlighted-fee" onclick="selectForensicFee('activation', 'medium')">
+                                <span class="font-medium">Medio</span>
+                                <span class="fee-value font-black" data-value-type="medium">0,00 €</span>
+                            </div>
+                            <div id="act-display-max" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('activation', 'max')">
+                                <span class="font-medium">Massimo</span>
+                                <span class="fee-value font-black" data-value-type="max">0,00 €</span>
+                            </div>
+                            <div class="hidden phase-radio-group">
+                                <input type="radio" id="act-min" name="activation-level" value="min" class="hidden" />
+                                <input type="radio" id="act-med" name="activation-level" value="medium" checked class="hidden" />
+                                <input type="radio" id="act-max" name="activation-level" value="max" class="hidden" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 2: Trattazione -->
+                    <div id="phase-negotiation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-blue-custom-700">Fase Trattazione</h3>
+                        <div class="phase-content-grid">
+                            <div id="neg-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('negotiation', 'min')">
+                                <span class="font-medium">Minimo</span>
+                                <span class="fee-value font-black" data-value-type="min">0,00 €</span>
+                            </div>
+                            <div id="neg-display-medium" class="fee-display-item flex flex-col justify-center items-center highlighted-fee" onclick="selectForensicFee('negotiation', 'medium')">
+                                <span class="font-medium">Medio</span>
+                                <span class="fee-value font-black" data-value-type="medium">0,00 €</span>
+                            </div>
+                            <div id="neg-display-max" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('negotiation', 'max')">
+                                <span class="font-medium">Massimo</span>
+                                <span class="fee-value font-black" data-value-type="max">0,00 €</span>
+                            </div>
+                            <div class="hidden phase-radio-group">
+                                <input type="radio" id="neg-min" name="negotiation-level" value="min" class="hidden" />
+                                <input type="radio" id="neg-med" name="negotiation-level" value="medium" checked class="hidden" />
+                                <input type="radio" id="neg-max" name="negotiation-level" value="max" class="hidden" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 3: Conciliazione -->
+                    <div id="phase-conciliation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-blue-custom-700">Fase Conciliazione</h3>
+                        <div class="phase-content-grid">
+                            <div id="con-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('conciliation', 'min')">
+                                <span class="font-medium">Minimo</span>
+                                <span class="fee-value font-black" data-value-type="min">0,00 €</span>
+                            </div>
+                            <div id="con-display-medium" class="fee-display-item flex flex-col justify-center items-center highlighted-fee" onclick="selectForensicFee('conciliation', 'medium')">
+                                <span class="font-medium">Medio</span>
+                                <span class="fee-value font-black" data-value-type="medium">0,00 €</span>
+                            </div>
+                            <div id="con-display-max" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('conciliation', 'max')">
+                                <span class="font-medium">Massimo</span>
+                                <span class="fee-value font-black" data-value-type="max">0,00 €</span>
+                            </div>
+                            <div class="hidden phase-radio-group">
+                                <input type="radio" id="con-min" name="conciliation-level" value="min" class="hidden" />
+                                <input type="radio" id="con-med" name="conciliation-level" value="medium" checked class="hidden" />
+                                <input type="radio" id="con-max" name="conciliation-level" value="max" class="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Opzioni Calcolo (Solo Oneri Fiscali/Previdenziali) -->
+                    <div class="p-3 bg-white rounded-xl shadow-md border border-gray-200 mt-2">
+                        <h3 class="text-sm font-bold text-blue-custom-700 mb-3 border-b border-blue-custom-300 pb-1 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-custom-600"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Oneri Fiscali/Previdenziali
+                        </h3>
+                        
+                        <div class="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
+                            
+                            <!-- Spese Forfettarie (Testo ridotto: Spese forf. 15%) -->
+                            <div class="toggle-container">
+                                <span class="text-gray-800 font-medium"> Spese forf. 15%</span>
+                                <input type="checkbox" id="cost-forfeit" checked onchange="calculateForensicFees()" class="hidden">
+                                <label for="cost-forfeit" class="toggle-track toggle-switch">
+                                    <div class="toggle-thumb"></div>
+                                </label>
+                            </div>
+
+                            <!-- Contributo Cassa (Testo ridotto: Cassa 4%) -->
+                            <div class="toggle-container">
+                                <span class="text-gray-800 font-medium">Cassa 4%</span>
+                                <input type="checkbox" id="cost-cassa" checked onchange="calculateForensicFees()" class="hidden">
+                                <label for="cost-cassa" class="toggle-track toggle-switch">
+                                    <div class="toggle-thumb"></div>
+                                </label>
+                            </div>
+
+                            <!-- IVA (Testo ridotto: IVA 22%) -->
+                            <div class="toggle-container">
+                                <span class="text-gray-800 font-medium">IVA 22%</span>
+                                <input type="checkbox" id="cost-iva" checked onchange="calculateForensicFees()" class="hidden">
+                                <label for="cost-iva" class="toggle-track toggle-switch">
+                                    <div class="toggle-thumb"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Riepilogo Totale Avvocato -->
+                    <div class="bg-blue-custom-700 text-white p-4 rounded-xl shadow-xl mt-4">
+                        <h3 class="text-sm font-bold text-center mb-3">Totale Complessivo Cliente (Basato sulle tue Selezioni)</h3>
+                        
+                        <div class="space-y-2 text-sm"> 
+                            <!-- Compenso Base Totale -->
+                            <div class="flex justify-between items-center border-b border-blue-custom-600 pb-1">
+                                <span class="font-light opacity-90">A. Comp. Base (Totale Fasi):</span>
+                                <span id="forensic-total-base-fee" class="font-extrabold text-white text-base">0,00 €</span>
+                            </div>
+                            
+                            <!-- Spese Forfettarie -->
+                            <div class="flex justify-between items-center">
+                                <span class="font-light opacity-90">B. Spese Forfettarie (15%):</span>
+                                <span id="forensic-total-forfeit" class="font-semibold text-white text-base">0,00 €</span>
+                            </div>
+                            
+                            <!-- Contributo Cassa -->
+                            <div class="flex justify-between items-center">
+                                <span class="font-light opacity-90">C. Contributo Cassa (4%):</span>
+                                <span id="forensic-total-cassa" class="font-semibold text-white text-base">0,00 €</span>
+                            </div>
+                            
+                            <!-- Imponibile IVA -->
+                            <div class="flex justify-between items-center pt-2 border-t border-blue-custom-600">
+                                <span class="font-light opacity-90 text-sm">D. Imponibile IVA (A + B + C):</span>
+                                <span id="forensic-total-taxable-base" class="font-extrabold text-lg text-yellow-300">0,00 €</span>
+                            </div>
+
+                            <!-- IVA -->
+                            <div class="flex justify-between items-center">
+                                <span class="font-light opacity-90 text-sm">E. IVA (22% su D):</span>
+                                <span id="forensic-total-iva" class="font-semibold text-white text-base">0,00 €</span>
+                            </div>
+
+                            <!-- TOTALE FINALE -->
+                            <div class="flex justify-between items-center pt-3 border-t-2 border-blue-custom-500">
+                                <p class="text-lg font-black">TOTALE CLIENTE:</p>
+                                <p id="forensic-total-final-cost" class="text-2xl font-black text-yellow-300">
+                                    0,00 €
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- FINE #apps-container -->
+
+        <!-- NUOVA POSIZIONE: Blocco Note Legali Centrato a Tutta Larghezza -->
+        <footer id="full-width-footer" class="mt-4 p-4 bg-gray-100 text-xs text-gray-600 text-justify rounded-xl border border-gray-300">
+            <p class="mb-2 font-bold text-gray-800 text-left">Note Legali Importanti:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>
+                    Calcolatore realizzato dall'<a href="https://www.ordineavvocati.ss.it/docs/mediazione_curriculum_responsabile24092025.pdf" target="_blank" class="font-bold text-indigo-600 hover:underline">Avv. Antonio Pinna Spada</a>, Responsabile dell'Organismo di Media Conciliazione Forense dell'Ordine degli Avvocati di Oristano e Responsabile dell'Organismo di Mediazione del Consiglio dell'Ordine degli Avvocati di Sassari. 
+                </li>
+                <ul class="list-disc list-inside space-y-1 ml-4 mt-1">
+                    <li>
+                        In caso di conciliazione in incontro successivo al primo, gli importi complessivamente dovuti a titolo di spese di mediazione, in aggiunta a quanto prevede l'art. 30 c.2 del DM 150/2023, possono essere maggiorati fino al 20%, in ragione dell'esistenza di almeno uno dei seguenti criteri (art. 31, c. 3): a) esperienza e competenza del mediatore designato su concorde indicazione delle parti; b) complessità delle questioni oggetto della procedura, quali l'impegno richiesto al mediatore, valutabile anche, ma non esclusivamente, in base al numero degli incontri svolti.
+                    </li>
+                </ul>
+                <li>
+                    Il calcolatore può essere utilizzato esclusivamente per esigenze non professionali e le risultanze di calcolo devono essere intese a carattere puramente indicativo e non vincolante. 
+                </li>
+                <li>
+                    L'importo delle spese di mediazione del valore superiore ad € 5.000.000,01 viene calcolato ai minimi.
+                </li>
+                <li>
+                    Il calcolatore è stato sviluppato sulla base dei parametri di cui al <span class="font-medium">DM 150/2023</span> (spese di mediazione) e successive integrazioni e modifiche.
+                </li>
+                <li>
+                    Il funzionamento del calcolatore è stato testato in tutte le variabili ma non è possibile escludere la presenza di errori, pertanto è consigliabile <span class="font-bold text-red-700">verificare ogni volta i risultati</span> con le normative ufficiali.
+                </li>
+            </ul>
+        </footer>
+        <!-- FINE NUOVA POSIZIONE -->
+
+    </div> <!-- FINE #main-container -->
+
+    <!-- Script per Logica Applicativa (SENZA FIREBASE) -->
+    <script type="module">
+        // --- LOGICA APP 1: CALCOLATORE MEDIAZIONE (spese test 2) ---
+
+        // Dati per le tariffe di mediazione (DM 150/2023) - UNIFICATI
+        const MEDIATION_TARIFFS = {
+            minimi: {
+                obbligatorie: [
+                    { min: 0, max: 1000, speseFisse: 97.60, negativo: 19.52, positivo1: 21.47, positivoDopo1: 24.40 },
+                    { min: 1000.01, max: 5000, speseFisse: 190.32, negativo: 39.04, positivo1: 42.94, positivoDopo1: 48.80 },
+                    { min: 5000.01, max: 10000, speseFisse: 190.32, negativo: 165.92, positivo1: 182.51, positivoDopo1: 207.40 },
+                    { min: 10000.01, max: 25000, speseFisse: 190.32, negativo: 312.32, positivo1: 343.55, positivoDopo1: 390.40 },
+                    { min: 25000.01, max: 50000, speseFisse: 190.32, negativo: 585.60, positivo1: 644.16, positivoDopo1: 732.00 },
+                    { min: 50000.01, max: 150000, speseFisse: 273.28, negativo: 1005.28, positivo1: 1105.81, positivoDopo1: 1256.60 },
+                    { min: 150000.01, max: 250000, speseFisse: 273.28, negativo: 1298.08, positivo1: 1427.89, positivoDopo1: 1622.60 },
+                    { min: 250000.01, max: 500000, speseFisse: 273.28, negativo: 2274.08, positivo1: 2501.49, positivoDopo1: 2842.60 },
+                    { min: 500000.01, max: 1500000, speseFisse: 273.28, negativo: 3640.48, positivo1: 4004.53, positivoDopo1: 4550.60 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 273.28, negativo: 4323.68, positivo1: 4756.05, positivoDopo1: 5404.60 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 273.28, negativo: 6178.08, positivo1: 6795.89, positivoDopo1: 7722.60 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 273.28, formula: true, 
+                    formulaNegativo: (v) => (((0.002 * v) - 170) * 0.8 * 1.22), 
+                    formulaPositivo1: (v) => (((0.002 * v) - 170) * 0.8 * 1.1 * 1.22), 
+                    formulaPositivoDopo1: (v) => (((0.002 * v) - 170) * 0.8 * 1.25 * 1.22), 
+                    },
+                    { min: Infinity, max: Infinity, speseFisse: 273.28, negativo: 1005.28, positivo1: 1105.81, positivoDopo1: 1256.60, indeterminabile: true },
+                ],
+                volontarie: [
+                    { min: 0, max: 1000, speseFisse: 122.00, negativo: 73.20, positivo1: 80.52, positivoDopo1: 91.50 },
+                    { min: 1000.01, max: 5000, speseFisse: 237.90, negativo: 128.10, positivo1: 140.91, positivoDopo1: 160.13 },
+                    { min: 5000.01, max: 10000, speseFisse: 237.90, negativo: 298.90, positivo1: 328.79, positivoDopo1: 373.63 },
+                    { min: 10000.01, max: 25000, speseFisse: 237.90, negativo: 561.20, positivo1: 617.32, positivoDopo1: 701.50 },
+                    { min: 25000.01, max: 50000, speseFisse: 237.90, negativo: 1024.80, positivo1: 1127.28, positivoDopo1: 1281.00 },
+                    { min: 50000.01, max: 150000, speseFisse: 341.60, negativo: 1439.60, positivo1: 1583.56, positivoDopo1: 1799.50 },
+                    { min: 150000.01, max: 250000, speseFisse: 341.60, negativo: 2232.60, positivo1: 2455.86, positivoDopo1: 2790.75 },
+                    { min: 250000.01, max: 500000, speseFisse: 341.60, negativo: 3696.60, positivo1: 4066.26, positivoDopo1: 4620.75 },
+                    { min: 500000.01, max: 1500000, speseFisse: 341.60, negativo: 4977.60, positivo1: 5475.36, positivoDopo1: 6222.00 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 341.60, negativo: 6563.60, positivo1: 7219.96, positivoDopo1: 8204.50 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 341.60, negativo: 9857.60, positivo1: 10843.36, positivoDopo1: 12322.00 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 341.60, formula: true, 
+                    formulaNegativo: (v) => ((0.002 * v) - 170) * 1.22, 
+                    formulaPositivo1: (v) => ((0.002 * v) - 170) * 1.1 * 1.22, 
+                    formulaPositivoDopo1: (v) => ((0.002 * v) - 170) * 1.25 * 1.22, 
+                    },
+                    { min: Infinity, max: Infinity, speseFisse: 341.60, negativo: 1439.60, positivo1: 1583.56, positivoDopo1: 1799.50, indeterminabile: true },
+                ],
+            },
+            medi: {
+                obbligatorie: [
+                    { min: 0, max: 1000, speseFisse: 97.60, negativo: 58.56, positivo1: 64.42, positivoDopo1: 73.20 },
+                    { min: 1000.01, max: 5000, speseFisse: 190.32, negativo: 102.48, positivo1: 112.73, positivoDopo1: 128.10 },
+                    { min: 5000.01, max: 10000, speseFisse: 190.32, negativo: 239.12, positivo1: 263.03, positivoDopo1: 298.90 },
+                    { min: 10000.01, max: 25000, speseFisse: 190.32, negativo: 448.96, positivo1: 493.86, positivoDopo1: 561.20 },
+                    { min: 25000.01, max: 50000, speseFisse: 190.32, negativo: 819.84, positivo1: 901.82, positivoDopo1: 1024.80 },
+                    { min: 50000.01, max: 150000, speseFisse: 273.28, negativo: 1151.68, positivo1: 1266.85, positivoDopo1: 1439.60 },
+                    { min: 150000.01, max: 250000, speseFisse: 273.28, negativo: 1786.08, positivo1: 1964.69, positivoDopo1: 2232.60 },
+                    { min: 250000.01, max: 500000, speseFisse: 273.28, negativo: 2957.28, positivo1: 3253.01, positivoDopo1: 3696.60 }, 
+                    { min: 500000.01, max: 1500000, speseFisse: 273.28, negativo: 3982.08, positivo1: 4380.29, positivoDopo1: 4977.60 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 273.28, negativo: 5250.88, positivo1: 5775.97, positivoDopo1: 6563.60 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 273.28, negativo: 7886.08, positivo1: 8674.69, positivoDopo1: 9857.60 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 273.28, formula: true, 
+                    formulaNegativo: (v) => ((0.002 * v) - 170) * 0.8 * 1.22, 
+                    formulaPositivo1: (v) => ((0.002 * v) - 170) * 0.8 * 1.1 * 1.22, 
+                    formulaPositivoDopo1: (v) => ((0.002 * v) - 170) * 0.8 * 1.25 * 1.22, 
+                    },
+                    { min: Infinity, max: Infinity, speseFisse: 273.28, negativo: 1151.68, positivo1: 1266.85, positivoDopo1: 1439.60, indeterminabile: true }, 
+                ],
+                volontarie: [
+                    { min: 0, max: 1000, speseFisse: 122.00, negativo: 73.20, positivo1: 80.52, positivoDopo1: 91.50 },
+                    { min: 1000.01, max: 5000, speseFisse: 237.90, negativo: 128.10, positivo1: 140.91, positivoDopo1: 160.13 },
+                    { min: 5000.01, max: 10000, speseFisse: 237.90, negativo: 298.90, positivo1: 328.79, positivoDopo1: 373.63 },
+                    { min: 10000.01, max: 25000, speseFisse: 237.90, negativo: 561.20, positivo1: 617.32, positivoDopo1: 701.50 },
+                    { min: 25000.01, max: 50000, speseFisse: 237.90, negativo: 1024.80, positivo1: 1127.28, positivoDopo1: 1281.00 },
+                    { min: 50000.01, max: 150000, speseFisse: 341.60, negativo: 1439.60, positivo1: 1583.56, positivoDopo1: 1799.50 },
+                    { min: 150000.01, max: 250000, speseFisse: 341.60, negativo: 2232.60, positivo1: 2455.86, positivoDopo1: 2790.75 },
+                    { min: 250000.01, max: 500000, speseFisse: 341.60, negativo: 3696.60, positivo1: 4066.26, positivoDopo1: 4620.75 },
+                    { min: 500000.01, max: 1500000, speseFisse: 341.60, negativo: 4977.60, positivo1: 5475.36, positivoDopo1: 6222.00 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 341.60, negativo: 6563.60, positivo1: 7219.96, positivoDopo1: 8204.50 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 341.60, negativo: 9857.60, positivo1: 10843.36, positivoDopo1: 12322.00 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 341.60, formula: true, 
+                    formulaNegativo: (v) => ((0.002 * v) - 170) * 1.22, 
+                    formulaPositivo1: (v) => ((0.002 * v) - 170) * 1.1 * 1.22, 
+                    formulaPositivoDopo1: (v) => ((0.002 * v) - 170) * 1.25 * 1.22, 
+                    },
+                    { min: Infinity, max: Infinity, speseFisse: 341.60, negativo: 1439.60, positivo1: 1583.56, positivoDopo1: 1799.50, indeterminabile: true },
+                ],
+            },
+        };
+
+        /**
+         * Formatta un numero in valuta Euro.
+         * @param {number} value Il valore numerico.
+         * @returns {string} Il valore formattato.
+         */
+        const formatCurrency = (value) => {
+            if (typeof value !== 'number' || isNaN(value)) {
+                return '0.00 €';
+            }
+            return `${value.toFixed(2)} €`;
+        };
+
+        /**
+         * Calcola e aggiorna i risultati della Mediazione.
+         */
+        window.calculateMediationFees = () => {
+            const mediationLitigationInput = document.getElementById('mediation-litigation-value');
+            const forensicLitigationInput = document.getElementById('forensic-litigation-value');
+            const mediationTypeInput = document.getElementById('mediation-type');
+            const tariffLevelInput = document.getElementById('mediation-tariff-level');
+            const tariffTitleEl = document.getElementById('tariff-title');
+
+            const valueStr = mediationLitigationInput.value.toLowerCase().trim();
+            const value = parseFloat(valueStr.replace(',', '.')); 
+            const mediationType = mediationTypeInput.value;
+            const tariffLevel = tariffLevelInput.value;
+
+            // --- LOGICA DI SINCRONIZZAZIONE ---
+            if (forensicLitigationInput) {
+                if (valueStr === 'indeterminabile') {
+                    forensicLitigationInput.value = ''; 
+                } else {
+                    forensicLitigationInput.value = isNaN(value) ? '' : value; 
+                }
+                
+                if (typeof window.calculateForensicFees === 'function') {
+                    window.calculateForensicFees();
+                }
+            }
+            // --- FINE LOGICA DI SINCRONIZZAZIONE ---
+
+
+            // Inizia la logica originale di calcolo della mediazione
+            // Accesso ai dati unificati
+            const selectedLevelTariffs = MEDIATION_TARIFFS[tariffLevel];
+
+            if (!selectedLevelTariffs) {
+                 console.error("Livello tariffario non valido:", tariffLevel);
+                 return;
+            }
+
+            let allTariffs;
+            if (tariffLevel === 'minimi') {
+                allTariffs = selectedLevelTariffs;
+                tariffTitleEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
+            } else {
+                allTariffs = selectedLevelTariffs;
+                tariffTitleEl.innerHTML = `<span class="flex items-center text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6">
+                      <path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/>
+                      <path d="m7 15 5 5 5-5"/>
+                      <path d="m7 9 5-5 5 5"/>
+                    </svg> 
+                    Spese di Mediazione - Valori Medi
+                  </span>
+                `;
+            }
+
+            const selectedTariffs = allTariffs[mediationType];
+            let foundTariff = null;
+            const IVA_RATE = 1.22;
+
+            // Elementi UI da aggiornare
+            const alertEl = document.getElementById('mediation-alert');
+            
+            // Risultati Individuali
+            const feesStartupEl = document.getElementById('fees-startup');
+            const feesStartupImponibileEl = document.getElementById('fees-startup-imponibile');
+            const feesStartupIvaEl = document.getElementById('fees-startup-iva'); 
+            const feesNegativeEl = document.getElementById('fees-negative');
+            const feesNegativeImponibileEl = document.getElementById('fees-negative-imponibile');
+            const feesNegativeIvaEl = document.getElementById('fees-negative-iva'); 
+            const feesPositive1El = document.getElementById('fees-positive-1');
+            const feesPositive1ImponibileEl = document.getElementById('fees-positive-1-imponibile');
+            const feesPositive1IvaEl = document.getElementById('fees-positive-1-iva'); 
+            const feesPositiveAfter1El = document.getElementById('fees-positive-after-1');
+            const feesPositiveAfter1ImponibileEl = document.getElementById('fees-positive-after-1-imponibile');
+            const feesPositiveAfter1IvaEl = document.getElementById('fees-positive-after-1-iva'); 
+            
+            // Risultati Totali (Riepilogo)
+            const totalStartupEl = document.getElementById('total-startup');
+            const totalStartupImponibileEl = document.getElementById('total-startup-imponibile');
+            const totalStartupIvaEl = document.getElementById('total-startup-iva');
+
+            const totalNegativeEl = document.getElementById('total-negative');
+            const totalNegativeImponibileEl = document.getElementById('total-negative-imponibile');
+            const totalNegativeIvaEl = document.getElementById('total-negative-iva');
+
+            const totalPositive1El = document.getElementById('total-positive-1');
+            const totalPositive1ImponibileEl = document.getElementById('total-positive-1-imponibile');
+            const totalPositive1IvaEl = document.getElementById('total-positive-1-iva');
+
+            const totalPositiveAfter1El = document.getElementById('total-positive-after-1');
+            const totalPositiveAfter1ImponibileEl = document.getElementById('total-positive-after-1-imponibile');
+            const totalPositiveAfter1IvaEl = document.getElementById('total-positive-after-1-iva');
+
+
+            alertEl.classList.add('hidden');
+            let startUpFees = 0;
+            let negativeOutcomeFees = 0;
+            let positive1Fees = 0;
+            let positiveAfter1Fees = 0;
+
+            const isIndeterminabile = valueStr === 'indeterminabile';
+
+            if (isIndeterminabile) {
+                foundTariff = selectedTariffs.find(t => t.indeterminabile);
+                if (foundTariff) {
+                    alertEl.innerHTML = `Attenzione: Valore Indeterminabile. Applicata tariffa massima del quinto scaglione (fino a 150.000 €).`;
+                    alertEl.classList.remove('hidden');
+                }
+            } else if (!isNaN(value) && value >= 0) {
+                for (const tariff of selectedTariffs) {
+                    if (value >= tariff.min && value <= tariff.max) {
+                        foundTariff = tariff;
+                        break;
+                    }
+                }
+            }
+
+            if (foundTariff) {
+                startUpFees = foundTariff.speseFisse;
+                
+                if (foundTariff.formula) {
+                    negativeOutcomeFees = foundTariff.formulaNegativo(value);
+                    positive1Fees = foundTariff.formulaPositivo1(value);
+                    positiveAfter1Fees = foundTariff.formulaPositivoDopo1(value);
+                    alertEl.innerHTML = `Attenzione: Valore superiore a 5.000.000,00 € - Applicata tariffa con formula.`;
+                    alertEl.classList.remove('hidden');
+                } else {
+                    negativeOutcomeFees = foundTariff.negativo;
+                    positive1Fees = foundTariff.positivo1;
+                    positiveAfter1Fees = foundTariff.positivoDopo1;
+                }
+            } else if (!isIndeterminabile && valueStr !== '') {
+                 alertEl.innerHTML = `Valore della lite non valido o non rientrante negli scaglioni previsti.`;
+                 alertEl.classList.remove('hidden');
+                 startUpFees = negativeOutcomeFees = positive1Fees = positiveAfter1Fees = 0;
+            } else if (valueStr === '') {
+                 startUpFees = negativeOutcomeFees = positive1Fees = positiveAfter1Fees = 0;
+            }
+            
+            // CALCOLO IMPONIBILE E IVA PER GLI SCENARI INDIVIDUALI
+            const startupImponibile = startUpFees / IVA_RATE;
+            const startupIVA = startUpFees - startupImponibile;
+            
+            const negativeImponibile = negativeOutcomeFees / IVA_RATE;
+            const negativeIVA = negativeOutcomeFees - negativeImponibile;
+            
+            const positive1Imponibile = positive1Fees / IVA_RATE;
+            const positive1IVA = positive1Fees - positive1Imponibile;
+            
+            const positiveAfter1Imponibile = positiveAfter1Fees / IVA_RATE;
+            const positiveAfter1IVA = positiveAfter1Fees - positiveAfter1Imponibile;
+
+
+            // Aggiornamento UI (Totali Individuali)
+            feesStartupEl.textContent = formatCurrency(startUpFees);
+            feesNegativeEl.textContent = formatCurrency(negativeOutcomeFees);
+            feesPositive1El.textContent = formatCurrency(positive1Fees);
+            feesPositiveAfter1El.textContent = formatCurrency(positiveAfter1Fees);
+            
+            // Aggiornamento UI (Imponibile e IVA Individuale)
+            feesStartupImponibileEl.textContent = formatCurrency(startupImponibile);
+            feesStartupIvaEl.textContent = formatCurrency(startupIVA);
+
+            feesNegativeImponibileEl.textContent = formatCurrency(negativeImponibile);
+            feesNegativeIvaEl.textContent = formatCurrency(negativeIVA);
+
+            feesPositive1ImponibileEl.textContent = formatCurrency(positive1Imponibile);
+            feesPositive1IvaEl.textContent = formatCurrency(positive1IVA);
+
+            feesPositiveAfter1ImponibileEl.textContent = formatCurrency(positiveAfter1Imponibile);
+            feesPositiveAfter1IvaEl.textContent = formatCurrency(positiveAfter1IVA);
+
+
+            // --- AGGIORNAMENTO RIEPILOGO TOTALE ---
+            
+            // Nuovo calcolo: Totale solo Avvio (Negativo 1° incontro)
+            const totalStartup = startUpFees; 
+            const totalStartupImponibile = totalStartup / IVA_RATE;
+            const totalStartupIVA = totalStartup - totalStartupImponibile;
+            
+            // Totale Negativo dopo 1° incontro (Avvio + Spese Negative)
+            const totalNegative = startUpFees + negativeOutcomeFees;
+            const totalNegativeImponibile = totalNegative / IVA_RATE;
+            const totalNegativeIVA = totalNegative - totalNegativeImponibile;
+
+            // Totale Positivo 1° incontro (Avvio + Spese Positive 1)
+            const totalPositive1 = startUpFees + positive1Fees;
+            const totalPositive1Imponibile = totalPositive1 / IVA_RATE;
+            const totalPositive1IVA = totalPositive1 - totalPositive1Imponibile;
+
+            // Totale Positivo dopo 1° incontro (Avvio + Spese Positive Dopo 1)
+            const totalPositiveAfter1 = startUpFees + positiveAfter1Fees;
+            const totalPositiveAfter1Imponibile = totalPositiveAfter1 / IVA_RATE;
+            const totalPositiveAfter1IVA = totalPositiveAfter1 - totalPositiveAfter1Imponibile;
+
+
+            // Aggiornamento UI (Totali Complessivi)
+            
+            // 1. Nuova Casella: Negativo 1° incontro
+            totalStartupEl.textContent = formatCurrency(totalStartup);
+            totalStartupImponibileEl.textContent = formatCurrency(totalStartupImponibile);
+            totalStartupIvaEl.textContent = formatCurrency(totalStartupIVA);
+
+            // 2. Negativo dopo 1° incontro
+            totalNegativeEl.textContent = formatCurrency(totalNegative);
+            totalNegativeImponibileEl.textContent = formatCurrency(totalNegativeImponibile);
+            totalNegativeIvaEl.textContent = formatCurrency(totalNegativeIVA);
+
+            // 3. Positivo 1° incontro
+            totalPositive1El.textContent = formatCurrency(totalPositive1);
+            totalPositive1ImponibileEl.textContent = formatCurrency(totalPositive1Imponibile);
+            totalPositive1IvaEl.textContent = formatCurrency(totalPositive1IVA);
+
+            // 4. Positivo dopo 1° incontro
+            totalPositiveAfter1El.textContent = formatCurrency(totalPositiveAfter1);
+            totalPositiveAfter1ImponibileEl.textContent = formatCurrency(totalPositiveAfter1Imponibile);
+            totalPositiveAfter1IvaEl.textContent = formatCurrency(totalPositiveAfter1IVA);
+
+        };
+
+
+        // =========================================================================
+        // --- LOGICA APP 2: CALCOLATORE COMPENSI AVVOCATO (spese legali blu) ---
+        // =========================================================================
+        
+        // TABELLA COMPENSI DETTAGLIATA PER MEDIAZIONE (DM 55/2014)
+        const FORENSIC_FEE_TABLE = [
+            { min: 0, max: 1100, activation: { min: 32, medium: 63, max: 95 }, negotiation: { min: 63, medium: 126, max: 189 }, conciliation: { min: 123, medium: 246, max: 369 } },
+            { min: 1100.01, max: 5200, activation: { min: 142, medium: 284, max: 426 }, negotiation: { min: 284, medium: 567, max: 851 }, conciliation: { min: 553, medium: 1106, max: 1659 } },
+            { min: 5200.01, max: 26000, activation: { min: 221, medium: 441, max: 662 }, negotiation: { min: 441, medium: 882, max: 1323 }, conciliation: { min: 860, medium: 1720, max: 2580 } },
+            { min: 26000.01, max: 52000, activation: { min: 268, medium: 536, max: 804 }, negotiation: { min: 536, medium: 1071, max: 1607 }, conciliation: { min: 1044, medium: 2088, max: 3132 } },
+            { min: 52000.01, max: 260000, activation: { min: 504, medium: 1008, max: 1512 }, negotiation: { min: 1008, medium: 2016, max: 3024 }, conciliation: { min: 1966, medium: 3931, max: 5897 } },
+            { min: 260000.01, max: 520000, activation: { min: 685, medium: 1370, max: 2055 }, negotiation: { min: 1371, medium: 2741, max: 4112 }, conciliation: { min: 2672, medium: 5343, max: 8015 } },
+        ];
+        
+        const FORENSIC_STATUTORY_COSTS = {
+            forfeit: 0.15, 
+            cassa: 0.04,    
+            iva: 0.22,      
+        };
+
+        /**
+         * Funzione per selezionare un livello di compenso cliccando sul valore.
+         */
+        window.selectForensicFee = (phaseName, level) => { 
+            const radioId = `${phaseName.substring(0, 3)}-${level.substring(0, 3)}`;
+            const radioElement = document.getElementById(radioId);
+            
+            if (radioElement) {
+                radioElement.checked = true; 
+                calculateForensicFees(); 
+            }
+        }
+
+        /**
+         * Trova la fascia di compenso base per il valore della lite dato.
+         */
+        const getForensicFeeTier = (value) => {
+            return FORENSIC_FEE_TABLE.find(tier => value >= tier.min && value <= tier.max) || null;
+        }
+
+        /**
+         * Aggiorna tutti e tre i valori di compenso e ne evidenzia uno.
+         */
+        const updatePhaseDisplay = (phaseName, phaseFees, selectedLevel) => {
+            const prefix = phaseName.substring(0, 3); 
+            const levels = ['min', 'medium', 'max'];
+
+            levels.forEach(level => {
+                const displayId = `${prefix}-display-${level}`;
+                const displayElement = document.getElementById(displayId);
+                
+                if (displayElement) {
+                    displayElement.classList.remove('highlighted-fee');
+
+                    const valueSpan = displayElement.querySelector('.fee-value');
+                    if (valueSpan) {
+                        const feeKey = level === 'medium' ? 'medium' : level; 
+                        valueSpan.textContent = formatCurrency(phaseFees[feeKey]);
+                    }
+                }
+            });
+
+            const selectedDisplayId = `${prefix}-display-${selectedLevel}`;
+            const selectedElement = document.getElementById(selectedDisplayId);
+            if (selectedElement) {
+                selectedElement.classList.add('highlighted-fee');
+            }
+        }
+
+
+        /**
+         * Calcola i compensi forensi e aggiorna l'interfaccia utente.
+         */
+        window.calculateForensicFees = () => { 
+            const valueInput = document.getElementById('forensic-litigation-value');
+            const alertDiv = document.getElementById('forensic-alert'); 
+            const alertMsg = document.getElementById('alert-message');
+
+            const rawValue = parseFloat(valueInput.value) || 0;
+            const litigationValue = Math.max(0, rawValue);
+            
+            const feeTier = getForensicFeeTier(litigationValue);
+            
+            // Gestione Fascia non Calcolabile
+            if (!feeTier) {
+                document.getElementById('forensic-results').classList.add('hidden');
+                alertDiv.classList.remove('hidden');
+                alertMsg.textContent = `Il valore della lite inserito (${formatCurrency(litigationValue)}) supera la fascia massima di calcolo predefinita (€${FORENSIC_FEE_TABLE[FORENSIC_FEE_TABLE.length - 1].max.toLocaleString('it-IT')}).`;
+                
+                document.getElementById('forensic-total-final-cost').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-base-fee').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-taxable-base').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-forfeit').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-cassa').textContent = formatCurrency(0);
+                document.getElementById('forensic-total-iva').textContent = formatCurrency(0);
+
+                // Reset display
+                const levels = ['min', 'medium', 'max'];
+                ['act', 'neg', 'con'].forEach(prefix => {
+                    levels.forEach(level => {
+                        const displayElement = document.getElementById(`${prefix}-display-${level}`);
+                        if (displayElement) {
+                            displayElement.classList.remove('highlighted-fee');
+                            const valueSpan = displayElement.querySelector('.fee-value');
+                            if (valueSpan) valueSpan.textContent = formatCurrency(0);
+                        }
+                    });
+                });
+                return;
+            } else {
+                document.getElementById('forensic-results').classList.remove('hidden');
+                alertDiv.classList.add('hidden');
+            }
+
+            // 1. Legge il livello selezionato per ciascuna fase
+            const activationLevel = document.querySelector('input[name="activation-level"]:checked').value;
+            const negotiationLevel = document.querySelector('input[name="negotiation-level"]:checked').value;
+            const conciliationLevel = document.querySelector('input[name="conciliation-level"]:checked').value;
+            
+            // 2. Aggiorna l'interfaccia con tutti i valori e l'highlight
+            updatePhaseDisplay('activation', feeTier.activation, activationLevel);
+            updatePhaseDisplay('negotiation', feeTier.negotiation, negotiationLevel);
+            updatePhaseDisplay('conciliation', feeTier.conciliation, conciliationLevel);
+            
+            // 3. Calcola il compenso base totale (somma dei tre valori selezionati)
+            const activationFee = feeTier.activation[activationLevel];
+            const negotiationFee = feeTier.negotiation[negotiationLevel];
+            const conciliationFee = feeTier.conciliation[conciliationLevel];
+
+            const totalBaseFee = activationFee + negotiationFee + conciliationFee;
+
+            // 4. Aggiorna il display del compenso base totale
+            document.getElementById('forensic-total-base-fee').textContent = formatCurrency(totalBaseFee);
+            
+            // 5. Calcola i costi accessori
+            let totalForfeit = 0;
+            let totalCassa = 0;
+            let totalIVA = 0;
+            let totalTaxableBase = 0; 
+
+            const isForfeitChecked = document.getElementById('cost-forfeit').checked;
+            if (isForfeitChecked) {
+                totalForfeit = totalBaseFee * FORENSIC_STATUTORY_COSTS.forfeit;
+            }
+            document.getElementById('forensic-total-forfeit').textContent = formatCurrency(totalForfeit);
+            
+            const isCassaChecked = document.getElementById('cost-cassa').checked;
+            if (isCassaChecked) {
+                totalCassa = (totalBaseFee + totalForfeit) * FORENSIC_STATUTORY_COSTS.cassa;
+            }
+            document.getElementById('forensic-total-cassa').textContent = formatCurrency(totalCassa);
+
+            totalTaxableBase = totalBaseFee + totalForfeit + totalCassa; 
+            document.getElementById('forensic-total-taxable-base').textContent = formatCurrency(totalTaxableBase);
+
+            const isIVAChecked = document.getElementById('cost-iva').checked;
+            if (isIVAChecked) {
+                totalIVA = totalTaxableBase * FORENSIC_STATUTORY_COSTS.iva;
+            }
+            document.getElementById('forensic-total-iva').textContent = formatCurrency(totalIVA);
+
+            // TOTALE FINALE (Tutto)
+            const totalFinalCost = totalTaxableBase + totalIVA;
+            document.getElementById('forensic-total-final-cost').textContent = formatCurrency(totalFinalCost);
+        }
+
+        // =========================================================================
+        // --- INIZIALIZZAZIONE ---
+        // =========================================================================
+
+        /**
+         * Inizializza l'applicazione: Calcolo Iniziale.
+         */
+        const initApp = async () => {
+            // Esegue un calcolo iniziale per entrambe le app
+            calculateMediationFees();
+            // Imposta lo stato iniziale dei radio button (Medio di default per l'app forense)
+            document.getElementById('act-med').checked = true;
+            document.getElementById('neg-med').checked = true;
+            document.getElementById('con-med').checked = true;
+            calculateForensicFees();
+        };
+
+        // Avvia l'app al caricamento completo della finestra
+        window.onload = initApp;
+
+    </script>
+</body>
+</html>
