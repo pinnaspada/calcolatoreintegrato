@@ -300,6 +300,15 @@
         </div>
         <!-- FINE NUOVA SEZIONE INTESTAZIONE -->
 
+        <!-- NUOVA CASELLA CALCOLATORE INTEGRATO (STRISCIE BLU) -->
+        <div id="integrated-calculator-header" class="w-full text-center p-1 bg-white border-t-4 border-blue-custom-700 border-b-4 shadow-md">
+            <!-- MODIFICA QUI: Sostituito text-blue-custom-700 con text-gray-900 per il testo nero -->
+            <h2 class="text-base sm:text-xl font-extrabold text-gray-900 leading-snug">
+                CALCOLATORE INTEGRATO SPESE - INDENNITA' DI MEDIAZIONE E COMPENSI AVVOCATO
+            </h2>
+        </div>
+        <!-- FINE NUOVA CASELLA -->
+
 
         <!-- CONTENITORE PRINCIPALE DELLE APP AFFIANCATE -->
         <div id="apps-container" class="lg:flex">
@@ -1374,12 +1383,18 @@
                 // CORREZIONE: Rimosso il doppio .classList
                 printValueEl.classList.add('print-litigation-value'); 
             }
+            
+            // 3. Clona anche il nuovo header integrato se presente (per contesto)
+            const integratedHeader = document.getElementById('integrated-calculator-header');
+            const integratedHeaderToPrint = integratedHeader ? integratedHeader.cloneNode(true).outerHTML : '';
 
-            // 3. Costruisce il contenuto HTML completo per la stampa
+
+            // 4. Costruisce il contenuto HTML completo per la stampa
             const appContentHTML = contentToPrint.outerHTML;
             const footerContentHTML = legalNotesToPrint.outerHTML;
 
             const printHTML = `
+                ${integratedHeaderToPrint}
                 <div class="print-content-wrapper" style="padding-top: 1rem;">
                     ${appContentHTML}
                     <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
