@@ -1417,6 +1417,78 @@
                     },
                 ],
             },
+            medi: {
+                obbligatorie: [
+                    { min: 0, max: 1000, speseFisse: 97.60, speseAvvio: 39.04, indennitaPrimoIncontro: 58.56, negativo: 58.56, positivo1: 64.42, positivoDopo1: 73.20 },
+                    { min: 1000.01, max: 5000, speseFisse: 190.32, speseAvvio: 73.20, indennitaPrimoIncontro: 117.12, negativo: 102.48, positivo1: 112.73, positivoDopo1: 128.10 },
+                    { min: 5000.01, max: 10000, speseFisse: 190.32, speseAvvio: 73.20, indennitaPrimoIncontro: 117.12, negativo: 239.12, positivo1: 263.03, positivoDopo1: 298.90 },
+                    { min: 10000.01, max: 25000, speseFisse: 190.32, speseAvvio: 73.20, indennitaPrimoIncontro: 117.12, negativo: 448.96, positivo1: 493.86, positivoDopo1: 561.20 },
+                    { min: 25000.01, max: 50000, speseFisse: 190.32, speseAvvio: 73.20, indennitaPrimoIncontro: 117.12, negativo: 819.84, positivo1: 901.82, positivoDopo1: 1024.80 },
+                    { min: 50000.01, max: 150000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 1151.68, positivo1: 1266.85, positivoDopo1: 1439.60 },
+                    { min: 150000.01, max: 250000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 1786.08, positivo1: 1964.69, positivoDopo1: 2232.60 },
+                    { min: 250000.01, max: 500000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 2957.28, positivo1: 3253.01, positivoDopo1: 3696.60 }, 
+                    { min: 500000.01, max: 1500000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 3982.08, positivo1: 4380.29, positivoDopo1: 4977.60 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 5250.88, positivo1: 5775.97, positivoDopo1: 6563.60 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, negativo: 7886.08, positivo1: 8674.69, positivoDopo1: 9857.60 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 273.28, speseAvvio: 107.36, indennitaPrimoIncontro: 165.92, formula: true, 
+                    formulaNegativo: (v) => ((0.002 * v) - 170) * 0.8 * 1.22, 
+                    formulaPositivo1: (v) => ((0.002 * v) - 170) * 0.8 * 1.1 * 1.22, 
+                    formulaPositivoDopo1: (v) => ((0.002 * v) - 170) * 0.8 * 1.25 * 1.22, 
+                    },
+                    { 
+                        min: Infinity, max: Infinity, 
+                        speseFisseAlto: 273.28, speseAvvioAlto: 107.36, indennitaPrimoIncontroAlto: 165.92,
+                        speseFisseMedio: 224.48, speseAvvioMedio: 107.36, indennitaPrimoIncontroMedio: 117.12,
+                        speseFisseBasso: 165.92, speseAvvioBasso: 107.36, indennitaPrimoIncontroBasso: 58.56,
+                        negativoAlto: 1151.68, 
+                        negativoMedio: 1200.48, 
+                        negativoBasso: 1259.04, 
+                        positivo1Alto: 1266.85, 
+                        positivo1Medio: 1320.53, 
+                        positivo1Basso: 1384.94, 
+                        positivoDopo1Alto: 1439.60, 
+                        positivoDopo1Medio: 1500.60, 
+                        positivoDopo1Basso: 1573.80, 
+                        indeterminabile: true 
+                    },
+                ],
+                volontarie: [
+                    { min: 0, max: 1000, speseFisse: 122.00, speseAvvio: 48.80, indennitaPrimoIncontro: 73.20, negativo: 24.40, positivo1: 26.84, positivoDopo1: 30.50 },
+                    { min: 1000.01, max: 5000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 48.80, positivo1: 53.68, positivoDopo1: 61.00 },
+                    { min: 5000.01, max: 10000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 207.40, positivo1: 228.14, positivoDopo1: 259.25 },
+                    { min: 10000.01, max: 25000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 390.40, positivo1: 429.44, positivoDopo1: 488.00 },
+                    { min: 25000.01, max: 50000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 732.00, positivo1: 805.20, positivoDopo1: 915.00 },
+                    { min: 50000.01, max: 150000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 1256.60, positivo1: 1382.26, positivoDopo1: 1570.75 },
+                    { min: 150000.01, max: 250000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 1622.60, positivo1: 1784.86, positivoDopo1: 2028.25 },
+                    { min: 250000.01, max: 500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 2842.60, positivo1: 3126.86, positivoDopo1: 3553.25 },
+                    { min: 500000.01, max: 1500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 4550.60, positivo1: 5005.66, positivoDopo1: 5688.25 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 5404.60, positivo1: 5945.06, positivoDopo1: 6755.75 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 7722.60, positivo1: 8494.86, positivoDopo1: 9653.25 },
+                    { 
+                    min: 5000000.01, max: Infinity, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, formula: true, 
+                    formulaNegativo: (v) => ((0.002 * v) - 170) * 1.22, 
+                    formulaPositivo1: (v) => ((0.002 * v) - 170) * 1.1 * 1.22, 
+                    formulaPositivoDopo1: (v) => ((0.002 * v) - 170) * 1.25 * 1.22, 
+                    },
+                    { 
+                        min: Infinity, max: Infinity, 
+                        speseFisseAlto: 341.60, speseAvvioAlto: 134.20, indennitaPrimoIncontroAlto: 207.40,
+                        speseFisseMedio: 280.60, speseAvvioMedio: 134.20, indennitaPrimoIncontroMedio: 146.40,
+                        speseFisseBasso: 207.40, speseAvvioBasso: 134.20, indennitaPrimoIncontroBasso: 73.20,
+                        negativoAlto: 1439.60, 
+                        negativoMedio: 1500.60,
+                        negativoBasso: 1573.80, 
+                        positivo1Alto: 1583.56, 
+                        positivo1Medio: 1650.66, 
+                        positivo1Basso: 1731.18, 
+                        positivoDopo1Alto: 1799.50, 
+                        positivoDopo1Medio: 1875.75, 
+                        positivoDopo1Basso: 1967.25, 
+                        indeterminabile: true 
+                    },
+                ],
+            },
         };
 
         window.calculateMediationFees = () => {
@@ -1467,30 +1539,32 @@
                 }
             }
 
-            // === LOGICA BLINK ===
-            const tariffTitleSpan = tariffTitleEl.querySelector('span'); 
-
-            if (tariffLevel === 'medi') {
-                if (!tariffTitleSpan || !tariffTitleSpan.classList.contains('blink-animation')) {
-                    tariffTitleEl.innerHTML = `<span class="flex items-center text-red-600 blink-animation">
+            // === LOGICA BLINK (Corretta per gestire il rimpiazzo del titolo) ===
+            const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
+            const blinkTitleHTML = `<span class="flex items-center text-red-600 blink-animation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6">
                           <path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>
                         </svg> 
                         Spese di Mediazione - Valori Medi
-                      </span>
-                    `;
-                }
+                      </span>`;
+
+            if (tariffLevel === 'medi') {
+                tariffTitleEl.innerHTML = blinkTitleHTML;
             } else {
-                tariffTitleEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
+                tariffTitleEl.innerHTML = originalTitleHTML;
             }
             
 
             const selectedLevelTariffs = MEDIATION_TARIFFS[tariffLevel];
+            
+            // HO RIMOSSO L'ISTUZIONE console.error NON NECESSARIA QUI
 
+            // Se la tariffa selezionata non è valida (es. valore non numerico o fuori scaglione), resettiamo i calcoli
             if (!selectedLevelTariffs) {
-                 console.error("Livello tariffario non valido:", tariffLevel);
-                 return;
+                 // Non fare nulla se il livello non è trovato (dovrebbe essere sempre trovato data la struttura)
+                 // Se i dati dell'input sono validi ma non rientrano negli scaglioni, la logica di fallback è sotto.
             }
+            
 
             const selectedTariffs = selectedLevelTariffs[mediationType];
             let foundTariff = null;
