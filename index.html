@@ -11,14 +11,15 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Century+Schoolbook&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            /* NUOVI STILI PER SFONDO GRADIENTE E TEXTURE SVG */
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); /* bg-gray-100 to bg-gray-200 */
-            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239ca3af' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 0h3v3H0V0zm3 3h3v3H3V3z'/%3E%3C/g%3E%3C/svg%3E");
+            /* NUOVI STILI PER SFONDO: Grigio chiaro con texture a rombi incrociati (discreta) */
+            background-color: #f1f5f9; /* slate-100 */
+            /* AGGIORNAMENTO: Pattern a rombi incrociati ANCORA PIÙ PICCOLI (modulo 4x4) */
+            background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2394a3b8' fill-opacity='0.1'%3E%3Cpath d='M0 0h1v4H0zM3 0h1v4H3zM0 0h4v1H0zM0 3h4v1H0zM2 0v4M0 2h4'/%3E%3C/g%3E%3C/svg%3E");
         }
         .header-font {
             font-family: 'Century+Schoolbook', 'Georgia', serif;
         }
-        /* Stile per nascondere le frecce sugli input di tipo number (App Blu) */
+        /* Stile per nascondere le frecce sugli input di tipo number */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none;
@@ -28,7 +29,7 @@
             -moz-appearance: textfield;
         }
 
-        /* Stili per il toggle (Oneri Fiscali - App Blu) */
+        /* Stili per il toggle (Oneri Fiscali - Tema Formale/Sobrio) */
         .toggle-container {
             display: flex;
             align-items: center;
@@ -46,7 +47,7 @@
         .toggle-track {
             width: 2.5rem; 
             height: 1.1rem; 
-            background-color: #ccc;
+            background-color: #94a3b8; /* slate-400 spento */
             border-radius: 9999px;
             position: relative;
             transition: background-color 0.2s;
@@ -65,28 +66,28 @@
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
 
-        /* Stato Checked per Toggle (Oneri Fiscali) - TEMA BLU */
+        /* Stato Checked per Toggle (Oneri Fiscali) - NUOVO TEMA BLU NAVY */
         #cost-forfeit:checked + .toggle-track, 
         #cost-cassa:checked + .toggle-track, 
         #cost-iva:checked + .toggle-track,
-        #cost-increase:checked + .toggle-track { /* AGGIUNTO IL NUOVO ID */
-            background-color: #3b82f6; /* blue-500 */
+        #cost-increase:checked + .toggle-track { 
+            background-color: #1e3a8a; /* blue-900 / navy (accent-mediation) */
         }
 
         #cost-forfeit:checked + .toggle-track .toggle-thumb, 
         #cost-cassa:checked + .toggle-track .toggle-thumb, 
         #cost-iva:checked + .toggle-track .toggle-thumb,
-        #cost-increase:checked + .toggle-track .toggle-thumb { /* AGGIUNTO IL NUOVO ID */
+        #cost-increase:checked + .toggle-track .toggle-thumb { 
             transform: translateX(1.4rem); 
         }
 
-        /* Stile per la colonna di calcolo per l'input - TEMA BLU */
+        /* Stile per la colonna di calcolo per l'input - TEMA FORMALE (Grigio) */
         #forensic-calculator .input-group-style {
-            background-color: #eff6ff; /* blue-50 */
-            border-color: #93c5fd; /* blue-300 */
+            background-color: #f1f5f9; /* slate-100 */
+            border-color: #94a3b8; /* slate-400 */
         }
-
-        /* Stili per il riquadro selezionabile (App Blu) */
+        
+        /* Stili per il riquadro selezionabile (App Avvocato: TEMA NAVY/BLUE) */
         .fee-display-item {
             cursor: pointer; 
             padding: 0.4rem 0.2rem; 
@@ -97,23 +98,24 @@
             box-shadow: 0 0 0 rgba(0,0,0,0);
         }
         
+        /* Uso accento Navy per hover e highlight su Avvocato */
         .fee-display-item:hover {
-            border-color: #bfdbfe; 
-            background-color: #eff6ff; 
+            border-color: #93c5fd; /* blue-300 */
+            background-color: #f8fafc; /* slate-50 */
         }
 
         .highlighted-fee {
-            background-color: #93c5fd; 
-            border-color: #1e40af; 
-            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+            background-color: #eff6ff; /* blue-50 */
+            border-color: #1e3a8a; /* Navy */
+            box-shadow: 0 0 5px rgba(30, 58, 138, 0.5); 
         }
         .highlighted-fee .fee-value {
-            color: #1e40af; 
+            color: #1e3a8a; /* Navy */
             font-weight: 800; 
             font-size: 1.25rem; 
         }
         .highlighted-fee span:first-child {
-             color: #1e40af; 
+             color: #1e3a8a; /* Navy */
         }
         
         .fee-display-item span:first-child {
@@ -126,6 +128,42 @@
             font-weight: 700;
             color: #1f2937; 
         }
+
+        /* NUOVI STILI PER LE CASSELLA RISULTATI MEDIAZIONE (mantengono i colori specifici per esito) */
+        .fees-startup-box {
+            border-color: #047857; /* emerald-700 */
+        }
+        .fees-startup-box .fee-value-color {
+            color: #047857; /* emerald-700 */
+        }
+        
+        .fees-negative-box {
+            border-color: #334155; /* slate-700 */
+        }
+        .fees-negative-box .fee-value-color {
+            color: #334155; /* slate-700 */
+        }
+
+        .fees-positive-1-box {
+            border-color: #b45309; /* amber-800 */
+        }
+        .fees-positive-1-box .fee-value-color {
+            color: #b45309; /* amber-800 */
+        }
+
+        .fees-positive-after-1-box {
+            border-color: #b91c1c; /* red-700 (rosso mattone) */
+        }
+        .fees-positive-after-1-box .fee-value-color {
+            color: #b91c1c; /* red-700 */
+        }
+
+        /* NUOVO STILE AZZURRO PALLIDO per contenitori di input */
+        .input-box-highlight {
+            background-color: #e0f2fe; /* sky-100 */
+            border-color: #7dd3fc; /* sky-300 */
+        }
+
 
         .single-phase-row {
             display: flex;
@@ -161,16 +199,16 @@
             flex-shrink: 0; /* Important for flex layout */
         }
 
-        /* NEW: Header Container full width */
+        /* Header Container full width (Accentato in grigio scuro/antracite) */
         #full-width-header {
             width: 100%;
             padding: 1rem;
             background-color: white;
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            /* Modifiche per aggiungere il bordo superiore e usare il colore blu dell'app forense */
-            border-top: 4px solid #1d4ed8; /* blue-custom-700 */
-            border-bottom: 4px solid #1d4ed8; /* blue-custom-700 */
+            /* Colore Antracite */
+            border-top: 4px solid #1e293b; /* slate-800 */
+            border-bottom: 4px solid #1e293b; /* slate-800 */
         }
         
         /* NEW: Container for the two side-by-side apps */
@@ -194,14 +232,10 @@
             text-justify: inter-word;
         }
 
-        /* === NUOVE REGOLE BLINK PER VALORI MEDI === */
-        @keyframes blink-red {
-            0%, 100% { color: #dc2626; opacity: 1; } /* red-600 */
-            50% { color: #b91c1c; opacity: 0.6; } /* red-700, leggermente più scuro e trasparente */
-        }
-
+        /* === NUOVE REGOLE BLINK PER VALORI MEDI (Rimosse o Rese Neutrali per formalità) === */
         .blink-animation {
-            animation: blink-red 1s step-end infinite;
+            /* Rimosso completamente lo stile dell'animazione per formalità, rimane solo la classe */
+            animation: none; 
         }
         /* ======================================= */
 
@@ -216,17 +250,41 @@
                 .print-hide {
                     display: none !important;
                 }
-                /* Assicura che i riquadri colorati siano ben visibili */
-                .bg-indigo-600 { background-color: #4f46e5 !important; -webkit-print-color-adjust: exact; }
-                .bg-blue-custom-700 { background-color: #1d4ed8 !important; -webkit-print-color-adjust: exact; }
+                /* Assicura che i riquadri colorati siano ben visibili in stampa */
+                /* Uniformati entrambi gli accenti al Navy per la stampa */
+                .bg-accent-mediation { background-color: #1e3a8a !important; -webkit-print-color-adjust: exact; } /* deep blue */
+                .bg-accent-forensic { background-color: #1e3a8a !important; -webkit-print-color-adjust: exact; } /* deep blue */
                 .text-white { color: #fff !important; }
                 .text-yellow-300 { color: #fcd34d !important; }
 
+                /* Stili per le caselle Mediazione in stampa */
+                .fees-startup-box { border-color: #047857 !important; }
+                .fees-startup-box .fee-value-color { color: #047857 !important; }
+                .fees-negative-box { border-color: #334155 !important; }
+                .fees-negative-box .fee-value-color { color: #334155 !important; }
+                .fees-positive-1-box { border-color: #b45309 !important; }
+                .fees-positive-1-box .fee-value-color { color: #b45309 !important; }
+                .fees-positive-after-1-box { border-color: #b91c1c !important; }
+                .fees-positive-after-1-box .fee-value-color { color: #b91c1c !important; }
+                
                 /* Fornisce contesto: Valore Lite */
                 .print-litigation-value {
                     font-size: 1rem;
                     font-weight: 600;
                     margin-bottom: 0.5rem;
+                }
+                
+                /* Stile per la riga di accettazione */
+                .acceptance-line {
+                    border-bottom: 1px solid #000; /* Linea orizzontale come firma */
+                }
+                .acceptance-text {
+                    font-size: 0.8rem;
+                    color: #4b5563; /* gray-600 */
+                    margin-top: 1.5rem;
+                    text-align: left;
+                    font-style: italic;
+                    line-height: 1.5;
                 }
             }
         }
@@ -248,7 +306,7 @@
             }
         }
         
-        /* Stile per il Modal di personalizzazione (AGGIUNTO) */
+        /* Stile per il Modal di personalizzazione */
         .modal {
             position: fixed;
             top: 0;
@@ -269,12 +327,11 @@
             max-width: 500px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
-        /* Stili di Modulazione Indeterminato (simulano i toggle) */
-        /* Inseriti qui in style globale */
+        /* Stili di Modulazione Indeterminato (simulano i toggle) - NUOVO TEMA NAVY */
         #ind-alto:checked + .toggle-track, 
         #ind-medio:checked + .toggle-track, 
         #ind-basso:checked + .toggle-track {
-            background-color: #4f46e5; /* indigo-600 */
+            background-color: #1e3a8a; /* blue-900 */
         }
 
         #ind-alto:checked + .toggle-track .toggle-thumb,
@@ -284,18 +341,29 @@
         }
     </style>
     <script>
-        // Configurazione Tailwind estesa per i colori dell'App Blu
+        // Configurazione Tailwind estesa per i colori del NUOVO TEMA (Navy e Gold)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'blue-custom': {
-                            50: '#eff6ff',
-                            300: '#93c5fd',
-                            500: '#3b82f6',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
+                        'accent-mediation': {
+                            50: '#f8fafc', /* slate-50 */
+                            300: '#93c5fd', /* blue-300 */
+                            700: '#1e3a8a', /* Deep Blue/Navy */
+                            800: '#1e293b', /* slate-800 */
                         },
+                        // Colori Fictitious per mantenere la struttura, ma saranno uniformati al mediation accent
+                        'accent-forensic': { 
+                            50: '#f8fafc', /* slate-50 */
+                            300: '#93c5fd', /* blue-300 */
+                            700: '#1e3a8a', /* Deep Blue/Navy */
+                            800: '#1e293b', /* slate-800 */
+                        },
+                        // Colori specifici per le 4 caselle di Mediazione
+                        'startup-fee-color': '#047857', /* Emerald 700 */
+                        'negative-fee-color': '#334155', /* Slate 700 */
+                        'positive-1-fee-color': '#b45309', /* Amber 800 */
+                        'positive-after-1-fee-color': '#b91c1c', /* Red 700 */
                     }
                 }
             }
@@ -306,7 +374,7 @@
 
     <div id="main-container">
         
-        <!-- NUOVA SEZIONE: Intestazione a Tutta Larghezza -->
+        <!-- SEZIONE: Intestazione a Tutta Larghezza -->
         <div id="full-width-header" class="text-center">
             <div class="flex flex-col items-center justify-center mb-4 border-b border-gray-200 pb-4">
                 <div class="flex flex-wrap items-center justify-center gap-6 mb-3">
@@ -315,34 +383,31 @@
                         src="https://logoccf.carrd.co/assets/images/image01.jpg?v=33becf42"
                         alt="Logo Camera di Media-Conciliazione Forense"
                         class="h-16 sm:h-20 w-auto object-contain rounded-lg shadow-md"
-                        onerror="this.onerror=null; this.src='https://placehold.co/150x80/284992/ffffff?text=Logo+Non+Trovato';"
+                        onerror="this.onerror=null; this.src='https://placehold.co/150x80/1e293b/ffffff?text=Logo+Non+Trovato';"
                     />
                 </div>
                 <div class="header-font">
-                    <!-- DIMENSIONE AUMENTATA: da text-xl sm:text-2xl a text-2xl sm:text-3xl -->
-                    <!-- MODIFICA QUI: Avvolgiamo il titolo in un tag <a> -->
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">
-                        <a href="https://www.conciliazioneforense.it/" target="_blank" class="text-gray-900 hover:text-blue-custom-700 hover:underline transition duration-150 ease-in-out">
+                        <a href="https://www.conciliazioneforense.it/" target="_blank" class="text-gray-900 hover:text-accent-mediation-700 hover:underline transition duration-150 ease-in-out">
                             COORDINAMENTO DELLA CONCILIAZIONE FORENSE
                         </a>
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-600 mt-1 max-w-full mx-auto">
-                        Sede legale presso la Fondazione Forense di Milano, in Via Freguglia n. 1, 20122 Milano. Tel.025492921. Email: <a href="mailto:info@conciliazioneforense.it" class="text-indigo-600 hover:underline">info@conciliazioneforense.it</a> | PEC: <a href="mailto:conciliazioneforense@legalmail.it" class="text-indigo-600 hover:underline">conciliazioneforense@legalmail.it</a>
+                        Sede legale presso la Fondazione Forense di Milano, in Via Freguglia n. 1, 20122 Milano. Tel.025492921. Email: <a href="mailto:info@conciliazioneforense.it" class="text-accent-mediation-700 hover:underline">info@conciliazioneforense.it</a> | PEC: <a href="mailto:conciliazioneforense@legalmail.it" class="text-accent-mediation-700 hover:underline">conciliazioneforense@legalmail.it</a>
                     </p>
                     <!-- NUOVA RIGA AGGIUNTA QUI -->
                     <p class="text-xs sm:text-sm text-gray-600 max-w-full mx-auto mt-1">
-                        <a href="https://www.conciliazioneforense.it/ordini-e-organismi-associati" target="_blank" class="text-indigo-600 hover:underline font-semibold">
+                        <a href="https://www.conciliazioneforense.it/ordini-e-organismi-associati" target="_blank" class="text-accent-mediation-700 hover:underline font-semibold">
                             ORDINI E ORGANISMI ASSOCIATI
                         </a>
                     </p>
                 </div>
             </div>
         </div>
-        <!-- FINE NUOVA SEZIONE INTESTAZIONE -->
+        <!-- FINE SEZIONE INTESTAZIONE -->
 
-        <!-- NUOVA CASELLA CALCOLATORE INTEGRATO (STRISCIE BLU) -->
-        <div id="integrated-calculator-header" class="w-full text-center p-1 bg-white border-t-4 border-blue-custom-700 border-b-4 shadow-md">
-            <!-- MODIFICA QUI: Sostituito text-blue-custom-700 con text-gray-900 per il testo nero -->
+        <!-- CASELLA CALCOLATORE INTEGRATO (STRISCIE BORDEAUX) -->
+        <div id="integrated-calculator-header" class="w-full text-center p-1 bg-white border-t-4 border-accent-mediation-700 border-b-4 shadow-md">
             <h2 class="text-base sm:text-xl font-extrabold text-gray-900 leading-snug">
                 CALCOLATORE INTEGRATO SPESE - INDENNITA' DI MEDIAZIONE E COMPENSI AVVOCATO
             </h2>
@@ -353,8 +418,8 @@
         <!-- CONTENITORE PRINCIPALE DELLE APP AFFIANCATE -->
         <div id="apps-container" class="lg:flex">
             
-            <!-- PARTE SINISTRA: Spese di Mediazione (spese test2.html) - TEMA VIOLA -->
-            <div id="mediation-app" class="app-panel border-t-8 border-indigo-600">
+            <!-- PARTE SINISTRA: Spese di Mediazione - TEMA BLU NAVY (Accent Mediation) -->
+            <div id="mediation-app" class="app-panel border-t-8 border-accent-mediation-700">
                 
                 <h2 class="text-2xl font-extrabold text-gray-800 text-center mb-6 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 h-6 w-6 text-gray-400"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> Calcolatore Spese di Mediazione
@@ -364,8 +429,8 @@
                 <div class="flex flex-col gap-6">
                     
                     <div id="mediation-calculator" class="space-y-4">
-                        <h2 id="tariff-title" class="text-xl sm:text-2xl font-extrabold text-indigo-700 text-center flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi
+                        <h2 id="tariff-title" class="text-xl sm:text-2xl font-extrabold text-accent-mediation-700 text-center flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-700"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi
                         </h2>
                         <!-- MODIFICA: Inserito D.LGS. 28/2010 e DM 150/2023 in un unico blocco centrato -->
                         <p class="text-sm text-gray-500 text-center -mt-2 space-x-4">
@@ -373,7 +438,7 @@
                             <a 
                                 href="https://www.ordineavvocati.ss.it/docs/mediazione_Dlgs28-2010_consolidato_col_Dlgs_216-2024_579486312.pdf" 
                                 target="_blank" 
-                                class="text-indigo-600 hover:underline font-semibold"
+                                class="text-accent-mediation-700 hover:underline font-semibold"
                             >
                                 D.LGS. 28/2010
                             </a>
@@ -381,20 +446,20 @@
                             <a 
                                 href="https://www.ordineavvocati.ss.it/docs/mediazione_DM_150_2023_Gazzetta-Ufficiale-69854763215.pdf" 
                                 target="_blank" 
-                                class="text-indigo-600 hover:underline font-semibold"
+                                class="text-accent-mediation-700 hover:underline font-semibold"
                             >
                                 DM 150/2023
                             </a>
                         </p>
 
-                        <!-- Gruppo Input Mediazione -->
-                        <div class="space-y-3 p-3 bg-indigo-50 rounded-lg shadow-inner print-hide">
+                        <!-- Gruppo Input Mediazione (Livello Tariffario, Tipo, Valore Lite) -->
+                        <div class="space-y-3 p-3 rounded-lg shadow-inner print-hide input-box-highlight border border-sky-300">
                             <div>
                                 <label for="mediation-tariff-level" class="block text-gray-700 font-bold mb-1 text-sm">Livello Tariffario:</label>
                                 <select
                                     id="mediation-tariff-level"
                                     onchange="calculateMediationFees()"
-                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="minimi">Valori Minimi</option>
                                     <option value="medi">Valori Medi</option>
@@ -405,7 +470,7 @@
                                 <select
                                     id="mediation-type"
                                     onchange="calculateMediationFees()"
-                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="obbligatorie">Mediazioni obbligatorie o demandate (80% tariffa)</option>
                                     <option value="volontarie">Mediazioni volontarie (100% tariffa)</option>
@@ -417,7 +482,7 @@
                                 <select
                                     id="litigation-value-type"
                                     onchange="updateValueInputType(); calculateMediationFees();"
-                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="determinabile">Determinabile (€)</option>
                                     <option value="indeterminabile">Indeterminabile</option>
@@ -429,17 +494,16 @@
                                     id="mediation-litigation-value"
                                     type="text"
                                     oninput="calculateMediationFees()"
-                                    class="w-full p-2 border border-indigo-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-base font-semibold"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out text-base font-semibold"
                                     placeholder="es. 15000"
                                 />
                             </div>
                         </div>
                         
-                        <!-- NUOVA CASELLA PER VALORE INDETERMINATO (TEMA VIOLA) -->
-                        <!-- Aggiunto "hidden" di default e rimosso "mt-4" per unire gli spazi -->
-                        <div id="indeterminate-value-options" class="p-3 bg-indigo-50 rounded-lg shadow-inner border border-indigo-200 print-hide hidden">
-                            <h3 class="text-sm font-bold text-indigo-700 mb-3 border-b border-indigo-300 pb-1 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-indigo-600"><path d="M10.45 6.03a6.68 6.68 0 0 1 3.1 0"/><path d="M12 20V4"/><path d="M3 18c0-5 2-8 7-8"/><path d="M14 10c5 0 7 3 7 8"/></svg> Modulazione Valore Indeterminato
+                        <!-- NUOVA CASELLA PER VALORE INDETERMINATO (Colorata) -->
+                        <div id="indeterminate-value-options" class="p-3 rounded-lg shadow-inner border print-hide hidden input-box-highlight border-sky-300">
+                            <h3 class="text-sm font-bold text-accent-mediation-700 mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><path d="M10.45 6.03a6.68 6.68 0 0 1 3.1 0"/><path d="M12 20V4"/><path d="M3 18c0-5 2-8 7-8"/><path d="M14 10c5 0 7 3 7 8"/></svg> Modulazione Valore Indeterminato
                             </h3>
                             
                             <div class="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
@@ -481,9 +545,11 @@
                         <!-- Griglia Risultati Mediazione -->
                         <div class="grid grid-cols-2 gap-3">
                             <!-- 1. Spese di Avvio -->
-                            <div class="bg-white p-3 rounded-lg shadow-md border border-green-300">
-                                <h3 class="text-sm font-semibold text-green-700 mb-1">Spese Fisse:</h3>
-                                <p id="fees-startup" class="text-xl font-extrabold text-green-800">0,00 €</p>
+                            <!-- Applicate classi personalizzate per bordo e colore del testo valore -->
+                            <div class="bg-white p-3 rounded-lg shadow-md border-2 fees-startup-box">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-1">Spese Fisse:</h3>
+                                <!-- Aggiunta classe fee-value-color per colore dinamico -->
+                                <p id="fees-startup" class="text-xl font-extrabold fee-value-color">0,00 €</p>
                                 
                                 <!-- NUOVA CASELLA BREAKDOWN con Dettaglio IVA -->
                                 <div class="mt-2 pt-2 border-t border-gray-200 bg-gray-50 p-2 rounded-md text-xs space-y-2">
@@ -527,9 +593,9 @@
                             </div>
 
                             <!-- 2. Esito Negativo dopo 1° incontro -->
-                            <div class="bg-white p-3 rounded-lg shadow-md border border-purple-300">
-                                <h3 class="text-sm font-semibold text-purple-700 mb-1">Spese per esito negativo dopo 1° incontro:</h3>
-                                <p id="fees-negative" class="text-xl font-extrabold text-purple-800">0,00 €</p>
+                            <div class="bg-white p-3 rounded-lg shadow-md border-2 fees-negative-box">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-1">Spese per esito negativo dopo 1° incontro:</h3>
+                                <p id="fees-negative" class="text-xl font-extrabold fee-value-color">0,00 €</p>
                                 <div class="text-sm text-gray-600 mt-1 space-y-0.5">
                                     <p>Imponibile: <span id="fees-negative-imponibile" class="font-medium">0,00 €</span></p>
                                     <p>IVA 22%: <span id="fees-negative-iva" class="font-medium">0,00 €</span></p>
@@ -539,9 +605,9 @@
                             </div>
                             
                             <!-- 3. Esito Positivo al 1° -->
-                            <div class="bg-white p-3 rounded-lg shadow-md border border-amber-300">
-                                <h3 class="text-sm font-semibold text-amber-700 mb-1">Spese per esito positivo 1° incontro:</h3>
-                                <p id="fees-positive-1" class="text-xl font-extrabold text-amber-800">0,00 €</p>
+                            <div class="bg-white p-3 rounded-lg shadow-md border-2 fees-positive-1-box">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-1">Spese per esito positivo 1° incontro:</h3>
+                                <p id="fees-positive-1" class="text-xl font-extrabold fee-value-color">0,00 €</p>
                                 <div class="text-sm text-gray-600 mt-1 space-y-0.5">
                                     <p>Imponibile: <span id="fees-positive-1-imponibile" class="font-medium">0,00 €</span></p>
                                     <p>IVA 22%: <span id="fees-positive-1-iva" class="font-medium">0,00 €</span></p>
@@ -551,9 +617,9 @@
                             </div>
 
                             <!-- 4. Esito Positivo dopo il 1° -->
-                            <div class="bg-white p-3 rounded-lg shadow-md border border-red-300">
-                                <h3 class="text-sm font-semibold text-red-700 mb-1">Spese per esito positivo dopo 1° incontro:</h3>
-                                <p id="fees-positive-after-1" class="text-xl font-extrabold text-red-800">0,00 €</p>
+                            <div class="bg-white p-3 rounded-lg shadow-md border-2 fees-positive-after-1-box">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-1">Spese per esito positivo dopo 1° incontro:</h3>
+                                <p id="fees-positive-after-1" class="text-xl font-extrabold fee-value-color">0,00 €</p>
                                 <div class="text-sm text-gray-600 mt-1 space-y-0.5">
                                     <p>Imponibile: <span id="fees-positive-after-1-imponibile" class="font-medium">0,00 €</span></p>
                                     <p>IVA 22%: <span id="fees-positive-after-1-iva" class="font-medium">0,00 €</span></p>
@@ -563,9 +629,9 @@
                             </div>
                         </div>
 
-                        <!-- Riepilogo Totale Mediazione -->
-                        <div class="bg-indigo-600 text-white p-4 rounded-xl shadow-xl mt-4">
-                            <h3 class="text-sm font-bold text-center mb-3 border-b border-indigo-400 pb-2">
+                        <!-- Riepilogo Totale Mediazione (NAVY) -->
+                        <div class="bg-accent-mediation-700 text-white p-4 rounded-xl shadow-xl mt-4">
+                            <h3 class="text-sm font-bold text-center mb-3 border-b border-accent-mediation-300 pb-2">
                                 Costo Totale Mediazione (Avvio + Spese)
                             </h3>
                             <!-- Modifica qui: da grid-cols-3 a grid-cols-4 -->
@@ -581,7 +647,7 @@
                                 </div>
 
                                 <!-- Vecchia Negativo dopo 1° incontro (ora è la 2a colonna) -->
-                                <div class="border-x border-indigo-400 pr-2">
+                                <div class="border-x border-accent-mediation-300 pr-2">
                                     <p class="text-xs font-light opacity-90">Negativo dopo 1° incontro</p>
                                     <p id="total-negative" class="text-xl font-extrabold">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
@@ -601,7 +667,7 @@
                                 </div>
                                 
                                 <!-- Vecchia Positivo dopo 1° incontro (ora è la 4a colonna) -->
-                                <div class="border-l border-indigo-400 pl-2">
+                                <div class="border-l border-accent-mediation-300 pl-2">
                                     <p class="text-xs font-light opacity-90">Positivo dopo 1° incontro</p>
                                     <p id="total-positive-after-1" class="text-xl font-extrabold">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
@@ -613,20 +679,71 @@
                         </div>
                     </div>
 
+                    <!-- NUOVO BLOCCO: Procedimento di Mediazione n. / (Colorato) -->
+                    <div class="flex items-center justify-center gap-2 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                        <span>Procedimento di Mediazione n.</span>
+                        <input 
+                            type="number" 
+                            id="mediation-number-1" 
+                            class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                            placeholder="00"
+                        />
+                        <span>/</span>
+                        <input 
+                            type="number" 
+                            id="mediation-number-2" 
+                            class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                            placeholder="2025"
+                        />
+                    </div>
+                    <!-- FINE NUOVO BLOCCO -->
+                    
+                    <!-- NUOVA RIGA: Per accettazione, salvo diversa determinazione del valore da parte del Responsabile -->
+                    <div class="p-2 pt-0 print-hide">
+                        <div class="text-xs text-gray-600 italic text-justify">
+                            Per accettazione, salvo diversa determinazione del valore da parte del Responsabile
+                            <div class="w-full h-px bg-gray-400 mt-10"></div> <!-- SPAZIO AUMENTATO -->
+                        </div>
+                    </div>
+                    <!-- FINE NUOVA RIGA -->
+                    
+                    <!-- NUOVA CASELLA LUOGO E DATA MEDIAZIONE (Sinistra) (Colorata) -->
+                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                        <div class="flex items-center gap-2">
+                            <span>Luogo:</span>
+                            <input 
+                                type="text" 
+                                id="mediation-location" 
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                placeholder="Città"
+                            />
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span>Data:</span>
+                            <input 
+                                type="text" 
+                                id="mediation-date" 
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                placeholder="gg/mm/aaaa"
+                            />
+                        </div>
+                    </div>
+                    <!-- FINE NUOVA CASELLA LUOGO E DATA -->
+
                     <!-- NUOVO CONTENITORE PULSANTI DI STAMPA MEDIAZIONE (Modificato) -->
-                    <div class="print-button-container flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
-                         <!-- Tasto Stampa Standard -->
+                    <div class="print-button-container flex flex-col sm:flex-row justify-center items-center gap-3 mt-2">
+                         <!-- Tasto Stampa Standard (NAVY) -->
                          <button 
                             onclick="printSection('mediation-app')" 
-                            class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300 text-sm"
+                            class="flex items-center justify-center bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
                          >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg> 
                             Stampa Sezione Mediazione
                         </button>
-                        <!-- Tasto Stampa Personalizzata Organismo (NUOVO) -->
+                        <!-- Tasto Stampa Personalizzata Organismo (ANTRACHITE) -->
                          <button 
                             onclick="openMediationCustomPrintModal()" 
-                            class="flex items-center justify-center bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300 text-sm"
+                            class="flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-300 text-sm"
                          >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5"/><path d="M18 10a6 6 0 0 0-9.37 0"/></svg>
                             Stampa Personalizzata Organismo
@@ -637,24 +754,24 @@
                 </div>
             </div>
             
-            <!-- PARTE DESTRA: Spese Legali (spese legali blu.html) - TEMA BLU -->
-            <div id="forensic-app" class="app-panel border-t-8 border-blue-custom-700">
+            <!-- PARTE DESTRA: Spese Legali - TEMA UNIFICATO BLU NAVY -->
+            <div id="forensic-app" class="app-panel border-t-8 border-accent-mediation-700">
                 <!-- Contenuto dell'app "Spese Legali Blu" -->
                 
-                <h2 class="text-2xl font-extrabold text-blue-custom-700 text-center mb-6 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-custom-600"><path d="m16 16-3-3m0 0 3-3m-3 3h3"/></svg> Calcolatore Compensi Avvocato
+                <h2 class="text-2xl font-extrabold text-accent-mediation-700 text-center mb-6 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><path d="m16 16-3-3m0 0 3-3m-3 3h3"/></svg> Calcolatore Compensi Avvocato
                 </h2>
                 <p class="text-sm text-gray-500 text-center -mt-2 mb-4">DM 55/2014 - Valori tabellari (Mediazione).</p>
 
-                <!-- Gruppo Input Valore Lite -->
-                <div id="forensic-calculator" class="space-y-2 p-3 input-group-style rounded-xl shadow-inner print-hide">
+                <!-- Gruppo Input Valore Lite (Colorato) -->
+                <div id="forensic-calculator" class="space-y-2 p-3 input-group-style rounded-xl shadow-inner print-hide input-box-highlight border border-sky-300">
                     <div>
                         <label for="forensic-litigation-value" class="block text-gray-700 font-bold text-base mb-1">Valore della Lite (€):</label>
                         <input
                             id="forensic-litigation-value"
                             type="text"
                             oninput="calculateForensicFees()"
-                            class="w-full p-2 border border-blue-custom-300 rounded-lg shadow-sm focus:ring-blue-custom-500 focus:border-blue-custom-500 transition duration-150 ease-in-out text-base font-semibold bg-white"
+                            class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out text-base font-semibold bg-white"
                             placeholder="es. 15000 o Indeterminabile"
                             value="" 
                         />
@@ -662,7 +779,7 @@
                 </div>
 
                 <!-- Alert/Risultati Compensi Avvocato -->
-                <div id="forensic-alert" class="hidden bg-blue-100 p-3 rounded-lg shadow-md border-l-4 border-blue-custom-500 text-blue-custom-800 font-medium text-sm mt-4">
+                <div id="forensic-alert" class="hidden bg-red-100 p-3 rounded-lg shadow-md border-l-4 border-red-700 text-red-800 font-medium text-sm mt-4">
                     <p class="font-bold">Attenzione:</p>
                     <p id="alert-message">Valore lite non rientrante Nelle fasce calcolabili.</p>
                 </div>
@@ -673,11 +790,11 @@
                 <!-- Risultati per Fase (Select by clicking value) -->
                 <div id="forensic-results" class="grid grid-cols-1 gap-3 mt-4">
                     
-                    <h3 class="text-base font-extrabold text-blue-custom-700 border-b border-blue-custom-300 pb-1 mt-2">Compensi per Fase (Seleziona il Valore)</h3>
+                    <h3 class="text-base font-extrabold text-accent-mediation-700 border-b border-accent-mediation-300 pb-1 mt-2">Compensi per Fase (Seleziona il Valore)</h3>
 
                     <!-- FASE 1: Fase di attivazione (MODIFICATA) -->
-                    <div id="phase-activation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-blue-custom-700">Fase di attivazione</h3>
+                    <div id="phase-activation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase di attivazione</h3>
                         <div class="phase-content-grid">
                             <div id="act-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('activation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -700,8 +817,8 @@
                     </div>
 
                     <!-- FASE 2: Fase negoziazione (MODIFICATA) -->
-                    <div id="phase-negotiation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-blue-custom-700">Fase negoziazione</h3>
+                    <div id="phase-negotiation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase negoziazione</h3>
                         <div class="phase-content-grid">
                             <div id="neg-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('negotiation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -724,8 +841,8 @@
                     </div>
 
                     <!-- FASE 3: Conciliazione (Non modificata) -->
-                    <div id="phase-conciliation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-blue-custom-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-blue-custom-700">Fase Conciliazione</h3>
+                    <div id="phase-conciliation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase Conciliazione</h3>
                         <div class="phase-content-grid">
                             <div id="con-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('conciliation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -749,8 +866,8 @@
                     
                     <!-- Opzioni Calcolo (Maggiorazioni/Oneri Fiscali/Previdenziali) (MODIFICATA) -->
                     <div class="p-3 bg-white rounded-xl shadow-md border border-gray-200 mt-2 print-hide">
-                        <h3 class="text-sm font-bold text-blue-custom-700 mb-3 border-b border-blue-custom-300 pb-1 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-custom-600"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Maggiorazioni/Oneri Fiscali/Previdenziali
+                        <h3 class="text-sm font-bold text-accent-mediation-700 mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Maggiorazioni/Oneri Fiscali/Previdenziali
                         </h3>
                         
                         <div class="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
@@ -793,19 +910,19 @@
                         </div>
                     </div>
 
-                    <!-- Riepilogo Totale Avvocato -->
-                    <div class="bg-blue-custom-700 text-white p-4 rounded-xl shadow-xl mt-4">
+                    <!-- Riepilogo Totale Avvocato (NAVY) -->
+                    <div class="bg-accent-mediation-700 text-white p-4 rounded-xl shadow-xl mt-4">
                         <h3 class="text-sm font-bold text-center mb-3">Totale Complessivo Cliente (Basato sulle tue Selezioni)</h3>
                         
                         <div class="space-y-2 text-sm"> 
                             <!-- Compenso Base Totale -->
-                            <div class="flex justify-between items-center border-b border-blue-custom-600 pb-1">
+                            <div class="flex justify-between items-center border-b border-accent-mediation-300 pb-1">
                                 <span class="font-light opacity-90">A. Comp. Base (Totale Fasi):</span>
                                 <span id="forensic-total-base-fee" class="font-extrabold text-white text-base">0,00 €</span>
                             </div>
 
                             <!-- Nuova riga per Maggiorazione 30% -->
-                            <div id="forensic-total-increase-row" class="flex justify-between items-center text-red-300 font-semibold hidden">
+                            <div id="forensic-total-increase-row" class="flex justify-between items-center text-accent-mediation-300 font-semibold hidden">
                                 <span class="font-light opacity-90">B. Maggiorazione esito positivo (30%):</span>
                                 <span id="forensic-total-increase" class="font-semibold text-base">0,00 €</span>
                             </div>
@@ -826,7 +943,7 @@
                             
                             <!-- Imponibile IVA -->
                             <!-- Etichetta aggiornata: da E a E per seguire A, B, C, D e D. Imponibile IVA (A + B + C + D) -->
-                            <div class="flex justify-between items-center pt-2 border-t border-blue-custom-600">
+                            <div class="flex justify-between items-center pt-2 border-t border-accent-mediation-600">
                                 <span class="font-light opacity-90 text-sm" id="forensic-taxable-label">E. Imponibile IVA (A + B + C + D):</span>
                                 <span id="forensic-total-taxable-base" class="font-extrabold text-lg text-yellow-300">0,00 €</span>
                             </div>
@@ -838,7 +955,7 @@
                             </div>
 
                             <!-- TOTALE FINALE -->
-                            <div class="flex justify-between items-center pt-3 border-t-2 border-blue-custom-500">
+                            <div class="flex justify-between items-center pt-3 border-t-2 border-accent-mediation-500">
                                 <p class="text-lg font-black">TOTALE CLIENTE:</p>
                                 <p id="forensic-total-final-cost" class="text-2xl font-black text-yellow-300">
                                     0,00 €
@@ -847,6 +964,66 @@
 
                         </div>
                     </div>
+                    
+                    <!-- NUOVO BLOCCO: Procedimento di Mediazione Avvocato (Colorato) -->
+                    <div class="flex flex-col gap-2 p-3 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                        <div class="flex items-center justify-center gap-2">
+                            <span>Procedimento di Mediazione n.</span>
+                            <input 
+                                type="number" 
+                                id="forensic-mediation-number-1" 
+                                class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                                placeholder="00"
+                            />
+                            <span>/</span>
+                            <input 
+                                type="number" 
+                                id="forensic-mediation-number-2" 
+                                class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                                placeholder="2025"
+                            />
+                            <span class="ml-2 font-bold whitespace-nowrap">nei confronti</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="forensic-mediation-counterparty"
+                            class="w-full p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium mt-1"
+                            placeholder="Nome della controparte"
+                        />
+                    </div>
+                    <!-- FINE NUOVO BLOCCO -->
+                    
+                    <!-- NUOVA RIGA: Per accettazione Avvocato -->
+                    <div class="p-2 pt-0 print-hide">
+                        <div class="text-xs text-gray-600 italic text-justify">
+                            Per accettazione 
+                            <div class="w-full h-px bg-gray-400 mt-10"></div> <!-- SPAZIO AUMENTATO -->
+                        </div>
+                    </div>
+                    <!-- FINE NUOVA RIGA -->
+                    
+                    <!-- NUOVA CASELLA LUOGO E DATA AVVOCATO (Destra) (Colorata) -->
+                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                        <div class="flex items-center gap-2">
+                            <span>Luogo:</span>
+                            <input 
+                                type="text" 
+                                id="forensic-location" 
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                placeholder="Città"
+                            />
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span>Data:</span>
+                            <input 
+                                type="text" 
+                                id="forensic-date" 
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                placeholder="gg/mm/aaaa"
+                            />
+                        </div>
+                    </div>
+                    <!-- FINE NUOVA CASELLA LUOGO E DATA -->
                 </div>
                 
                 <!-- NUOVO CONTENITORE PULSANTI DI STAMPA AVVOCATO (Modificato) -->
@@ -854,29 +1031,29 @@
                     
                     <!-- Contenitore Flex per i due pulsanti originali (affiancati su desktop) -->
                     <div class="flex flex-col sm:flex-row justify-center items-center gap-3 w-full">
-                        <!-- Tasto Stampa Standard -->
+                        <!-- Tasto Stampa Standard (NAVY) -->
                         <button 
                             onclick="printSection('forensic-app')" 
-                            class="flex items-center justify-center w-full sm:w-1/2 bg-blue-custom-500 hover:bg-blue-custom-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-custom-300 text-sm"
+                            class="flex items-center justify-center w-full sm:w-1/2 bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg> 
                             Stampa Sezione Avvocato
                         </button>
-                        <!-- Tasto Stampa Personalizzata (NUOVO) -->
+                        <!-- Tasto Stampa Personalizzata (ANTRACHITE) -->
                         <button 
                             onclick="openCustomPrintModal()" 
-                            class="flex items-center justify-center w-full sm:w-1/2 bg-blue-custom-800 hover:bg-blue-custom-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-custom-300 text-sm"
-                        >
+                            class="flex items-center justify-center w-full sm:w-1/2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-300 text-sm"
+                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5"/><path d="M18 10a6 6 0 0 0-9.37 0"/></svg>
                             Stampa Personalizzata Studio
                         </button>
                     </div>
 
-                    <!-- NUOVO PULSANTE CALCOLATORE GRATUITO PATROCINIO -->
+                    <!-- NUOVO PULSANTE CALCOLATORE GRATUITO PATROCINIO (BORDEAUX SCURO - Colore Secondario) -->
                     <a 
                         href="https://pinnaspada.github.io/gratuitopatrocinio/" 
                         target="_blank"
-                        class="flex items-center justify-center w-full bg-red-600 hover:bg-red-700 text-white font-extrabold py-3 px-4 rounded-lg transition duration-150 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-red-300 text-base mt-2"
+                        class="flex items-center justify-center w-full bg-red-800 hover:bg-red-700 text-white font-extrabold py-3 px-4 rounded-lg transition duration-150 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-red-300 text-base mt-2"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2c3.47 2 7 5 7 10"/><path d="M12 20H4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2h.7L12 18V2z"/><path d="M22 17c0 3-3 6-7 6"/><path d="M18 10c0-1.3-.8-2.5-2-3"/></svg>
                         CALCOLATORE COMPENSI AVVOCATO GRATUITO PATROCINIO
@@ -902,14 +1079,14 @@
                 <p class="mb-2 font-bold text-gray-800 text-left">Note Legali Importanti:</p>
                 <ul class="list-disc list-inside space-y-1 ml-2">
                     <li>
-                        Calcolatore realizzato dall'<a href="https://www.ordineavvocati.ss.it/docs/mediazione_curriculum_responsabile24092025.pdf" target="_blank" class="font-bold text-indigo-600 hover:underline">Avv. Antonio Pinna Spada</a>, Responsabile dell'
+                        Calcolatore realizzato dall'<a href="https://www.ordineavvocati.ss.it/docs/mediazione_curriculum_responsabile24092025.pdf" target="_blank" class="font-bold text-accent-mediation-700 hover:underline">Avv. Antonio Pinna Spada</a>, Responsabile dell'
                         <!-- LINK AGGIUNTO QUI per Oristano. RIMOSSO CLASSE GRASSETTO "font-bold" -->
-                        <a href="https://www.ordineavvocatioristano.it/mediazione/" target="_blank" class="text-indigo-600 hover:underline">
+                        <a href="https://www.ordineavvocatioristano.it/mediazione/" target="_blank" class="text-accent-mediation-700 hover:underline">
                             Organismo di Media Conciliazione Forense dell'Ordine degli Avvocati di Oristano
                         </a> 
                         e Responsabile dell'
                         <!-- LINK AGGIUNTO QUI per Sassari. RIMOSSO CLASSE GRASSETTO "font-bold" -->
-                        <a href="https://www.ordineavvocati.ss.it/pag.php?id=34" target="_blank" class="text-indigo-600 hover:underline">
+                        <a href="https://www.ordineavvocati.ss.it/pag.php?id=34" target="_blank" class="text-accent-mediation-700 hover:underline">
                             Organismo di Mediazione del Consiglio dell'Ordine degli Avvocati di Sassari
                         </a>. 
                     </li>
@@ -940,7 +1117,7 @@
     <!-- Modal per la personalizzazione della stampa Avvocato (Studio Legale) -->
     <div id="custom-print-modal" class="modal hidden">
         <div class="modal-content">
-            <h3 class="text-xl font-bold text-blue-custom-700 mb-4 border-b pb-2">Dati Studio Legale per Stampa</h3>
+            <h3 class="text-xl font-bold text-accent-mediation-700 mb-4 border-b pb-2">Dati Studio Legale per Stampa</h3>
             <div id="modal-form" class="space-y-3">
                 <div>
                     <label for="studio-nome" class="block text-sm font-medium text-gray-700">Nome Studio/Avvocato:</label>
@@ -961,7 +1138,7 @@
             </div>
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeCustomPrintModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg text-sm transition">Annulla</button>
-                <button onclick="saveAndPrintCustom('studio')" class="bg-blue-custom-700 hover:bg-blue-custom-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
+                <button onclick="saveAndPrintCustom('studio')" class="bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
             </div>
         </div>
     </div>
@@ -969,7 +1146,7 @@
     <!-- Modal per la personalizzazione della stampa Mediazione (Organismo) (NUOVO) -->
     <div id="mediation-print-modal" class="modal hidden">
         <div class="modal-content">
-            <h3 class="text-xl font-bold text-indigo-700 mb-4 border-b pb-2">Dati Organismo di Mediazione per Stampa</h3>
+            <h3 class="text-xl font-bold text-accent-mediation-700 mb-4 border-b pb-2">Dati Organismo di Mediazione per Stampa</h3>
             <div id="mediation-modal-form" class="space-y-3">
                 <div>
                     <label for="organismo-nome" class="block text-sm font-medium text-gray-700">Nome Organismo:</label>
@@ -990,7 +1167,7 @@
             </div>
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeMediationCustomPrintModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg text-sm transition">Annulla</button>
-                <button onclick="saveAndPrintMediationCustom('organismo')" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
+                <button onclick="saveAndPrintMediationCustom('organismo')" class="bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
             </div>
         </div>
     </div>
@@ -1053,6 +1230,28 @@
                 console.error(`Errore nel salvataggio dei dati per la chiave ${key}:`, e);
             }
         };
+        
+        /**
+         * Popola i campi data con la data odierna in formato gg/mm/aaaa.
+         */
+        const populateDateFields = () => {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mesi partono da 0
+            const year = today.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+
+            const mediationDate = document.getElementById('mediation-date');
+            const forensicDate = document.getElementById('forensic-date');
+
+            if (mediationDate) {
+                mediationDate.value = formattedDate;
+            }
+            if (forensicDate) {
+                forensicDate.value = formattedDate;
+            }
+        };
+
 
         // --- LOGICA MODAL DI PERSONALIZZAZIONE STUDIO (AVVOCATO) ---
 
@@ -1098,7 +1297,7 @@
         // --- LOGICA MODAL DI PERSONALIZZAZIONE ORGANISMO (MEDIAZIONE) (NUOVO) ---
 
         /**
-         * Apre il modal di personalizzazione Organismo e carica i dati salvati.
+         * Abre il modal di personalizzazione Organismo e carica i dati salvati.
          */
         window.openMediationCustomPrintModal = () => {
             const modal = document.getElementById(MEDIATION_PRINT_MODAL_ID);
@@ -1181,6 +1380,34 @@
             const integratedHeaderToPrint = integratedHeader.cloneNode(true);
             const legalNotesToPrint = legalNotes.cloneNode(true);
 
+            // NUOVA LOGICA: Aggiunge i campi Procedimento Avvocato al contenuto stampato
+            const forensicNum1 = document.getElementById('forensic-mediation-number-1')?.value || '....';
+            const forensicNum2 = document.getElementById('forensic-mediation-number-2')?.value || '....';
+            const forensicCounterparty = document.getElementById('forensic-mediation-counterparty')?.value || '....';
+            const forensicLocation = document.getElementById('forensic-location')?.value || '....';
+            const forensicDate = document.getElementById('forensic-date')?.value || '....';
+
+            // Colore Navy per il bordo tratteggiato in stampa
+            const forensicDetailsHtml = `
+                <div style="text-align: left; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                    Procedimento di Mediazione n. ${forensicNum1} / ${forensicNum2} nei confronti di ${forensicCounterparty}
+                </div>
+            `;
+            
+            const locationDateHtml = `
+                <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                    ${forensicLocation}, lì ${forensicDate}
+                </div>
+            `;
+
+            const acceptanceLineHtml = `
+                <div class="acceptance-text" style="margin-top: 25px;">
+                    Per accettazione 
+                </div>
+                <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+            `;
+
+
             // Rimuove gli elementi non necessari/interattivi dal clone dell'app forense
             const elementsToRemove = contentToPrint.querySelectorAll('.print-hide, .print-button-container');
             elementsToRemove.forEach(el => el.remove());
@@ -1192,8 +1419,8 @@
                 printValueEl.classList.add('print-litigation-value'); 
             }
 
-            // Genera l'intestazione personalizzata dello studio (Tema Blu)
-            const customHeaderHtml = generateCustomHeader(studioData, '#1d4ed8');
+            // Genera l'intestazione personalizzata dello studio (Tema Navy)
+            const customHeaderHtml = generateCustomHeader(studioData, '#1e3a8a'); /* Deep Blue */
             
             // Costruisce il contenuto HTML completo per la stampa
             const integratedHeaderHtml = integratedHeaderToPrint.outerHTML;
@@ -1205,6 +1432,9 @@
                 ${integratedHeaderHtml}
                 <div class="print-content-wrapper" style="padding-top: 1rem;">
                     ${appContentHtml}
+                    ${forensicDetailsHtml}
+                    ${locationDateHtml} <!-- INSERIMENTO LUOGO E DATA AVVOCATO -->
+                    ${acceptanceLineHtml}
                     <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
                         ${footerContentHtml}
                     </div>
@@ -1254,6 +1484,34 @@
             const integratedHeaderToPrint = integratedHeader.cloneNode(true);
             const legalNotesToPrint = legalNotes.cloneNode(true);
 
+            // Aggiunge la riga "Procedimento di Mediazione n. /" al contenuto stampato
+            const mediationNum1 = document.getElementById('mediation-number-1')?.value || '....';
+            const mediationNum2 = document.getElementById('mediation-number-2')?.value || '....';
+            const mediationLocation = document.getElementById('mediation-location')?.value || '....';
+            const mediationDate = document.getElementById('mediation-date')?.value || '....';
+
+
+            const mediationNumberHtml = `
+                <div style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                    Procedimento di Mediazione n. ${mediationNum1} / ${mediationNum2}
+                </div>
+            `;
+            
+            const locationDateHtml = `
+                <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                    ${mediationLocation}, lì ${mediationDate}
+                </div>
+            `;
+            
+            // Nuova riga di accettazione
+            const acceptanceLineHtml = `
+                <div class="acceptance-text">
+                    Per accettazione, salvo diversa determinazione del valore da parte del Responsabile
+                </div>
+                <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+            `;
+
+
             // Rimuove gli elementi non necessari/interattivi dal clone dell'app mediazione
             const elementsToRemove = contentToPrint.querySelectorAll('.print-hide, .print-button-container');
             elementsToRemove.forEach(el => el.remove());
@@ -1265,13 +1523,12 @@
                 printValueEl.classList.add('print-litigation-value'); 
             }
 
-            // Genera l'intestazione personalizzata dell'Organismo (Tema Viola)
-            const customHeaderHtml = generateCustomHeader(organismoData, '#4f46e5');
+            // Genera l'intestazione personalizzata dell'Organismo (Tema Grigio Scuro)
+            const customHeaderHtml = generateCustomHeader(organismoData, '#1e3a8a'); /* Deep Blue */
             
             // Costruisce il contenuto HTML completo per la stampa
             const integratedHeaderHtml = integratedHeaderToPrint.outerHTML;
             const appContentHtml = contentToPrint.outerHTML;
-            // Variabile corretta: footerContentHtml (usava H maiuscola in HTML)
             const footerContentHtml = legalNotesToPrint.outerHTML;
 
             const printHTML = `
@@ -1279,6 +1536,9 @@
                 ${integratedHeaderHtml}
                 <div class="print-content-wrapper" style="padding-top: 1rem;">
                     ${appContentHtml}
+                    ${mediationNumberHtml}
+                    ${locationDateHtml} <!-- INSERIMENTO LUOGO E DATA MEDIAZIONE -->
+                    ${acceptanceLineHtml}
                     <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
                         ${footerContentHtml}
                     </div>
@@ -1343,7 +1603,7 @@
         // --- LOGICA CALCOLO MEDIAZIONE ---
         // =========================================================================
 
-        // Dati per le tariffe di mediazione (DM 150/2023) - UNIFICATI
+        // Dati per le tariffe di mediazione (DM 150/2023) - AGGIORNATE CON I NUOVI VALORI INDETERMINABILI
         const MEDIATION_TARIFFS = {
             minimi: {
                 obbligatorie: [
@@ -1366,9 +1626,11 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
+                        // NUOVI VALORI DA DOCX
                         speseFisseAlto: 273.28, speseAvvioAlto: 107.36, indennitaPrimoIncontroAlto: 165.92,
-                        speseFisseMedio: 224.48, speseAvvioMedio: 107.36, indennitaPrimoIncontroMedio: 117.12,
-                        speseFisseBasso: 165.92, speseAvvioBasso: 107.36, indennitaPrimoIncontroBasso: 58.56,
+                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, // Scomposizione necessaria
+                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, // Scomposizione necessaria
+                        // Indennità (Già inclusa IVA 22%)
                         negativoAlto: 1005.28,
                         negativoMedio: 1054.08,
                         negativoBasso: 1112.64,
@@ -1401,9 +1663,11 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
+                        // NUOVI VALORI DA DOCX
                         speseFisseAlto: 341.60, speseAvvioAlto: 134.20, indennitaPrimoIncontroAlto: 207.40,
-                        speseFisseMedio: 280.60, speseAvvioMedio: 134.20, indennitaPrimoIncontroMedio: 146.40,
-                        speseFisseBasso: 207.40, speseAvvioBasso: 134.20, indennitaPrimoIncontroBasso: 73.20,
+                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, // Scomposizione necessaria
+                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, // Scomposizione necessaria
+                        // Indennità (Già inclusa IVA 22%)
                         negativoAlto: 1439.60, 
                         negativoMedio: 1500.60,
                         negativoBasso: 1573.80, 
@@ -1438,9 +1702,11 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
+                        // NUOVI VALORI DA DOCX
                         speseFisseAlto: 273.28, speseAvvioAlto: 107.36, indennitaPrimoIncontroAlto: 165.92,
-                        speseFisseMedio: 224.48, speseAvvioMedio: 107.36, indennitaPrimoIncontroMedio: 117.12,
-                        speseFisseBasso: 165.92, speseAvvioBasso: 107.36, indennitaPrimoIncontroBasso: 58.56,
+                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, // Scomposizione necessaria
+                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, // Scomposizione necessaria
+                        // Indennità (Già inclusa IVA 22%)
                         negativoAlto: 1151.68, 
                         negativoMedio: 1200.48, 
                         negativoBasso: 1259.04, 
@@ -1454,17 +1720,18 @@
                     },
                 ],
                 volontarie: [
-                    { min: 0, max: 1000, speseFisse: 122.00, speseAvvio: 48.80, indennitaPrimoIncontro: 73.20, negativo: 24.40, positivo1: 26.84, positivoDopo1: 30.50 },
-                    { min: 1000.01, max: 5000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 48.80, positivo1: 53.68, positivoDopo1: 61.00 },
-                    { min: 5000.01, max: 10000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 207.40, positivo1: 228.14, positivoDopo1: 259.25 },
-                    { min: 10000.01, max: 25000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 390.40, positivo1: 429.44, positivoDopo1: 488.00 },
-                    { min: 25000.01, max: 50000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 732.00, positivo1: 805.20, positivoDopo1: 915.00 },
-                    { min: 50000.01, max: 150000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 1256.60, positivo1: 1382.26, positivoDopo1: 1570.75 },
-                    { min: 150000.01, max: 250000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 1622.60, positivo1: 1784.86, positivoDopo1: 2028.25 },
-                    { min: 250000.01, max: 500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 2842.60, positivo1: 3126.86, positivoDopo1: 3553.25 },
-                    { min: 500000.01, max: 1500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 4550.60, positivo1: 5005.66, positivoDopo1: 5688.25 },
-                    { min: 1500000.01, max: 2500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 5404.60, positivo1: 5945.06, positivoDopo1: 6755.75 },
-                    { min: 2500000.01, max: 5000000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 7722.60, positivo1: 8494.86, positivoDopo1: 9653.25 },
+                    // AGGIORNATI I VALORI DI NEGATIVO, POSITIVO1, e POSITIVODOPO1 CON LA TABELLA FORNITA
+                    { min: 0, max: 1000, speseFisse: 122.00, speseAvvio: 48.80, indennitaPrimoIncontro: 73.20, negativo: 73.20, positivo1: 80.52, positivoDopo1: 91.50 },
+                    { min: 1000.01, max: 5000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 128.10, positivo1: 140.91, positivoDopo1: 160.13 },
+                    { min: 5000.01, max: 10000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 298.90, positivo1: 328.79, positivoDopo1: 373.63 },
+                    { min: 10000.01, max: 25000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 561.20, positivo1: 617.32, positivoDopo1: 701.50 },
+                    { min: 25000.01, max: 50000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 1024.80, positivo1: 1127.28, positivoDopo1: 1281.00 },
+                    { min: 50000.01, max: 150000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 1439.60, positivo1: 1583.56, positivoDopo1: 1799.50 },
+                    { min: 150000.01, max: 250000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 2232.60, positivo1: 2455.86, positivoDopo1: 2790.75 },
+                    { min: 250000.01, max: 500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 3696.60, positivo1: 4066.26, positivoDopo1: 4620.75 },
+                    { min: 500000.01, max: 1500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 4977.60, positivo1: 5475.36, positivoDopo1: 6222.00 },
+                    { min: 1500000.01, max: 2500000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 6563.60, positivo1: 7219.96, positivoDopo1: 8204.50 },
+                    { min: 2500000.01, max: 5000000, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, negativo: 9857.60, positivo1: 10843.36, positivoDopo1: 12322.00 },
                     { 
                     min: 5000000.01, max: Infinity, speseFisse: 341.60, speseAvvio: 134.20, indennitaPrimoIncontro: 207.40, formula: true, 
                     formulaNegativo: (v) => ((0.002 * v) - 170) * 1.22, 
@@ -1473,9 +1740,11 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
+                        // NUOVI VALORI DA DOCX
                         speseFisseAlto: 341.60, speseAvvioAlto: 134.20, indennitaPrimoIncontroAlto: 207.40,
-                        speseFisseMedio: 280.60, speseAvvioMedio: 134.20, indennitaPrimoIncontroMedio: 146.40,
-                        speseFisseBasso: 207.40, speseAvvioBasso: 134.20, indennitaPrimoIncontroBasso: 73.20,
+                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, // Scomposizione necessaria
+                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, // Scomposizione necessaria
+                        // Indennità (Già inclusa IVA 22%)
                         negativoAlto: 1439.60, 
                         negativoMedio: 1500.60,
                         negativoBasso: 1573.80, 
@@ -1540,8 +1809,12 @@
             }
 
             // === LOGICA BLINK (Corretta per gestire il rimpiazzo del titolo) ===
-            const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-indigo-600"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
-            const blinkTitleHTML = `<span class="flex items-center text-red-600 blink-animation">
+            const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-700"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
+            
+            // TITOLO VALORI MEDI: colore coerente con il nuovo tema
+            const mediumTitleColorClass = 'text-accent-mediation-700'; // Uniformato al Navy
+
+            const mediumTitleHTML = `<span class="flex items-center ${mediumTitleColorClass}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6">
                           <path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>
                         </svg> 
@@ -1549,9 +1822,14 @@
                       </span>`;
 
             if (tariffLevel === 'medi') {
-                tariffTitleEl.innerHTML = blinkTitleHTML;
+                // Rimuovi l'animazione di blink per un look più formale
+                tariffTitleEl.innerHTML = mediumTitleHTML; 
+                // Aggiungo la classe di colore se tolgo l'animazione di blink che prima faceva il colore
+                tariffTitleEl.classList.add(mediumTitleColorClass);
+                
             } else {
                 tariffTitleEl.innerHTML = originalTitleHTML;
+                tariffTitleEl.classList.remove(mediumTitleColorClass); // Rimuove se presente
             }
             
 
@@ -1651,21 +1929,14 @@
                         negativeOutcomeFees = foundTariff.negativoMedio;
                         positive1Fees = foundTariff.positivo1Medio;
                         positiveAfter1Fees = foundTariff.positivoDopo1Medio;
-                    } else if (indeterminateLevel === 'basso') {
-                        startUpFees = foundTariff.speseFisseBasso;
-                        breakdownAvvio = foundTariff.speseAvvioBasso;
-                        breakdownIndennita = foundTariff.indennitaPrimoIncontroBasso;
-                        negativeOutcomeFees = foundTariff.negativoBasso;
-                        positive1Fees = foundTariff.positivo1Basso;
-                        positiveAfter1Fees = foundTariff.positivoDopo1Basso;
                     } else {
                          // Fallback al Medio se per qualche motivo il livello non è definito
-                         startUpFees = foundTariff.speseFisseMedio;
-                         breakdownAvvio = foundTariff.speseAvvioMedio;
-                         breakdownIndennita = foundTariff.indennitaPrimoIncontroMedio;
-                         negativeOutcomeFees = foundTariff.negativoMedio;
-                         positive1Fees = foundTariff.positivo1Medio;
-                         positiveAfter1Fees = foundTariff.positivoDopo1Medio;
+                         startUpFees = foundTariff.speseFisseBasso;
+                         breakdownAvvio = foundTariff.speseAvvioBasso;
+                         breakdownIndennita = foundTariff.indennitaPrimoIncontroBasso;
+                         negativeOutcomeFees = foundTariff.negativoBasso;
+                         positive1Fees = foundTariff.positivo1Basso;
+                         positiveAfter1Fees = foundTariff.positivoDopo1Basso;
                     }
 
                     let message = `Attenzione: Valore Indeterminabile. Applicata tariffa massima del quinto scaglione (fino a 150.000 €).`;
@@ -1710,14 +1981,23 @@
                 }
             }
             
-            const startupImponibile = startUpFees / IVA_RATE_FACTOR;
+            // --- CALCOLI BREAKDOWN STARTUP ---
+            // N.B.: Le Spese Fisse Indeterminabili sono date dal risultato (Avvio + Indennità Primo Incontro)
+            // e quindi la scomposizione DEVE usare i valori Avvio e Indennità separati.
+            
+            // Calcolo IVA su Spese Fisse (Avvio + Indennità)
+            const startupImponibile = breakdownAvvio / IVA_RATE_FACTOR + breakdownIndennita / IVA_RATE_FACTOR;
             const startupIVA = startUpFees - startupImponibile;
             
+            // Calcolo Breakdown Avvio
             const breakdownAvvioImponibile = breakdownAvvio / IVA_RATE_FACTOR;
             const breakdownAvvioIVA = breakdownAvvio - breakdownAvvioImponibile;
+            
+            // Calcolo Breakdown Indennità 1° Incontro
             const breakdownIndennitaImponibile = breakdownIndennita / IVA_RATE_FACTOR;
             const breakdownIndennitaIVA = breakdownIndennita - breakdownIndennitaImponibile;
-
+            
+            // --- CALCOLI INDENNITÀ (Negativo/Positivo) ---
             const negativeImponibile = negativeOutcomeFees / IVA_RATE_FACTOR;
             const negativeIVA = negativeOutcomeFees - negativeImponibile;
             
@@ -1758,8 +2038,8 @@
             // La logica di calcolo del Totale non viene modificata
             
             const totalStartup = startUpFees; 
-            const totalStartupImponibile = totalStartup / IVA_RATE_FACTOR;
-            const totalStartupIVA = totalStartup - totalStartupImponibile;
+            const totalStartupImponibileTotal = totalStartup / IVA_RATE_FACTOR;
+            const totalStartupIVATotal = totalStartup - totalStartupImponibileTotal;
             
             const totalNegative = startUpFees + negativeOutcomeFees;
             const totalNegativeImponibile = totalNegative / IVA_RATE_FACTOR;
@@ -1775,8 +2055,8 @@
 
 
             totalStartupEl.textContent = formatCurrency(totalStartup);
-            totalStartupImponibileEl.textContent = formatCurrency(totalStartupImponibile);
-            totalStartupIvaEl.textContent = formatCurrency(totalStartupIVA);
+            totalStartupImponibileEl.textContent = formatCurrency(totalStartupImponibileTotal);
+            totalStartupIvaEl.textContent = formatCurrency(totalStartupIVATotal);
 
             totalNegativeEl.textContent = formatCurrency(totalNegative);
             totalNegativeImponibileEl.textContent = formatCurrency(totalNegativeImponibile);
@@ -2090,7 +2370,52 @@
             // Clona il contenuto per manipolarlo
             const contentToPrint = printContent.cloneNode(true);
             const legalNotesToPrint = legalNotes.cloneNode(true); // Clona il footer
+            
+            // Variabili per la sezione Mediazione (sezione di sinistra)
+            const mediationNum1 = document.getElementById('mediation-number-1')?.value || '....';
+            const mediationNum2 = document.getElementById('mediation-number-2')?.value || '....';
+            const mediationLocation = document.getElementById('mediation-location')?.value || '....';
+            const mediationDate = document.getElementById('mediation-date')?.value || '....';
+            
+            // Variabili per la sezione Avvocato (sezione di destra)
+            const forensicNum1 = document.getElementById('forensic-mediation-number-1')?.value || '....';
+            const forensicNum2 = document.getElementById('forensic-mediation-number-2')?.value || '....';
+            const forensicCounterparty = document.getElementById('forensic-mediation-counterparty')?.value || '....';
+            const forensicLocation = document.getElementById('forensic-location')?.value || '....';
+            const forensicDate = document.getElementById('forensic-date')?.value || '....';
 
+
+            // LOGICA DI INIEZIONE DEI CAMPI AGGIUNTIVI IN STAMPA
+            let customFieldsHtml = '';
+            
+            if (sectionId === 'mediation-app') {
+                 customFieldsHtml = `
+                    <div style="text-align: center; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                        Procedimento di Mediazione n. ${mediationNum1} / ${mediationNum2}
+                    </div>
+                    <div style="text-align: right; margin-top: 5px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                        ${mediationLocation}, lì ${mediationDate}
+                    </div>
+                    <div class="acceptance-text">
+                        Per accettazione, salvo diversa determinazione del valore da parte del Responsabile
+                    </div>
+                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+                 `;
+            } else if (sectionId === 'forensic-app') {
+                 customFieldsHtml = `
+                    <div style="text-align: left; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                        Procedimento di Mediazione n. ${forensicNum1} / ${forensicNum2} nei confronti di ${forensicCounterparty}
+                    </div>
+                    <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                        ${forensicLocation}, lì ${forensicDate}
+                    </div>
+                    <div class="acceptance-text" style="margin-top: 25px;">
+                        Per accettazione 
+                    </div>
+                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+                 `;
+            }
+            
             // 1. Rimuove gli elementi non necessari dalla stampa nel clone dell'app
             const elementsToRemove = contentToPrint.querySelectorAll('.print-hide, .print-button-container');
             elementsToRemove.forEach(el => el.remove());
@@ -2110,14 +2435,17 @@
 
             // 4. Costruisce il contenuto HTML completo per la stampa
             const appContentHTML = contentToPrint.outerHTML;
-            const footerContentHtml = legalNotesToPrint.outerHTML; // Nome variabile corretto
-            // La variabile usata nella stringa finale è footerContentHTML (con H maiuscola) che non è definita.
-            // Uso footerContentHtml (con h minuscola) nella stringa finale.
+            const footerContentHtml = legalNotesToPrint.outerHTML; 
+            
+            // Inserisce i campi aggiuntivi dopo l'app content
+            const finalAppContent = appContentHTML;
+
 
             const printHTML = `
                 ${integratedHeaderToPrint}
                 <div class="print-content-wrapper" style="padding-top: 1rem;">
-                    ${appContentHTML}
+                    ${finalAppContent}
+                    ${customFieldsHtml} <!-- INSERIMENTO DEI CAMPI AGGIUNTIVI QUI -->
                     <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
                         ${footerContentHtml}
                     </div>
@@ -2145,7 +2473,6 @@
             printWindow.document.write('</body></html>');
             printWindow.document.close(); 
             
-            // Attende che l'iframe sia completamente pronto prima di stampare
             printWindow.onload = () => {
                 printWindow.focus();
                 printWindow.print();
@@ -2179,6 +2506,9 @@
             if (indeterminateRadio) {
                 indeterminateRadio.checked = true;
             }
+            
+            // Popola i campi data
+            populateDateFields();
 
             // Imposta il tipo di valore lite a Determinabile di default e aggiorna l'UI
             const litigationTypeSelect = document.getElementById('litigation-value-type');
