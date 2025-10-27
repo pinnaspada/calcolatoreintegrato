@@ -66,18 +66,25 @@
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
 
-        /* Stato Checked per Toggle (Oneri Fiscali) - NUOVO TEMA BLU NAVY */
+        /* Stato Checked per Toggle (Oneri Fiscali) - BLU NAVY */
+        /* Mantenuto il blu navy per i toggle per un buon contrasto a schermo */
         #cost-forfeit:checked + .toggle-track, 
         #cost-cassa:checked + .toggle-track, 
         #cost-iva:checked + .toggle-track,
-        #cost-increase:checked + .toggle-track { 
+        #cost-increase:checked + .toggle-track,
+        #ind-alto:checked + .toggle-track, 
+        #ind-medio:checked + .toggle-track, 
+        #ind-basso:checked + .toggle-track { 
             background-color: #1e3a8a; /* blue-900 / navy (accent-mediation) */
         }
 
         #cost-forfeit:checked + .toggle-track .toggle-thumb, 
         #cost-cassa:checked + .toggle-track .toggle-thumb, 
         #cost-iva:checked + .toggle-track .toggle-thumb,
-        #cost-increase:checked + .toggle-track .toggle-thumb { 
+        #cost-increase:checked + .toggle-track .toggle-thumb,
+        #ind-alto:checked + .toggle-track .toggle-thumb,
+        #ind-medio:checked + .toggle-track .toggle-thumb,
+        #ind-basso:checked + .toggle-track .toggle-thumb { 
             transform: translateX(1.4rem); 
         }
 
@@ -132,6 +139,7 @@
         /* NUOVI STILI PER LE CASSELLA RISULTATI MEDIAZIONE (mantengono i colori specifici per esito) */
         .fees-startup-box {
             border-color: #047857; /* emerald-700 */
+            border-width: 2px; /* Aggiunto spessore */
         }
         .fees-startup-box .fee-value-color {
             color: #047857; /* emerald-700 */
@@ -139,6 +147,7 @@
         
         .fees-negative-box {
             border-color: #334155; /* slate-700 */
+            border-width: 2px; /* Aggiunto spessore */
         }
         .fees-negative-box .fee-value-color {
             color: #334155; /* slate-700 */
@@ -146,6 +155,7 @@
 
         .fees-positive-1-box {
             border-color: #b45309; /* amber-800 */
+            border-width: 2px; /* Aggiunto spessore */
         }
         .fees-positive-1-box .fee-value-color {
             color: #b45309; /* amber-800 */
@@ -153,6 +163,7 @@
 
         .fees-positive-after-1-box {
             border-color: #b91c1c; /* red-700 (rosso mattone) */
+            border-width: 2px; /* Aggiunto spessore */
         }
         .fees-positive-after-1-box .fee-value-color {
             color: #b91c1c; /* red-700 */
@@ -161,7 +172,26 @@
         /* NUOVO STILE AZZURRO PALLIDO per contenitori di input */
         .input-box-highlight {
             background-color: #e0f2fe; /* sky-100 */
-            border-color: #7dd3fc; /* sky-300 */
+            border-color: #94a3b8; /* slate-400 per un bordo più scuro */
+            border-width: 1px;
+        }
+        
+        /* AGGIUNTO: Stile per le caselle di riepilogo totale (ora usano input-box-highlight + bordo nero) */
+        .total-summary-box {
+            background-color: #e0f2fe; /* sky-100 */
+            border: 2px solid #1e293b; /* slate-800 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* AGGIUNTO: Stile per il testo nero sul riepilogo totale (titolo) */
+        .total-summary-box .text-dark-title {
+            color: #1e293b; /* slate-800 */
+            border-color: #93c5fd; /* blue-300 */
+        }
+        /* AGGIUNTO: Stile per il TOTALE FINALE in Navy (per coerenza) */
+        .total-summary-box .text-final-value {
+             color: #1e3a8a; /* Navy */
+             font-weight: 900;
         }
 
 
@@ -203,14 +233,25 @@
         #full-width-header {
             width: 100%;
             padding: 1rem;
-            background-color: white;
+            background-color: #1e3a8a; /* NAVY */
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             /* Colore Antracite */
-            border-top: 4px solid #1e293b; /* slate-800 */
-            border-bottom: 4px solid #1e293b; /* slate-800 */
+            border-top: 4px solid #1e3a8a; /* NAVY */
+            border-bottom: 4px solid #1e3a8a; /* NAVY */
         }
-        
+        /* Testo all'interno dell'header in bianco */
+        #full-width-header h1, #full-width-header p {
+            color: white; 
+        }
+        /* Link all'interno dell'header in un colore chiaro */
+        #full-width-header a {
+            color: #93c5fd; /* blue-300 */
+        }
+        #full-width-header a:hover {
+            color: #eff6ff; /* blue-50 */
+        }
+
         /* NEW: Container for the two side-by-side apps */
         #apps-container {
             display: flex;
@@ -252,10 +293,19 @@
                 }
                 /* Assicura che i riquadri colorati siano ben visibili in stampa */
                 /* Uniformati entrambi gli accenti al Navy per la stampa */
-                .bg-accent-mediation { background-color: #1e3a8a !important; -webkit-print-color-adjust: exact; } /* deep blue */
-                .bg-accent-forensic { background-color: #1e3a8a !important; -webkit-print-color-adjust: exact; } /* deep blue */
-                .text-white { color: #fff !important; }
-                .text-yellow-300 { color: #fcd34d !important; }
+                /* Per la stampa, usiamo un'ombra più chiara o solo un bordo per risparmiare inchiostro */
+                .bg-accent-mediation { background-color: #e0f2fe !important; color: #1e3a8a !important; border: 1px solid #1e3a8a !important; -webkit-print-color-adjust: exact; } /* sky-100 */
+                .bg-accent-forensic { background-color: #e0f2fe !important; color: #1e3a8a !important; border: 1px solid #1e3a8a !important; -webkit-print-color-adjust: exact; } /* sky-100 */
+                
+                /* AGGIUNTO: Gestione colore caselle riepilogo totale in stampa */
+                .total-summary-box { background-color: #e0f2fe !important; border: 1px solid #1e293b !important; -webkit-print-color-adjust: exact; }
+                .total-summary-box .text-dark-title { color: #1e293b !important; border-color: #93c5fd !important; }
+                .total-summary-box .text-final-value { color: #1e3a8a !important; }
+                
+                /* I pulsanti di stampa personalizzata usano il Navy: li rendiamo blu scuro ma senza sfondo pieno */
+                .bg-slate-800 { background-color: #e0f2fe !important; color: #1e293b !important; border: 1px solid #1e293b !important; -webkit-print-color-adjust: exact; } /* slate-800 */
+                .text-white { color: #1e3a8a !important; } /* Il testo bianco diventa Navy */
+                .text-yellow-300 { color: #b45309 !important; } /* L'accento giallo diventa Amber scuro per contrasto */
 
                 /* Stili per le caselle Mediazione in stampa */
                 .fees-startup-box { border-color: #047857 !important; }
@@ -339,6 +389,54 @@
         #ind-basso:checked + .toggle-track .toggle-thumb {
             transform: translateX(1.4rem); 
         }
+        
+        /* AGGIUNTO: Regole di bordo per tutte le caselle bianche principali (App Avvocato) */
+        .phase-box {
+            border: 1px solid #94a3b8; /* slate-400 */
+        }
+        /* AGGIUNTO: Bordo scuro per il riquadro delle opzioni di calcolo */
+        #forensic-app .p-3.bg-white.rounded-xl.shadow-md {
+            border: 1px solid #94a3b8; /* slate-400 */
+        }
+        /* AGGIUNTO: Bordo scuro per il riquadro di Gruppo Input Valore Lite */
+        #forensic-calculator.input-box-highlight {
+            border-color: #94a3b8; /* slate-400 */
+        }
+        
+        /* Stile per la nuova casella del calcolatore Art. 15 c.p.c. */
+        #art15-calculator-box {
+             background-color: white;
+             padding: 1rem;
+             border-radius: 1rem;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+             border: 2px solid #1e3a8a; /* Bordo Navy Scuro */
+        }
+        
+        /* AGGIUNTO: Stile per le nuove Card Button (Art 15) - Default */
+        .art15-card-button {
+            border: 1px solid #94a3b8; /* Bordo grigio chiaro */
+            background-color: white !important;
+            color: #1f2937 !important; /* Testo nero/dark gray */
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* AGGIUNTO: Stile per le nuove Card Button (Art 15) - Selezionato */
+        .art15-card-button.selected {
+            background-color: #1e3a8a !important; /* Navy */
+            color: white !important; /* Testo bianco */
+            border: 2px solid #b91c1c !important; /* Bordo Rosso (red-700) per evidenziare */
+            box-shadow: 0 0 8px rgba(185, 28, 28, 0.5); /* Ombra rossa leggera */
+        }
+        
+        /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
+        /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
+        /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
+
     </style>
     <script>
         // Configurazione Tailwind estesa per i colori del NUOVO TEMA (Navy e Gold)
@@ -349,15 +447,21 @@
                         'accent-mediation': {
                             50: '#f8fafc', /* slate-50 */
                             300: '#93c5fd', /* blue-300 */
-                            700: '#1e3a8a', /* Deep Blue/Navy */
+                            // MODIFICATO PER RIDURRE IL CONSUMO DI INCHIOSTRO IN STAMPA
+                            700: '#78909c', /* Blue-Gray 400 - Sostituisce il Navy nei blocchi pieni */
                             800: '#1e293b', /* slate-800 */
+                            // COLORE DI ACCENTO NAVY ORIGINALE (USATO PER TESTO E BORDI SOLIDI)
+                            'navy': '#1e3a8a', 
                         },
                         // Colori Fictitious per mantenere la struttura, ma saranno uniformati al mediation accent
                         'accent-forensic': { 
                             50: '#f8fafc', /* slate-50 */
                             300: '#93c5fd', /* blue-300 */
-                            700: '#1e3a8a', /* Deep Blue/Navy */
+                            // MODIFICATO PER RIDURRE IL CONSUMO DI INCHIOSTRO IN STAMPA
+                            700: '#78909c', /* Blue-Gray 400 - Sostituisce il Navy nei blocchi pieni */
                             800: '#1e293b', /* slate-800 */
+                            // COLORE DI ACCENTO NAVY ORIGINALE (USATO PER TESTO E BORDI SOLIDI)
+                            'navy': '#1e3a8a', 
                         },
                         // Colori specifici per le 4 caselle di Mediazione
                         'startup-fee-color': '#047857', /* Emerald 700 */
@@ -406,20 +510,175 @@
         </div>
         <!-- FINE SEZIONE INTESTAZIONE -->
 
-        <!-- CASELLA CALCOLATORE INTEGRATO (STRISCIE BORDEAUX) -->
-        <div id="integrated-calculator-header" class="w-full text-center p-1 bg-white border-t-4 border-accent-mediation-700 border-b-4 shadow-md">
-            <h2 class="text-base sm:text-xl font-extrabold text-gray-900 leading-snug">
-                CALCOLATORE INTEGRATO SPESE - INDENNITA' DI MEDIAZIONE E COMPENSI AVVOCATO
+        <!-- CASELLA CALCOLATORE INTEGRATO (STRISCIE BLU CHIARO) -->
+        <!-- Bordo superiore e inferiore di colore slate-800 per uniformità -->
+        <div id="integrated-calculator-header" class="w-full text-center p-1 bg-white border-t-4 border-slate-800 border-b-4 shadow-md">
+            <h2 class="text-base sm:text-3xl font-extrabold text-gray-1500 leading-snug">
+                CALCOLATORE INTEGRATO VALORE - SPESE - INDENNITA' DI MEDIAZIONE E COMPENSI AVVOCATO
             </h2>
         </div>
         <!-- FINE NUOVA CASELLA -->
+
+        <!-- NUOVA CASSELLA: Calcolatore Art. 15 c.p.c. (Aggiunta) -->
+        <div id="art15-calculator-box" class="print-hide">
+            
+             <h2 class="text-xl sm:text-2xl font-extrabold text-accent-mediation-navy text-center mb-2 flex items-center justify-center border-b border-accent-mediation-300 pb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-navy"><path d="M12 2v20M17 5H7M17 19H7"/></svg>
+                Calcolatore Valore Lite Beni Immobili (Art. 15 c.p.c.)
+            </h2>
+            
+            <!-- NUOVA RIGA RICHIESTA -->
+            <p class="text-sm text-gray-600 text-center mb-4 font-medium italic">
+                Per il valore della lite relativa a tutte le altre mediazioni passare direttamente alle tabelle sottostanti.
+            </p>
+            <!-- FINE NUOVA RIGA RICHIESTA -->
+
+            <!-- Testo esplicativo Art. 15 c.p.c. -->
+            <div class="mt-1 mb-4 text-xs text-gray-700 space-y-1 italic p-2 bg-gray-50 rounded-lg border border-gray-200">
+                <p>
+                    <strong>Art. 15 c.p.c.</strong> Il valore delle cause relative a beni immobili [812 c.c.] è determinato moltiplicando il reddito dominicale del terreno e la rendita catastale del fabbricato alla data della proposizione della domanda: per duecento per le cause relative alla proprietà [832 c.c.]; per cento per le cause relative all'usufrutto [978 c.c.], all'uso [1021 c.c.], all'abitazione [1022 c.c.], alla nuda proprietà e al diritto dell'enfiteuta [959 c.p.c.]; per cinquanta con riferimento al fondo servente per le cause relative alla servitù [1027 c.p.c.].Il valore delle cause per il regolamento di confini [950 c.c.] si desume dal valore della parte di proprietà controversa, se questa è determinata; altrimenti il giudice lo determina a norma del comma seguente.Se per l'immobile all'atto della proposizione della domanda non risulta il reddito dominicale o la rendita catastale, il giudice determina il valore della causa secondo quanto emerge dagli atti; e se questi non offrono elementi per la stima, ritiene la causa di valore indeterminabile
+                </p>
+            </div>
+
+            <!-- Selezione Tipo Diritto (MODIFICATO IN CARD BUTTONS) -->
+            <fieldset class="mb-4">
+                <legend class="block text-base font-bold text-gray-700 mb-2">1. Seleziona il tipo di diritto:</legend>
+                
+                <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:items-center">
+                    
+                    <!-- Pulsanti Card per la selezione -->
+                    <div 
+                        id="art15-prop-btn" 
+                        class="art15-card-button flex-grow selected" 
+                        data-multiplier="200"
+                        onclick="selectArt15Multiplier(this, 200)">
+                        Proprietà (x200)
+                    </div>
+                    
+                    <div 
+                        id="art15-usufrutto-btn" 
+                        class="art15-card-button flex-grow" 
+                        data-multiplier="100"
+                        onclick="selectArt15Multiplier(this, 100)">
+                        Usufrutto, Uso, Abitazione, Nuda Proprietà, Enfiteusi (x100)
+                    </div>
+
+                    <div 
+                        id="art15-servitu-btn" 
+                        class="art15-card-button flex-grow" 
+                        data-multiplier="50"
+                        onclick="selectArt15Multiplier(this, 50)">
+                        Servitù (x50)
+                    </div>
+
+                    <!-- Pulsante Reset -->
+                    <div class="w-full sm:w-auto pt-2 sm:pt-0">
+                        <button id="art15-resetButton" 
+                                onclick="resetArt15Calcolatore()"
+                                class="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out font-medium text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M3 2v6h6M3 6h18M21 22v-6h-6M21 18H3"/><path d="M22 8a10 10 0 1 0-2.82 7.18"/></svg>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Contenitore per le 4 sottocaselle -->
+            <fieldset class="mb-4">
+                <legend class="block text-base font-bold text-gray-700 mb-2">2. Inserisci i valori di Reddito Dominicale/Rendita Catastale:</legend>
+                
+                <!-- Utilizza una griglia: 1 colonna su mobile, 2 su sm, 4 su md -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+
+                    <!-- Sottocasella 1 -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-2 shadow-sm">
+                        <!-- Etichetta per la sottocasella -->
+                        <label for="art15-valore1" class="block text-[11px] font-medium text-gray-700 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                            RENDITA CATASTALE / REDDITO DOMINICALE (€)
+                        </label>
+                        <!-- Campo di inserimento -->
+                        <input type="text" id="art15-valore1" name="art15-valore1"
+                               inputmode="decimal"
+                               placeholder="Valore €"
+                               oninput="calcolaArt15Mediazione()"
+                               class="w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm">
+                    </div>
+
+                    <!-- Sottocasella 2 -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-2 shadow-sm">
+                        <label for="art15-valore2" class="block text-[11px] font-medium text-gray-700 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                            RENDITA CATASTALE / REDDITO DOMINICALE (€)
+                        </label>
+                        <input type="text" id="art15-valore2" name="art15-valore2"
+                               inputmode="decimal"
+                               placeholder="Valore €"
+                               oninput="calcolaArt15Mediazione()"
+                               class="w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm">
+                    </div>
+
+                    <!-- Sottocasella 3 -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-2 shadow-sm">
+                        <label for="art15-valore3" class="block text-[11px] font-medium text-gray-700 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                            RENDITA CATASTALE / REDDITO DOMINICALE (€)
+                        </label>
+                        <input type="text" id="art15-valore3" name="art15-valore3"
+                               inputmode="decimal"
+                               placeholder="Valore €"
+                               oninput="calcolaArt15Mediazione()"
+                               class="w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm">
+                    </div>
+
+                    <!-- Sottocasella 4 -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-2 shadow-sm">
+                        <label for="art15-valore4" class="block text-[11px] font-medium text-gray-700 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                            RENDITA CATASTALE / REDDITO DOMINICALE (€)
+                        </label>
+                        <input type="text" id="art15-valore4" name="art15-valore4"
+                               inputmode="decimal"
+                               placeholder="Valore €"
+                               oninput="calcolaArt15Mediazione()"
+                               class="w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm">
+                    </div>
+
+                </div>
+            </fieldset>
+            <!-- Fine della griglia delle sottocaselle -->
+            
+            <!-- Spiegazione Valore Finale -->
+            <div class="mb-4 text-xs text-gray-600 italic">
+                <p>
+                    Il valore risultante qui sotto (Art. 15 c.p.c.) è automaticamente copiato nel campo "Valore della Lite (€)" delle sezioni Calcolatore Spese Mediazione e Calcolatore Compensi Avvocato.
+                </p>
+            </div>
+
+            <!-- Sezione Risultato Mediazione -->
+            <div class="mt-3">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center total-summary-box border-slate-800">
+                    <!-- Etichetta -->
+                    <h2 class="text-lg font-black text-dark-title mb-1 sm:mb-0">
+                        VALORE LITE (Art. 15 c.p.c.)
+                    </h2>
+                    <!-- Valore Calcolato -->
+                    <div class="text-2xl sm:text-3xl font-black text-final-value">
+                        <span id="art15-risultatoMediazione" class="mr-1">0,00</span>
+                        <span>€</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rimosso il contenitore dei pulsanti d'azione (compresi Copia Valore e Reset) -->
+            <!-- Placeholder per messaggi di copia (rimosso) -->
+            <div id="art15-messageBox" class="hidden"></div>
+        </div>
+        <!-- FINE NUOVA CASSELLA CALCOLATORE ART 15 CPC -->
 
 
         <!-- CONTENITORE PRINCIPALE DELLE APP AFFIANCATE -->
         <div id="apps-container" class="lg:flex">
             
-            <!-- PARTE SINISTRA: Spese di Mediazione - TEMA BLU NAVY (Accent Mediation) -->
-            <div id="mediation-app" class="app-panel border-t-8 border-accent-mediation-700">
+            <!-- PARTE SINISTRA: Spese di Mediazione - TEMA BLU SCURO (NAVY) -->
+            <!-- MODIFICATO: border-t-8 border-accent-mediation-700 -> border-t-8 border-accent-mediation-navy -->
+            <div id="mediation-app" class="app-panel border-t-8 border-accent-mediation-navy">
                 
                 <h2 class="text-2xl font-extrabold text-gray-800 text-center mb-6 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 h-6 w-6 text-gray-400"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> Calcolatore Spese di Mediazione
@@ -429,8 +688,9 @@
                 <div class="flex flex-col gap-6">
                     
                     <div id="mediation-calculator" class="space-y-4">
-                        <h2 id="tariff-title" class="text-xl sm:text-2xl font-extrabold text-accent-mediation-700 text-center flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-700"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi
+                        <!-- Qui usiamo il colore NAVY originale per il testo, tramite il colore accent-mediation-navy -->
+                        <h2 id="tariff-title" class="text-xl sm:text-2xl font-extrabold text-accent-mediation-navy text-center flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-navy"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi
                         </h2>
                         <!-- MODIFICA: Inserito D.LGS. 28/2010 e DM 150/2023 in un unico blocco centrato -->
                         <p class="text-sm text-gray-500 text-center -mt-2 space-x-4">
@@ -438,7 +698,7 @@
                             <a 
                                 href="https://www.ordineavvocati.ss.it/docs/mediazione_Dlgs28-2010_consolidato_col_Dlgs_216-2024_579486312.pdf" 
                                 target="_blank" 
-                                class="text-accent-mediation-700 hover:underline font-semibold"
+                                class="text-accent-mediation-navy hover:underline font-semibold"
                             >
                                 D.LGS. 28/2010
                             </a>
@@ -446,20 +706,21 @@
                             <a 
                                 href="https://www.ordineavvocati.ss.it/docs/mediazione_DM_150_2023_Gazzetta-Ufficiale-69854763215.pdf" 
                                 target="_blank" 
-                                class="text-accent-mediation-700 hover:underline font-semibold"
+                                class="text-accent-mediation-navy hover:underline font-semibold"
                             >
                                 DM 150/2023
                             </a>
                         </p>
 
                         <!-- Gruppo Input Mediazione (Livello Tariffario, Tipo, Valore Lite) -->
-                        <div class="space-y-3 p-3 rounded-lg shadow-inner print-hide input-box-highlight border border-sky-300">
+                        <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                        <div class="space-y-3 p-3 rounded-lg shadow-inner print-hide input-box-highlight border border-slate-400">
                             <div>
                                 <label for="mediation-tariff-level" class="block text-gray-700 font-bold mb-1 text-sm">Livello Tariffario:</label>
                                 <select
                                     id="mediation-tariff-level"
                                     onchange="calculateMediationFees()"
-                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="minimi">Valori Minimi</option>
                                     <option value="medi">Valori Medi</option>
@@ -470,7 +731,7 @@
                                 <select
                                     id="mediation-type"
                                     onchange="calculateMediationFees()"
-                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="obbligatorie">Mediazioni obbligatorie o demandate (80% tariffa)</option>
                                     <option value="volontarie">Mediazioni volontarie (100% tariffa)</option>
@@ -482,7 +743,7 @@
                                 <select
                                     id="litigation-value-type"
                                     onchange="updateValueInputType(); calculateMediationFees();"
-                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out font-medium bg-white"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy transition duration-150 ease-in-out font-medium bg-white"
                                 >
                                     <option value="determinabile">Determinabile (€)</option>
                                     <option value="indeterminabile">Indeterminabile</option>
@@ -494,16 +755,17 @@
                                     id="mediation-litigation-value"
                                     type="text"
                                     oninput="calculateMediationFees()"
-                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out text-base font-semibold"
+                                    class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy transition duration-150 ease-in-out text-base font-semibold"
                                     placeholder="es. 15000"
                                 />
                             </div>
                         </div>
                         
                         <!-- NUOVA CASELLA PER VALORE INDETERMINATO (Colorata) -->
-                        <div id="indeterminate-value-options" class="p-3 rounded-lg shadow-inner border print-hide hidden input-box-highlight border-sky-300">
-                            <h3 class="text-sm font-bold text-accent-mediation-700 mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><path d="M10.45 6.03a6.68 6.68 0 0 1 3.1 0"/><path d="M12 20V4"/><path d="M3 18c0-5 2-8 7-8"/><path d="M14 10c5 0 7 3 7 8"/></svg> Modulazione Valore Indeterminato
+                        <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                        <div id="indeterminate-value-options" class="p-3 rounded-lg shadow-inner border print-hide hidden input-box-highlight border-slate-400">
+                            <h3 class="text-sm font-bold text-accent-mediation-navy mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-navy"><path d="M10.45 6.03a6.68 6.68 0 0 1 3.1 0"/><path d="M12 20V4"/><path d="M3 18c0-5 2-8 7-8"/><path d="M14 10c5 0 7 3 7 8"/></svg> Modulazione Valore Indeterminato
                             </h3>
                             
                             <div class="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
@@ -565,7 +827,7 @@
                                         </div>
                                         <div class="flex justify-between items-center text-gray-600 pl-2">
                                             <span>IVA 22%:</span>
-                                            <span id="fees-startup-breakdown-avvio-iva">0,00 €</span>
+                                            <span id="fees-startup-breakdown-avvio-iva" class="text-gray-900">0,00 €</span>
                                         </div>
                                     </div>
                                     <!-- Dettaglio Indennità 1° Incontro -->
@@ -576,11 +838,11 @@
                                         </div>
                                         <div class="flex justify-between items-center text-gray-600 pl-2">
                                             <span>Imponibile:</span>
-                                            <span id="fees-startup-breakdown-indennita-imponibile">0,00 €</span>
+                                            <span id="fees-startup-breakdown-indennita-imponibile" class="text-gray-900">0,00 €</span>
                                         </div>
                                         <div class="flex justify-between items-center text-gray-600 pl-2">
                                             <span>IVA 22%:</span>
-                                            <span id="fees-startup-breakdown-indennita-iva">0,00 €</span>
+                                            <span id="fees-startup-breakdown-indennita-iva" class="text-gray-900">0,00 €</span>
                                         </div>
                                     </div>
                                 </div>
@@ -629,17 +891,19 @@
                             </div>
                         </div>
 
-                        <!-- Riepilogo Totale Mediazione (NAVY) -->
-                        <div class="bg-accent-mediation-700 text-white p-4 rounded-xl shadow-xl mt-4">
-                            <h3 class="text-sm font-bold text-center mb-3 border-b border-accent-mediation-300 pb-2">
+                        <!-- Riepilogo Totale Mediazione (AZZURRO PALLIDO + BORDO NERO/NAVY) -->
+                        <!-- Modificato bg-accent-mediation-700, text-white in classi custom total-summary-box e text-dark-title -->
+                        <div class="total-summary-box p-4 rounded-xl shadow-xl mt-4">
+                            <h3 class="text-sm font-bold text-center mb-3 text-dark-title border-b border-accent-mediation-300 pb-2">
                                 Costo Totale Mediazione (Avvio + Spese)
                             </h3>
                             <!-- Modifica qui: da grid-cols-3 a grid-cols-4 -->
-                            <div class="grid grid-cols-4 gap-2 text-center text-sm"> 
+                            <div class="grid grid-cols-4 gap-2 text-center text-sm text-gray-900"> 
                                 <!-- NUOVA CASELLA: Negativo 1° incontro (Solo Spese di Avvio) -->
-                                <div>
+                                <div class="text-gray-900">
                                     <p class="text-xs font-light opacity-90">Negativo 1° incontro</p>
-                                    <p id="total-startup" class="text-xl font-extrabold">0,00 €</p>
+                                    <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                    <p id="total-startup" class="text-xl font-extrabold text-final-value">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
                                         <p>Imponibile: <span id="total-startup-imponibile" class="font-medium">0,00 €</span></p>
                                         <p>IVA 22%: <span id="total-startup-iva" class="font-medium">0,00 €</span></p>
@@ -647,9 +911,10 @@
                                 </div>
 
                                 <!-- Vecchia Negativo dopo 1° incontro (ora è la 2a colonna) -->
-                                <div class="border-x border-accent-mediation-300 pr-2">
+                                <div class="border-x border-accent-mediation-300 pr-2 text-gray-900">
                                     <p class="text-xs font-light opacity-90">Negativo dopo 1° incontro</p>
-                                    <p id="total-negative" class="text-xl font-extrabold">0,00 €</p>
+                                     <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                    <p id="total-negative" class="text-xl font-extrabold text-final-value">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
                                         <p>Imponibile: <span id="total-negative-imponibile" class="font-medium">0,00 €</span></p>
                                         <p>IVA 22%: <span id="total-negative-iva" class="font-medium">0,00 €</span></p>
@@ -657,9 +922,10 @@
                                 </div>
                                 
                                 <!-- Vecchia Positivo al 1° incontro (ora è la 3a colonna) -->
-                                <div>
+                                <div class="text-gray-900">
                                     <p class="text-xs font-light opacity-90">Positivo al 1° incontro</p>
-                                    <p id="total-positive-1" class="text-xl font-extrabold">0,00 €</p>
+                                     <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                    <p id="total-positive-1" class="text-xl font-extrabold text-final-value">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
                                         <p>Imponibile: <span id="total-positive-1-imponibile" class="font-medium">0,00 €</span></p>
                                         <p>IVA 22%: <span id="total-positive-1-iva" class="font-medium">0,00 €</span></p>
@@ -667,9 +933,10 @@
                                 </div>
                                 
                                 <!-- Vecchia Positivo dopo 1° incontro (ora è la 4a colonna) -->
-                                <div class="border-l border-accent-mediation-300 pl-2">
+                                <div class="border-l border-accent-mediation-300 pl-2 text-gray-900">
                                     <p class="text-xs font-light opacity-90">Positivo dopo 1° incontro</p>
-                                    <p id="total-positive-after-1" class="text-xl font-extrabold">0,00 €</p>
+                                     <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                    <p id="total-positive-after-1" class="text-xl font-extrabold text-final-value">0,00 €</p>
                                     <div class="text-xs font-light mt-2 space-y-0.5">
                                         <p>Imponibile: <span id="total-positive-after-1-imponibile" class="font-medium">0,00 €</span></p>
                                         <p>IVA 22%: <span id="total-positive-after-1-iva" class="font-medium">0,00 €</span></p>
@@ -680,19 +947,20 @@
                     </div>
 
                     <!-- NUOVO BLOCCO: Procedimento di Mediazione n. / (Colorato) -->
-                    <div class="flex items-center justify-center gap-2 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                    <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                    <div class="flex items-center justify-center gap-2 p-2 rounded-lg border print-hide input-box-highlight border-slate-400">
                         <span>Procedimento di Mediazione n.</span>
                         <input 
                             type="number" 
                             id="mediation-number-1" 
-                            class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                            class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-bold"
                             placeholder="00"
                         />
                         <span>/</span>
                         <input 
                             type="number" 
                             id="mediation-number-2" 
-                            class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                            class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-bold"
                             placeholder="2025"
                         />
                     </div>
@@ -708,13 +976,14 @@
                     <!-- FINE NUOVA RIGA -->
                     
                     <!-- NUOVA CASELLA LUOGO E DATA MEDIAZIONE (Sinistra) (Colorata) -->
-                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                    <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide input-box-highlight border-slate-400">
                         <div class="flex items-center gap-2">
                             <span>Luogo:</span>
                             <input 
                                 type="text" 
                                 id="mediation-location" 
-                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-medium"
                                 placeholder="Città"
                             />
                         </div>
@@ -723,7 +992,7 @@
                             <input 
                                 type="text" 
                                 id="mediation-date" 
-                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-medium"
                                 placeholder="gg/mm/aaaa"
                             />
                         </div>
@@ -733,9 +1002,10 @@
                     <!-- NUOVO CONTENITORE PULSANTI DI STAMPA MEDIAZIONE (Modificato) -->
                     <div class="print-button-container flex flex-col sm:flex-row justify-center items-center gap-3 mt-2">
                          <!-- Tasto Stampa Standard (NAVY) -->
+                         <!-- Modificato colore di sfondo a navy per mantenerlo scuro a schermo -->
                          <button 
                             onclick="printSection('mediation-app')" 
-                            class="flex items-center justify-center bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
+                            class="flex items-center justify-center bg-accent-mediation-navy hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
                          >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg> 
                             Stampa Sezione Mediazione
@@ -754,24 +1024,27 @@
                 </div>
             </div>
             
-            <!-- PARTE DESTRA: Spese Legali - TEMA UNIFICATO BLU NAVY -->
-            <div id="forensic-app" class="app-panel border-t-8 border-accent-mediation-700">
+            <!-- PARTE DESTRA: Spese Legali - TEMA UNIFICATO BLU CHIARO -->
+            <!-- MODIFICATO: border-t-8 border-accent-mediation-700 -> border-t-8 border-accent-mediation-navy -->
+            <div id="forensic-app" class="app-panel border-t-8 border-accent-mediation-navy">
                 <!-- Contenuto dell'app "Spese Legali Blu" -->
                 
-                <h2 class="text-2xl font-extrabold text-accent-mediation-700 text-center mb-6 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><path d="m16 16-3-3m0 0 3-3m-3 3h3"/></svg> Calcolatore Compensi Avvocato
+                <!-- Qui usiamo il colore NAVY originale per il testo, tramite il colore accent-mediation-navy -->
+                <h2 class="text-2xl font-extrabold text-accent-mediation-navy text-center mb-6 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-navy"><path d="m16 16-3-3m0 0 3-3m-3 3h3"/></svg> Calcolatore Compensi Avvocato
                 </h2>
                 <p class="text-sm text-gray-500 text-center -mt-2 mb-4">DM 55/2014 - Valori tabellari (Mediazione).</p>
 
                 <!-- Gruppo Input Valore Lite (Colorato) -->
-                <div id="forensic-calculator" class="space-y-2 p-3 input-group-style rounded-xl shadow-inner print-hide input-box-highlight border border-sky-300">
+                <!-- AGGIUNTO: border-slate-400 (per coerenza con input-box-highlight) -->
+                <div id="forensic-calculator" class="space-y-2 p-3 input-group-style rounded-xl shadow-inner print-hide input-box-highlight border border-slate-400">
                     <div>
                         <label for="forensic-litigation-value" class="block text-gray-700 font-bold text-base mb-1">Valore della Lite (€):</label>
                         <input
                             id="forensic-litigation-value"
                             type="text"
                             oninput="calculateForensicFees()"
-                            class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 transition duration-150 ease-in-out text-base font-semibold bg-white"
+                            class="w-full p-2 border border-accent-mediation-300 rounded-lg shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy transition duration-150 ease-in-out text-base font-semibold bg-white"
                             placeholder="es. 15000 o Indeterminabile"
                             value="" 
                         />
@@ -790,11 +1063,12 @@
                 <!-- Risultati per Fase (Select by clicking value) -->
                 <div id="forensic-results" class="grid grid-cols-1 gap-3 mt-4">
                     
-                    <h3 class="text-base font-extrabold text-accent-mediation-700 border-b border-accent-mediation-300 pb-1 mt-2">Compensi per Fase (Seleziona il Valore)</h3>
+                    <h3 class="text-base font-extrabold text-accent-mediation-navy border-b border-accent-mediation-300 pb-1 mt-2">Compensi per Fase (Seleziona il Valore)</h3>
 
                     <!-- FASE 1: Fase di attivazione (MODIFICATA) -->
-                    <div id="phase-activation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase di attivazione</h3>
+                    <!-- AGGIUNTO: classe phase-box per bordo scuro tramite CSS -->
+                    <div id="phase-activation-box" class="phase-box bg-white p-3 rounded-xl shadow-md single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-navy">Fase di attivazione</h3>
                         <div class="phase-content-grid">
                             <div id="act-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('activation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -817,8 +1091,9 @@
                     </div>
 
                     <!-- FASE 2: Fase negoziazione (MODIFICATA) -->
-                    <div id="phase-negotiation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase negoziazione</h3>
+                    <!-- AGGIUNTO: classe phase-box per bordo scuro tramite CSS -->
+                    <div id="phase-negotiation-box" class="phase-box bg-white p-3 rounded-xl shadow-md single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-navy">Fase negoziazione</h3>
                         <div class="phase-content-grid">
                             <div id="neg-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('negotiation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -841,8 +1116,9 @@
                     </div>
 
                     <!-- FASE 3: Conciliazione (Non modificata) -->
-                    <div id="phase-conciliation-box" class="phase-box bg-white p-3 rounded-xl shadow-md border border-accent-mediation-300 single-phase-row">
-                        <h3 class="text-sm font-bold text-accent-mediation-700">Fase Conciliazione</h3>
+                    <!-- AGGIUNTO: classe phase-box per bordo scuro tramite CSS -->
+                    <div id="phase-conciliation-box" class="phase-box bg-white p-3 rounded-xl shadow-md single-phase-row">
+                        <h3 class="text-sm font-bold text-accent-mediation-navy">Fase Conciliazione</h3>
                         <div class="phase-content-grid">
                             <div id="con-display-min" class="fee-display-item flex flex-col justify-center items-center" onclick="selectForensicFee('conciliation', 'min')">
                                 <span class="font-medium">Minimo</span>
@@ -865,9 +1141,10 @@
                     </div>
                     
                     <!-- Opzioni Calcolo (Maggiorazioni/Oneri Fiscali/Previdenziali) (MODIFICATA) -->
-                    <div class="p-3 bg-white rounded-xl shadow-md border border-gray-200 mt-2 print-hide">
-                        <h3 class="text-sm font-bold text-accent-mediation-700 mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-700"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Maggiorazioni/Oneri Fiscali/Previdenziali
+                    <!-- RIMOSSO: border border-gray-200 (sostituito da CSS phase-box/border border-gray-400 nel div interno) -->
+                    <div class="p-3 bg-white rounded-xl shadow-md mt-2 print-hide border border-slate-400">
+                        <h3 class="text-sm font-bold text-accent-mediation-navy mb-3 border-b border-accent-mediation-300 pb-1 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-accent-mediation-navy"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Maggiorazioni/Oneri Fiscali/Previdenziali
                         </h3>
                         
                         <div class="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
@@ -910,20 +1187,24 @@
                         </div>
                     </div>
 
-                    <!-- Riepilogo Totale Avvocato (NAVY) -->
-                    <div class="bg-accent-mediation-700 text-white p-4 rounded-xl shadow-xl mt-4">
-                        <h3 class="text-sm font-bold text-center mb-3">Totale Complessivo Cliente (Basato sulle tue Selezioni)</h3>
+                    <!-- Riepilogo Totale Avvocato (AZZURRO PALLIDO + BORDO NERO/NAVY) -->
+                    <!-- Modificato bg-accent-mediation-700, text-white in classi custom total-summary-box e text-dark-title -->
+                    <div class="total-summary-box p-4 rounded-xl shadow-xl mt-4">
+                        <h3 class="text-sm font-bold text-center mb-3 text-dark-title border-b border-accent-mediation-300 pb-2">Totale Complessivo Cliente (Basato sulle tue Selezioni)</h3>
                         
-                        <div class="space-y-2 text-sm"> 
+                        <!-- Colore testo impostato a gray-900 -->
+                        <div class="space-y-2 text-sm text-gray-900"> 
                             <!-- Compenso Base Totale -->
                             <div class="flex justify-between items-center border-b border-accent-mediation-300 pb-1">
                                 <span class="font-light opacity-90">A. Comp. Base (Totale Fasi):</span>
-                                <span id="forensic-total-base-fee" class="font-extrabold text-white text-base">0,00 €</span>
+                                <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                <span id="forensic-total-base-fee" class="font-extrabold text-final-value text-base">0,00 €</span>
                             </div>
 
                             <!-- Nuova riga per Maggiorazione 30% -->
-                            <div id="forensic-total-increase-row" class="flex justify-between items-center text-accent-mediation-300 font-semibold hidden">
+                            <div id="forensic-total-increase-row" class="flex justify-between items-center text-final-value font-semibold hidden">
                                 <span class="font-light opacity-90">B. Maggiorazione esito positivo (30%):</span>
+                                <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
                                 <span id="forensic-total-increase" class="font-semibold text-base">0,00 €</span>
                             </div>
                             
@@ -931,33 +1212,35 @@
                             <div class="flex justify-between items-center">
                                 <!-- Etichetta aggiornata per indicare la base di calcolo corretta: (A + B) -->
                                 <span class="font-light opacity-90">C. Spese Forfettarie (15% su A+B):</span>
-                                <span id="forensic-total-forfeit" class="font-semibold text-white text-base">0,00 €</span>
+                                <span id="forensic-total-forfeit" class="font-semibold text-gray-900 text-base">0,00 €</span>
                             </div>
                             
                             <!-- Contributo Cassa -->
                             <div class="flex justify-between items-center">
                                 <!-- Etichetta aggiornata per indicare la base di calcolo corretta: (A + B + C) -->
                                 <span class="font-light opacity-90">D. Contributo Cassa (4% su A+B+C):</span>
-                                <span id="forensic-total-cassa" class="font-semibold text-white text-base">0,00 €</span>
+                                <span id="forensic-total-cassa" class="font-semibold text-gray-900 text-base">0,00 €</span>
                             </div>
                             
                             <!-- Imponibile IVA -->
                             <!-- Etichetta aggiornata: da E a E per seguire A, B, C, D e D. Imponibile IVA (A + B + C + D) -->
                             <div class="flex justify-between items-center pt-2 border-t border-accent-mediation-600">
                                 <span class="font-light opacity-90 text-sm" id="forensic-taxable-label">E. Imponibile IVA (A + B + C + D):</span>
-                                <span id="forensic-total-taxable-base" class="font-extrabold text-lg text-yellow-300">0,00 €</span>
+                                <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                <span id="forensic-total-taxable-base" class="font-extrabold text-lg text-final-value">0,00 €</span>
                             </div>
 
                             <!-- IVA -->
                             <div class="flex justify-between items-center">
                                 <span class="font-light opacity-90 text-sm">F. IVA (22% su E):</span>
-                                <span id="forensic-total-iva" class="font-semibold text-white text-base">0,00 €</span>
+                                <span id="forensic-total-iva" class="font-semibold text-gray-900 text-base">0,00 €</span>
                             </div>
 
                             <!-- TOTALE FINALE -->
                             <div class="flex justify-between items-center pt-3 border-t-2 border-accent-mediation-500">
-                                <p class="text-lg font-black">TOTALE CLIENTE:</p>
-                                <p id="forensic-total-final-cost" class="text-2xl font-black text-yellow-300">
+                                <p class="text-lg font-black text-dark-title">TOTALE CLIENTE:</p>
+                                <!-- Modificato colore testo a Navy per contrasto su sfondo chiaro -->
+                                <p id="forensic-total-final-cost" class="text-2xl font-black text-final-value">
                                     0,00 €
                                 </p>
                             </div>
@@ -966,20 +1249,21 @@
                     </div>
                     
                     <!-- NUOVO BLOCCO: Procedimento di Mediazione Avvocato (Colorato) -->
-                    <div class="flex flex-col gap-2 p-3 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                    <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                    <div class="flex flex-col gap-2 p-3 rounded-lg border print-hide input-box-highlight border-slate-400">
                         <div class="flex items-center justify-center gap-2">
                             <span>Procedimento di Mediazione n.</span>
                             <input 
                                 type="number" 
                                 id="forensic-mediation-number-1" 
-                                class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                                class="w-16 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-bold"
                                 placeholder="00"
                             />
                             <span>/</span>
                             <input 
                                 type="number" 
                                 id="forensic-mediation-number-2" 
-                                class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-bold"
+                                class="w-20 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-bold"
                                 placeholder="2025"
                             />
                             <span class="ml-2 font-bold whitespace-nowrap">nei confronti</span>
@@ -987,7 +1271,7 @@
                         <input
                             type="text"
                             id="forensic-mediation-counterparty"
-                            class="w-full p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium mt-1"
+                            class="w-full p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-medium mt-1"
                             placeholder="Nome della controparte"
                         />
                     </div>
@@ -1003,13 +1287,14 @@
                     <!-- FINE NUOVA RIGA -->
                     
                     <!-- NUOVA CASELLA LUOGO E DATA AVVOCATO (Destra) (Colorata) -->
-                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide text-sm font-medium text-gray-700 input-box-highlight border-sky-300">
+                    <!-- AGGIUNTO: border border-slate-400 (per coerenza) -->
+                    <div class="flex items-center justify-center gap-4 p-2 rounded-lg border print-hide input-box-highlight border-slate-400">
                         <div class="flex items-center gap-2">
                             <span>Luogo:</span>
                             <input 
                                 type="text" 
                                 id="forensic-location" 
-                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-medium"
                                 placeholder="Città"
                             />
                         </div>
@@ -1018,7 +1303,7 @@
                             <input 
                                 type="text" 
                                 id="forensic-date" 
-                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-700 focus:border-accent-mediation-700 text-sm font-medium"
+                                class="w-24 p-1 text-center border border-accent-mediation-300 rounded-md shadow-sm focus:ring-accent-mediation-navy focus:border-accent-mediation-navy text-sm font-medium"
                                 placeholder="gg/mm/aaaa"
                             />
                         </div>
@@ -1034,7 +1319,7 @@
                         <!-- Tasto Stampa Standard (NAVY) -->
                         <button 
                             onclick="printSection('forensic-app')" 
-                            class="flex items-center justify-center w-full sm:w-1/2 bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
+                            class="flex items-center justify-center w-full sm:w-1/2 bg-accent-mediation-navy hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-accent-mediation-300 text-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg> 
                             Stampa Sezione Avvocato
@@ -1079,14 +1364,14 @@
                 <p class="mb-2 font-bold text-gray-800 text-left">Note Legali Importanti:</p>
                 <ul class="list-disc list-inside space-y-1 ml-2">
                     <li>
-                        Calcolatore realizzato dall'<a href="https://www.ordineavvocati.ss.it/docs/mediazione_curriculum_responsabile24092025.pdf" target="_blank" class="font-bold text-accent-mediation-700 hover:underline">Avv. Antonio Pinna Spada</a>, Responsabile dell'
+                        Calcolatore realizzato dall'<a href="https://www.ordineavvocati.ss.it/docs/mediazione_curriculum_responsabile24092025.pdf" target="_blank" class="font-bold text-accent-mediation-navy hover:underline">Avv. Antonio Pinna Spada</a>, Responsabile dell'
                         <!-- LINK AGGIUNTO QUI per Oristano. RIMOSSO CLASSE GRASSETTO "font-bold" -->
-                        <a href="https://www.ordineavvocatioristano.it/mediazione/" target="_blank" class="text-accent-mediation-700 hover:underline">
+                        <a href="https://www.ordineavvocatioristano.it/mediazione/" target="_blank" class="text-accent-mediation-navy hover:underline">
                             Organismo di Media Conciliazione Forense dell'Ordine degli Avvocati di Oristano
                         </a> 
                         e Responsabile dell'
                         <!-- LINK AGGIUNTO QUI per Sassari. RIMOSSO CLASSE GRASSETTO "font-bold" -->
-                        <a href="https://www.ordineavvocati.ss.it/pag.php?id=34" target="_blank" class="text-accent-mediation-700 hover:underline">
+                        <a href="https://www.ordineavvocati.ss.it/pag.php?id=34" target="_blank" class="text-accent-mediation-navy hover:underline">
                             Organismo di Mediazione del Consiglio dell'Ordine degli Avvocati di Sassari
                         </a>. 
                     </li>
@@ -1107,6 +1392,14 @@
                     <li>
                         Il funzionamento del calcolatore è stato testato in tutte le variabili ma non è possibile escludere la presenza di errori, pertanto è consigliabile <span class="font-bold text-red-700">verificare ogni volta i risultati</span> con le normative ufficiali.
                     </li>
+
+                    </li>
+                <p class="text-sm text-gray-600">
+  Per maggiori informazioni, contattare l'autore al seguente indirizzo di posta elettronica:
+  <a href="mailto:pinnaspada@gmail.com" class="text-indigo-600 hover:text-indigo-800 hover:underline">
+    pinnaspada@gmail.com
+  </a>
+</p>
                 </ul>
             </footer>
         </div>
@@ -1117,7 +1410,7 @@
     <!-- Modal per la personalizzazione della stampa Avvocato (Studio Legale) -->
     <div id="custom-print-modal" class="modal hidden">
         <div class="modal-content">
-            <h3 class="text-xl font-bold text-accent-mediation-700 mb-4 border-b pb-2">Dati Studio Legale per Stampa</h3>
+            <h3 class="text-xl font-bold text-accent-mediation-navy mb-4 border-b pb-2">Dati Studio Legale per Stampa</h3>
             <div id="modal-form" class="space-y-3">
                 <div>
                     <label for="studio-nome" class="block text-sm font-medium text-gray-700">Nome Studio/Avvocato:</label>
@@ -1138,7 +1431,7 @@
             </div>
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeCustomPrintModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg text-sm transition">Annulla</button>
-                <button onclick="saveAndPrintCustom('studio')" class="bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
+                <button onclick="saveAndPrintCustom('studio')" class="bg-accent-mediation-navy hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
             </div>
         </div>
     </div>
@@ -1146,7 +1439,7 @@
     <!-- Modal per la personalizzazione della stampa Mediazione (Organismo) (NUOVO) -->
     <div id="mediation-print-modal" class="modal hidden">
         <div class="modal-content">
-            <h3 class="text-xl font-bold text-accent-mediation-700 mb-4 border-b pb-2">Dati Organismo di Mediazione per Stampa</h3>
+            <h3 class="text-xl font-bold text-accent-mediation-navy mb-4 border-b pb-2">Dati Organismo di Mediazione per Stampa</h3>
             <div id="mediation-modal-form" class="space-y-3">
                 <div>
                     <label for="organismo-nome" class="block text-sm font-medium text-gray-700">Nome Organismo:</label>
@@ -1167,7 +1460,7 @@
             </div>
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeMediationCustomPrintModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg text-sm transition">Annulla</button>
-                <button onclick="saveAndPrintMediationCustom('organismo')" class="bg-accent-mediation-700 hover:bg-accent-mediation-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
+                <button onclick="saveAndPrintMediationCustom('organismo')" class="bg-accent-mediation-navy hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Salva e Stampa</button>
             </div>
         </div>
     </div>
@@ -1188,9 +1481,32 @@
             medio: 1.0, 
             basso: 0.8,
         };
+        
+        // Variabile globale per tenere traccia del moltiplicatore Art. 15 selezionato
+        let currentArt15Multiplier = 200;
 
 
         // --- FUNZIONI DI UTILITY ---
+        /**
+         * Funzione helper per pulire e parsare il valore di input.
+         * Gestisce "€", spazi, e usa la virgola o il punto come decimale.
+         *
+         * Spostata qui e dichiarata con 'const' per essere accessibile da tutti i blocchi funzione
+         * all'interno del modulo, inclusa la logica del calcolatore Art. 15 c.p.c.
+         */
+        const parseValue = (value) => {
+            if (!value) return 0;
+            // Rimuove '€', spazi, e sostituisce la virgola con il punto per il parsing
+            const cleanedValue = value
+                .replace(/€/g, '')      // Rimuove simbolo euro
+                .replace(/\./g, '')     // Rimuove punti (per migliaia es. 1.000)
+                .replace(/,/g, '.')     // Converte la virgola decimale in punto
+                .trim();
+            
+            const parsed = parseFloat(cleanedValue);
+            return isNaN(parsed) ? 0 : parsed;
+        };
+        
         /**
          * Formatta un numero in valuta Euro.
          * @param {number} value Il valore numerico.
@@ -1351,10 +1667,13 @@
             // Per Organismo usiamo cfin, per Studio usiamo piva
             const identifier = customData.cfin || customData.piva || ''; 
             const contactLine = [customData.contatto, identifier].filter(Boolean).join(' | ');
+            
+            // Usa il colore Navy originale (#1e3a8a) per l'intestazione in stampa
+            const navyColor = '#1e3a8a';
 
             return `
                 <div style="text-align: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc;">
-                    <h1 style="font-size: 1.25rem; font-weight: bold; color: ${color};">${customData.nome}</h1>
+                    <h1 style="font-size: 1.25rem; font-weight: bold; color: ${navyColor};">${customData.nome}</h1>
                     ${customData.indirizzo ? `<p style="font-size: 0.875rem; color: #4b5563;">${customData.indirizzo}</p>` : ''}
                     ${contactLine ? `<p style="font-size: 0.875rem; color: #4b5563;">${contactLine}</p>` : ''}
                 </div>
@@ -1572,9 +1891,10 @@
         /**
          * Aggiorna la label e il tipo di input del valore lite
          */
-        window.updateValueInputType = () => {
+        window.updateValueInputType = function () { // Funzione esposta globalmente
             const valueTypeSelect = document.getElementById('litigation-value-type');
-            const valueInput = document.getElementById('mediation-litigation-value');
+            const mediationLitigationInput = document.getElementById('mediation-litigation-value');
+            const forensicLitigationInput = document.getElementById('forensic-litigation-value');
             const valueLabel = document.querySelector('label[for="mediation-litigation-value"]');
             const indeterminateBox = document.getElementById('indeterminate-value-options');
             
@@ -1582,29 +1902,39 @@
 
             if (isIndeterminabile) {
                 valueLabel.textContent = 'Valore della Lite (Tipo):';
-                valueInput.value = 'Indeterminabile';
-                valueInput.setAttribute('disabled', 'true');
-                valueInput.setAttribute('placeholder', 'Indeterminabile');
+                mediationLitigationInput.value = 'Indeterminabile';
+                mediationLitigationInput.setAttribute('disabled', 'true');
+                mediationLitigationInput.setAttribute('placeholder', 'Indeterminabile');
                 indeterminateBox.classList.remove('hidden');
+                
+                // Sincronizza l'input forense (che non calcola l'indeterminabile)
+                if (forensicLitigationInput) {
+                    forensicLitigationInput.value = 'indeterminabile';
+                }
             } else {
                 valueLabel.textContent = 'Valore della Lite (€):';
                 // Pulisci l'input solo se prima era Indeterminabile per evitare bug
-                if (valueInput.value.toLowerCase() === 'indeterminabile' || valueInput.hasAttribute('disabled')) {
-                    valueInput.value = '';
+                if (mediationLitigationInput.value.toLowerCase() === 'indeterminabile' || mediationLitigationInput.hasAttribute('disabled')) {
+                    mediationLitigationInput.value = '';
                 }
-                valueInput.removeAttribute('disabled');
-                valueInput.setAttribute('placeholder', 'es. 15000');
+                mediationLitigationInput.removeAttribute('disabled');
+                mediationLitigationInput.setAttribute('placeholder', 'es. 15000');
                 indeterminateBox.classList.add('hidden');
+                
+                // Pulisce l'input forense per ripristinare il valore, se necessario
+                 if (forensicLitigationInput) {
+                    forensicLitigationInput.value = mediationLitigationInput.value;
+                }
             }
         };
 
 
         // =========================================================================
-        // --- LOGICA CALCOLO MEDIAZIONE ---
+        // --- LOGICA CALCOLO MEDIAZIONE (DM 150/2023) ---
         // =========================================================================
 
-        // Dati per le tariffe di mediazione (DM 150/2023) - AGGIORNATE CON I NUOVI VALORI INDETERMINABILI
-        const MEDIATION_TARIFFS = {
+        const MEDIATION_TARIFFS_FULL = {
+            // DATI AGGIORNATI CON I VALORI INDETERMINATI FORNITI DAL DOCUMENTO
             minimi: {
                 obbligatorie: [
                     { min: 0, max: 1000, speseFisse: 97.60, speseAvvio: 39.04, indennitaPrimoIncontro: 58.56, negativo: 19.52, positivo1: 21.47, positivoDopo1: 24.40 },
@@ -1626,20 +1956,13 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
-                        // NUOVI VALORI DA DOCX
+                        // VALORI AGGIORNATI DA DOCX - OBBLIGATORIE MINIMI
                         speseFisseAlto: 273.28, speseAvvioAlto: 107.36, indennitaPrimoIncontroAlto: 165.92,
-                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, // Scomposizione necessaria
-                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, // Scomposizione necessaria
-                        // Indennità (Già inclusa IVA 22%)
-                        negativoAlto: 1005.28,
-                        negativoMedio: 1054.08,
-                        negativoBasso: 1112.64,
-                        positivo1Alto: 1105.81,
-                        positivo1Medio: 1159.49,
-                        positivo1Basso: 1223.90,
-                        positivoDopo1Alto: 1256.60,
-                        positivoDopo1Medio: 1317.60,
-                        positivoDopo1Basso: 1390.80,
+                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, 
+                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, 
+                        negativoAlto: 1005.28, negativoMedio: 1054.08, negativoBasso: 1112.64,
+                        positivo1Alto: 1105.81, positivo1Medio: 1159.49, positivo1Basso: 1223.90,
+                        positivoDopo1Alto: 1256.60, positivoDopo1Medio: 1317.60, positivoDopo1Basso: 1390.80,
                         indeterminabile: true 
                     },
                 ],
@@ -1663,20 +1986,13 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
-                        // NUOVI VALORI DA DOCX
+                        // VALORI AGGIORNATI DA DOCX - VOLONTARIE MINIMI
                         speseFisseAlto: 341.60, speseAvvioAlto: 134.20, indennitaPrimoIncontroAlto: 207.40,
-                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, // Scomposizione necessaria
-                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, // Scomposizione necessaria
-                        // Indennità (Già inclusa IVA 22%)
-                        negativoAlto: 1439.60, 
-                        negativoMedio: 1500.60,
-                        negativoBasso: 1573.80, 
-                        positivo1Alto: 1583.56, 
-                        positivo1Medio: 1650.66, 
-                        positivo1Basso: 1731.18, 
-                        positivoDopo1Alto: 1799.50, 
-                        positivoDopo1Medio: 1875.75, 
-                        positivoDopo1Basso: 1967.25, 
+                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, 
+                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, 
+                        negativoAlto: 1439.60, negativoMedio: 1500.60, negativoBasso: 1573.80, 
+                        positivo1Alto: 1583.56, positivo1Medio: 1650.66, positivo1Basso: 1731.18, 
+                        positivoDopo1Alto: 1799.50, positivoDopo1Medio: 1875.75, positivoDopo1Basso: 1967.25, 
                         indeterminabile: true 
                     },
                 ],
@@ -1702,25 +2018,17 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
-                        // NUOVI VALORI DA DOCX
+                        // VALORI AGGIORNATI DA DOCX - OBBLIGATORIE MEDI
                         speseFisseAlto: 273.28, speseAvvioAlto: 107.36, indennitaPrimoIncontroAlto: 165.92,
-                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, // Scomposizione necessaria
-                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, // Scomposizione necessaria
-                        // Indennità (Già inclusa IVA 22%)
-                        negativoAlto: 1151.68, 
-                        negativoMedio: 1200.48, 
-                        negativoBasso: 1259.04, 
-                        positivo1Alto: 1266.85, 
-                        positivo1Medio: 1320.53, 
-                        positivo1Basso: 1384.94, 
-                        positivoDopo1Alto: 1439.60, 
-                        positivoDopo1Medio: 1500.60, 
-                        positivoDopo1Basso: 1573.80, 
+                        speseFisseMedio: 224.48, speseAvvioMedio: 73.20, indennitaPrimoIncontroMedio: 151.28, 
+                        speseFisseBasso: 165.92, speseAvvioBasso: 73.20, indennitaPrimoIncontroBasso: 92.72, 
+                        negativoAlto: 1151.68, negativoMedio: 1200.48, negativoBasso: 1259.04, 
+                        positivo1Alto: 1266.85, positivo1Medio: 1320.53, positivo1Basso: 1384.94, 
+                        positivoDopo1Alto: 1439.60, positivoDopo1Medio: 1500.60, positivoDopo1Basso: 1573.80, 
                         indeterminabile: true 
                     },
                 ],
                 volontarie: [
-                    // AGGIORNATI I VALORI DI NEGATIVO, POSITIVO1, e POSITIVODOPO1 CON LA TABELLA FORNITA
                     { min: 0, max: 1000, speseFisse: 122.00, speseAvvio: 48.80, indennitaPrimoIncontro: 73.20, negativo: 73.20, positivo1: 80.52, positivoDopo1: 91.50 },
                     { min: 1000.01, max: 5000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 128.10, positivo1: 140.91, positivoDopo1: 160.13 },
                     { min: 5000.01, max: 10000, speseFisse: 237.90, speseAvvio: 91.50, indennitaPrimoIncontro: 146.40, negativo: 298.90, positivo1: 328.79, positivoDopo1: 373.63 },
@@ -1740,27 +2048,22 @@
                     },
                     { 
                         min: Infinity, max: Infinity, 
-                        // NUOVI VALORI DA DOCX
+                        // VALORI AGGIORNATI DA DOCX - VOLONTARIE MEDI
                         speseFisseAlto: 341.60, speseAvvioAlto: 134.20, indennitaPrimoIncontroAlto: 207.40,
-                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, // Scomposizione necessaria
-                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, // Scomposizione necessaria
-                        // Indennità (Già inclusa IVA 22%)
-                        negativoAlto: 1439.60, 
-                        negativoMedio: 1500.60,
-                        negativoBasso: 1573.80, 
-                        positivo1Alto: 1583.56, 
-                        positivo1Medio: 1650.66, 
-                        positivo1Basso: 1731.18, 
-                        positivoDopo1Alto: 1799.50, 
-                        positivoDopo1Medio: 1875.75, 
-                        positivoDopo1Basso: 1967.25, 
+                        speseFisseMedio: 280.60, speseAvvioMedio: 91.50, indennitaPrimoIncontroMedio: 189.10, 
+                        speseFisseBasso: 207.40, speseAvvioBasso: 91.50, indennitaPrimoIncontroBasso: 115.90, 
+                        negativoAlto: 1439.60, negativoMedio: 1500.60, negativoBasso: 1573.80, 
+                        positivo1Alto: 1583.56, positivo1Medio: 1650.66, positivo1Basso: 1731.18, 
+                        positivoDopo1Alto: 1799.50, positivoDopo1Medio: 1875.75, positivoDopo1Basso: 1967.25, 
                         indeterminabile: true 
                     },
                 ],
             },
         };
 
-        window.calculateMediationFees = () => {
+        const IVA_RATE_FACTOR = 1.22; 
+
+        window.calculateMediationFees = function () { // Funzione esposta globalmente
             const litigationTypeInput = document.getElementById('litigation-value-type');
             const mediationLitigationInput = document.getElementById('mediation-litigation-value');
             const forensicLitigationInput = document.getElementById('forensic-litigation-value');
@@ -1773,6 +2076,7 @@
             const isIndeterminabileSelection = litigationTypeInput.value === 'indeterminabile';
             // Il valore da usare per il calcolo sarà 'indeterminabile' o il valore numerico
             const valueStr = isIndeterminabileSelection ? 'indeterminabile' : mediationLitigationInput.value.toLowerCase().trim();
+            // MODIFICATO: accetta la virgola come separatore decimale
             const value = isIndeterminabileSelection ? 0 : parseFloat(valueStr.replace(',', '.'));
             
             const mediationType = mediationTypeInput.value;
@@ -1796,7 +2100,7 @@
                     // L'app Avvocato non supporta il calcolo con valore indeterminabile
                     forensicLitigationInput.value = 'indeterminabile'; 
                 } else if (!isNaN(value) && value >= 0) {
-                    // Sincronizza il valore numerico
+                    // Sincronizza il valore numerico (rimette la virgola per visualizzazione)
                     forensicLitigationInput.value = mediationLitigationInput.value; 
                 } else {
                     // Campo vuoto
@@ -1809,10 +2113,11 @@
             }
 
             // === LOGICA BLINK (Corretta per gestire il rimpiazzo del titolo) ===
-            const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-700"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
+            // Usa il Navy originale per il testo del titolo
+            const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-navy"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
             
             // TITOLO VALORI MEDI: colore coerente con il nuovo tema
-            const mediumTitleColorClass = 'text-accent-mediation-700'; // Uniformato al Navy
+            const mediumTitleColorClass = 'text-accent-mediation-navy'; // Navy
 
             const mediumTitleHTML = `<span class="flex items-center ${mediumTitleColorClass}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6">
@@ -1833,7 +2138,7 @@
             }
             
 
-            const selectedLevelTariffs = MEDIATION_TARIFFS[tariffLevel];
+            const selectedLevelTariffs = MEDIATION_TARIFFS_FULL[tariffLevel];
             
             // HO RIMOSSO L'ISTUZIONE console.error NON NECESSARIA QUI
 
@@ -1841,12 +2146,13 @@
             if (!selectedLevelTariffs) {
                  // Non fare nulla se il livello non è trovato (dovrebbe essere sempre trovato data la struttura)
                  // Se i dati dell'input sono validi ma non rientrano negli scaglioni, la logica di fallback è sotto.
+                 console.error(`Tariff level ${tariffLevel} is not defined in MEDIATION_TARIFFS_FULL.`);
+                 return;
             }
             
 
             const selectedTariffs = selectedLevelTariffs[mediationType];
             let foundTariff = null;
-            const IVA_RATE_FACTOR = 1.22; 
             
             // Determina il moltiplicatore (NON PIÙ USATO per Indennità, ma mantenuto per compatibilità)
             const multiplier = isIndeterminabile ? INDETERMINATE_MULTIPLIERS[indeterminateLevel] : 1.0;
@@ -1855,7 +2161,7 @@
             const alertEl = document.getElementById('mediation-alert');
             const mediationPrintValueEl = document.getElementById('mediation-print-value'); 
             
-            const typeText = mediationTypeInput.options[mediationTypeInput.selectedIndex].text;
+            const typeText = litigationTypeInput.options[litigationTypeInput.selectedIndex].text; // Corretto per evitare errore 
             const levelText = tariffLevelInput.options[tariffLevelInput.selectedIndex].text;
             
             let printValueText = `Valore Lite: ${isIndeterminabile ? 'Indeterminabile' : (valueStr === '' ? 'Non specificato' : formatCurrency(value))}`;
@@ -1930,7 +2236,7 @@
                         positive1Fees = foundTariff.positivo1Medio;
                         positiveAfter1Fees = foundTariff.positivoDopo1Medio;
                     } else {
-                         // Fallback al Medio se per qualche motivo il livello non è definito
+                         // Fallback al Basso
                          startUpFees = foundTariff.speseFisseBasso;
                          breakdownAvvio = foundTariff.speseAvvioBasso;
                          breakdownIndennita = foundTariff.indennitaPrimoIncontroBasso;
@@ -2013,8 +2319,9 @@
                 feesStartupBreakdownAvvioEl.textContent = formatCurrency(breakdownAvvio);
                 feesStartupBreakdownIndennitaEl.textContent = formatCurrency(breakdownIndennita);
                 if (feesStartupBreakdownAvvioImponibileEl) feesStartupBreakdownAvvioImponibileEl.textContent = formatCurrency(breakdownAvvioImponibile);
+                // Corretto errore di sintassi qui
                 if (feesStartupBreakdownAvvioIvaEl) feesStartupBreakdownAvvioIvaEl.textContent = formatCurrency(breakdownAvvioIVA);
-                if (feesStartupBreakdownIndennitaImponibileEl) feesStartupBreakdownIndennitaImponibileEl.textContent = formatCurrency(breakdownIndennitaImponibile);
+                if (feesStartupBreakdownIndennitaImponibileEl) feesStartupBreakdownAvvioImponibileEl.textContent = formatCurrency(breakdownIndennitaImponibile);
                 if (feesStartupBreakdownIndennitaIvaEl) feesStartupBreakdownIndennitaIvaEl.textContent = formatCurrency(breakdownIndennitaIVA);
             }
             feesNegativeEl.textContent = formatCurrency(negativeOutcomeFees);
@@ -2074,7 +2381,7 @@
 
 
         // =========================================================================
-        // --- LOGICA APP 2: CALCOLATORE COMPENSI AVVOCATO (spese legali blu) ---
+        // --- LOGICA APP 2: CALCOLATORE COMPENSI AVVOCATO (DM 55/2014) ---
         // =========================================================================
         
         // TABELLA COMPENSI DETTAGLIATA PER MEDIAZIONE (DM 55/2014)
@@ -2167,7 +2474,7 @@
         /**
          * Calcola i compensi forensi e aggiorna l'interfaccia utente.
          */
-        window.calculateForensicFees = () => { 
+        window.calculateForensicFees = function () { // Funzione esposta globalmente
             const valueInput = document.getElementById('forensic-litigation-value');
             const alertDiv = document.getElementById('forensic-alert'); 
             const alertMsg = document.getElementById('alert-message');
@@ -2186,7 +2493,7 @@
 
             // MODIFICATO: Accetta la virgola come separatore decimale
             const valueStr = valueInput.value.toLowerCase().trim();
-            const rawValue = parseFloat(valueStr.replace(',', '.'));
+            const rawValue = parseValue(valueStr); // Usa parseValue
             
             // Logica per determinare se il valore è indeterminabile, nullo o numerico
             const isIndeterminabile = valueStr === 'indeterminabile';
@@ -2350,138 +2657,123 @@
         }
 
         // =========================================================================
-        // --- FUNZIONE DI STAMPA GENERICA ---
+        // --- LOGICA CALCOLATORE ART 15 C.P.C. (Integrato) ---
         // =========================================================================
+        
+        // Seleziona gli elementi del DOM (rinominati per evitare conflitti con gli ID originali)
+        const art15_propBtn = document.getElementById('art15-prop-btn');
+        const art15_usufruttoBtn = document.getElementById('art15-usufrutto-btn');
+        const art15_servituBtn = document.getElementById('art15-servitu-btn');
+        
+        const art15_inputVal1 = document.getElementById('art15-valore1');
+        const art15_inputVal2 = document.getElementById('art15-valore2');
+        const art15_inputVal3 = document.getElementById('art15-valore3');
+        const art15_inputVal4 = document.getElementById('art15-valore4');
+        const art15_risultatoMediazioneEl = document.getElementById('art15-risultatoMediazione');
+        const art15_resetButton = document.getElementById('art15-resetButton');
+        
+        const art15_inputs = [art15_inputVal1, art15_inputVal2, art15_inputVal3, art15_inputVal4].filter(el => el != null); // Aggiunto filter(el => el != null) per sicurezza
+        const art15_multiplierButtons = [art15_propBtn, art15_usufruttoBtn, art15_servituBtn].filter(el => el != null);
 
         /**
-         * Cattura il contenuto di una sezione specificata e avvia la stampa 
-         * utilizzando un iframe dinamico per isolare il contesto di stampa.
-         * @param {string} sectionId L'ID della sezione da stampare (es. 'mediation-app').
+         * Funzione che gestisce la selezione del pulsante Art. 15 (Card Button)
          */
-        window.printSection = (sectionId) => {
-            const printContent = document.getElementById(sectionId);
-            const legalNotes = document.getElementById('legal-notes-footer'); // Cattura il footer legale
-            
-            if (!printContent || !legalNotes) {
-                console.error(`Sezione di stampa o Note Legali non trovate.`);
-                return;
+        window.selectArt15Multiplier = (selectedElement, multiplier) => {
+            // 1. Rimuove la classe 'selected' da tutti i pulsanti moltiplicatori
+            art15_multiplierButtons.forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            // 2. Aggiunge la classe 'selected' al pulsante cliccato
+            selectedElement.classList.add('selected');
+
+            // 3. Aggiorna la variabile globale e ricalcola
+            currentArt15Multiplier = multiplier;
+            window.calcolaArt15Mediazione();
+        };
+
+
+        /**
+         * Funzione per calcolare e aggiornare il valore della mediazione Art. 15.
+         * COPIA AUTOMATICAMENTE il risultato nell'input principale.
+         */
+        window.calcolaArt15Mediazione = function () { // ESPONGO LA FUNZIONE GLOBALMENTE
+            try {
+                const val1 = parseValue(art15_inputVal1.value);
+                const val2 = parseValue(art15_inputVal2.value);
+                const val3 = parseValue(art15_inputVal3.value);
+                const val4 = parseValue(art15_inputVal4.value);
+
+                const somma = val1 + val2 + val3 + val4;
+                
+                // Legge il moltiplicatore dalla variabile globale
+                const moltiplicatore = currentArt15Multiplier;
+
+                const risultato = somma * moltiplicatore;
+                
+                // 1. FORMATTAZIONE DEL RISULTATO VISIBILE
+                art15_risultatoMediazioneEl.textContent = risultato.toLocaleString('it-IT', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                
+                // 2. COPIA AUTOMATICA NELL'INPUT PRINCIPALE
+                const rawValue = risultato;
+                const formattedValue = rawValue.toFixed(2).replace('.', ','); // Valore formattato come stringa
+                
+                const mediationLitigationInput = document.getElementById('mediation-litigation-value');
+                if (mediationLitigationInput) {
+                     // Imposta solo se non è vuoto (altrimenti Art. 15 resetta l'input principale)
+                     const allInputsEmpty = art15_inputs.every(input => input.value.trim() === '');
+
+                     if (rawValue > 0 || !allInputsEmpty) {
+                         // Se c'è un risultato > 0 o se ci sono input compilati, aggiorna
+                         mediationLitigationInput.value = formattedValue;
+                     } else {
+                         // Se tutti gli input sono vuoti e risultato è 0, svuota il campo principale
+                         mediationLitigationInput.value = '';
+                     }
+                     
+                     // Simula l'evento input per far scattare il ricalcolo delle spese di mediazione/avvocato
+                     mediationLitigationInput.dispatchEvent(new Event('input'));
+                }
+
+
+            } catch (error) {
+                console.error("Errore durante il calcolo Art. 15:", error);
+                art15_risultatoMediazioneEl.textContent = "Errore";
             }
-
-            // Clona il contenuto per manipolarlo
-            const contentToPrint = printContent.cloneNode(true);
-            const legalNotesToPrint = legalNotes.cloneNode(true); // Clona il footer
-            
-            // Variabili per la sezione Mediazione (sezione di sinistra)
-            const mediationNum1 = document.getElementById('mediation-number-1')?.value || '....';
-            const mediationNum2 = document.getElementById('mediation-number-2')?.value || '....';
-            const mediationLocation = document.getElementById('mediation-location')?.value || '....';
-            const mediationDate = document.getElementById('mediation-date')?.value || '....';
-            
-            // Variabili per la sezione Avvocato (sezione di destra)
-            const forensicNum1 = document.getElementById('forensic-mediation-number-1')?.value || '....';
-            const forensicNum2 = document.getElementById('forensic-mediation-number-2')?.value || '....';
-            const forensicCounterparty = document.getElementById('forensic-mediation-counterparty')?.value || '....';
-            const forensicLocation = document.getElementById('forensic-location')?.value || '....';
-            const forensicDate = document.getElementById('forensic-date')?.value || '....';
-
-
-            // LOGICA DI INIEZIONE DEI CAMPI AGGIUNTIVI IN STAMPA
-            let customFieldsHtml = '';
-            
-            if (sectionId === 'mediation-app') {
-                 customFieldsHtml = `
-                    <div style="text-align: center; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
-                        Procedimento di Mediazione n. ${mediationNum1} / ${mediationNum2}
-                    </div>
-                    <div style="text-align: right; margin-top: 5px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
-                        ${mediationLocation}, lì ${mediationDate}
-                    </div>
-                    <div class="acceptance-text">
-                        Per accettazione, salvo diversa determinazione del valore da parte del Responsabile
-                    </div>
-                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
-                 `;
-            } else if (sectionId === 'forensic-app') {
-                 customFieldsHtml = `
-                    <div style="text-align: left; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
-                        Procedimento di Mediazione n. ${forensicNum1} / ${forensicNum2} nei confronti di ${forensicCounterparty}
-                    </div>
-                    <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
-                        ${forensicLocation}, lì ${forensicDate}
-                    </div>
-                    <div class="acceptance-text" style="margin-top: 25px;">
-                        Per accettazione 
-                    </div>
-                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
-                 `;
-            }
-            
-            // 1. Rimuove gli elementi non necessari dalla stampa nel clone dell'app
-            const elementsToRemove = contentToPrint.querySelectorAll('.print-hide, .print-button-container');
-            elementsToRemove.forEach(el => el.remove());
-
-            // 2. Rende visibile l'informazione sul valore lite per la stampa nel clone dell'app
-            const printValueEl = contentToPrint.querySelector('.print-only');
-            if (printValueEl) {
-                printValueEl.classList.remove('print-only');
-                // CORREZIONE: Rimosso il doppio .classList
-                printValueEl.classList.add('print-litigation-value'); 
-            }
-            
-            // 3. Clona anche il nuovo header integrato se presente (per contesto)
-            const integratedHeader = document.getElementById('integrated-calculator-header');
-            const integratedHeaderToPrint = integratedHeader ? integratedHeader.cloneNode(true).outerHTML : '';
-
-
-            // 4. Costruisce il contenuto HTML completo per la stampa
-            const appContentHTML = contentToPrint.outerHTML;
-            const footerContentHtml = legalNotesToPrint.outerHTML; 
-            
-            // Inserisce i campi aggiuntivi dopo l'app content
-            const finalAppContent = appContentHTML;
-
-
-            const printHTML = `
-                ${integratedHeaderToPrint}
-                <div class="print-content-wrapper" style="padding-top: 1rem;">
-                    ${finalAppContent}
-                    ${customFieldsHtml} <!-- INSERIMENTO DEI CAMPI AGGIUNTIVI QUI -->
-                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
-                        ${footerContentHtml}
-                    </div>
-                </div>
-            `;
-            
-            // Ottiene gli stili CSS globali per la corretta formattazione
-            const style = document.querySelector('style').innerHTML;
-            
-            const printWindow = window.open('', '', 'height=600,width=800');
-            
-            if (!printWindow) {
-                // Necessario se il browser blocca i popup
-                console.error("Impossibile aprire la finestra di stampa. Controllare le impostazioni di blocco dei popup.");
-                return;
-            }
-            
-            printWindow.document.write('<html><head><title>Stampa Calcolatore</title>');
-            printWindow.document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
-            printWindow.document.write(`<style>${style}</style>`);
-            
-            // Applica stili specifici per la visualizzazione della stampa nel nuovo body
-            printWindow.document.write('</head><body class="print-container">');
-            printWindow.document.write(printHTML); // Inietta il contenuto dell'app + note legali
-            printWindow.document.write('</body></html>');
-            printWindow.document.close(); 
-            
-            printWindow.onload = () => {
-                printWindow.focus();
-                printWindow.print();
-                // NON chiudere immediatamente se si vuole permettere all'utente di salvare come PDF
-                // printWindow.close();
-            };
         }
 
+        /**
+         * Funzione per resettare tutti i campi Art. 15
+         */
+        function resetArt15Calcolatore() {
+            art15_inputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // Resetta la selezione al default (Proprietà x200)
+            art15_multiplierButtons.forEach(btn => btn.classList.remove('selected'));
+            if (art15_propBtn) {
+                 art15_propBtn.classList.add('selected');
+                 currentArt15Multiplier = 200;
+            }
 
+            // Ricalcola per impostare il risultato a 0,00 e pulire l'input principale
+            window.calcolaArt15Mediazione();
+        }
+        
+        // Aggiungi event listener 'input' a tutti i campi Art. 15
+        art15_inputs.forEach(input => {
+            input.addEventListener('input', window.calcolaArt15Mediazione);
+        });
+
+        // Aggiungi event listener al pulsante Reset Art. 15
+        if (art15_resetButton) {
+            art15_resetButton.addEventListener('click', resetArt15Calcolatore);
+        }
+        
         // =========================================================================
         // --- INIZIALIZZAZIONE ---
         // =========================================================================
@@ -2490,7 +2782,10 @@
          * Inizializza l'applicazione: Calcolo Iniziale.
          */
         const initApp = async () => {
-            // Imposta lo stato iniziale dei radio button (Medio di default per l'app forense)
+             // 1. Recupera l'input principale all'inizio per evitare ReferenceError
+            const mediationLitigationInput = document.getElementById('mediation-litigation-value');
+
+            // 2. Imposta lo stato iniziale dei radio button (Medio di default per l'app forense)
             const defaultLevel = 'medium';
             ['act', 'neg', 'con'].forEach(prefix => {
                 const radioId = `${prefix}-${defaultLevel.substring(0, 3)}`;
@@ -2500,26 +2795,37 @@
                 }
             });
 
-            // Imposta lo stato iniziale del livello indeterminato (Medio di default)
+            // 3. Imposta lo stato iniziale del livello indeterminato (Medio di default)
             const indeterminateDefaultLevel = 'medio';
             const indeterminateRadio = document.getElementById(`ind-${indeterminateDefaultLevel}`);
             if (indeterminateRadio) {
                 indeterminateRadio.checked = true;
             }
             
-            // Popola i campi data
+            // 4. Popola i campi data
             populateDateFields();
 
-            // Imposta il tipo di valore lite a Determinabile di default e aggiorna l'UI
+            // 5. Imposta il tipo di valore lite a Determinabile di default e aggiorna l'UI
             const litigationTypeSelect = document.getElementById('litigation-value-type');
             if(litigationTypeSelect) {
                 litigationTypeSelect.value = 'determinabile';
-                window.updateValueInputType(); // Setta l'input per il valore numerico
+                // Chiamo updateValueInputType qui per inizializzare lo stato visivo
+                window.updateValueInputType(); 
             }
             
-            // Esegue un calcolo iniziale per l'App Mediazione (che sincronizza l'input forense e triggera il calcolo forense)
-            calculateMediationFees();
+            // 6. Imposta la selezione di default per Art. 15
+            if (art15_propBtn) {
+                art15_propBtn.classList.add('selected');
+            }
             
+            // 7. Esegue il calcolo iniziale per il nuovo calcolatore Art. 15 c.p.c. 
+            // Questo ora aggiorna anche i campi principali.
+            window.calcolaArt15Mediazione(); 
+            
+            // 8. Chiamata di fallback necessaria se Art. 15 non ha inserito un valore (es. all'avvio con tutti i campi vuoti)
+            if (mediationLitigationInput && mediationLitigationInput.value === '') {
+                window.calculateMediationFees();
+            }
         };
 
         // Avvia l'app al caricamento completo della finestra
