@@ -1569,6 +1569,122 @@
         };
 
 
+        // --- FUNZIONE DI STAMPA STANDARD (CORREZIONE ERRORE) ---
+        /**
+         * Stampa la sezione specificata creando un iframe temporaneo.
+         * @param {string} sectionId ID della sezione da stampare ('mediation-app' o 'forensic-app').
+         */
+        window.printSection = function (sectionId) {
+            const section = document.getElementById(sectionId);
+            const integratedHeader = document.getElementById('integrated-calculator-header');
+            const legalNotes = document.getElementById('legal-notes-footer');
+
+            if (!section || !integratedHeader || !legalNotes) {
+                console.error(`Sezione per la stampa (${sectionId}) non trovata.`);
+                return;
+            }
+
+            // Clona i contenuti per la manipolazione
+            const contentToPrint = section.cloneNode(true);
+            const integratedHeaderToPrint = integratedHeader.cloneNode(true);
+            const legalNotesToPrint = legalNotes.cloneNode(true);
+
+            // Rimuove gli elementi interattivi dalla copia destinata alla stampa
+            const elementsToRemove = contentToPrint.querySelectorAll('.print-hide, .print-button-container');
+            elementsToRemove.forEach(el => el.remove());
+            
+            // Rende visibile l'informazione sul valore lite per la stampa nel clone dell'app
+            const printValueEl = contentToPrint.querySelector('.print-only');
+            if (printValueEl) {
+                printValueEl.classList.remove('print-only');
+                printValueEl.classList.add('print-litigation-value'); 
+            }
+            
+            // Logica per aggiungere Dettagli (Numero Procedimento, Luogo, Data, Accettazione)
+            let detailsHtml = '';
+            
+            if (sectionId === 'mediation-app') {
+                 const num1 = document.getElementById('mediation-number-1')?.value || '....';
+                 const num2 = document.getElementById('mediation-number-2')?.value || '....';
+                 const location = document.getElementById('mediation-location')?.value || '....';
+                 const date = document.getElementById('mediation-date')?.value || '....';
+
+                 detailsHtml = `
+                    <div style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                        Procedimento di Mediazione n. ${num1} / ${num2}
+                    </div>
+                    <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                        ${location}, lì ${date}
+                    </div>
+                    <div class="acceptance-text">
+                        Per accettazione, salvo diversa determinazione del valore da parte del Responsabile
+                    </div>
+                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+                 `;
+
+            } else if (sectionId === 'forensic-app') {
+                 const num1 = document.getElementById('forensic-mediation-number-1')?.value || '....';
+                 const num2 = document.getElementById('forensic-mediation-number-2')?.value || '....';
+                 const counterparty = document.getElementById('forensic-mediation-counterparty')?.value || '....';
+                 const location = document.getElementById('forensic-location')?.value || '....';
+                 const date = document.getElementById('forensic-date')?.value || '....';
+
+                 detailsHtml = `
+                    <div style="text-align: left; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; padding: 5px; border: 1px dashed #1e3a8a;">
+                        Procedimento di Mediazione n. ${num1} / ${num2} nei confronti di ${counterparty}
+                    </div>
+                    <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; font-weight: 500; color: #4b5563;">
+                        ${location}, lì ${date}
+                    </div>
+                    <div class="acceptance-text" style="margin-top: 25px;">
+                        Per accettazione 
+                    </div>
+                    <div class="acceptance-line" style="margin-top: 10px; margin-bottom: 20px;"></div>
+                 `;
+            }
+
+            // Costruisce il contenuto HTML completo per la stampa
+            const integratedHeaderHtml = integratedHeaderToPrint.outerHTML;
+            const appContentHtml = contentToPrint.outerHTML;
+            const footerContentHtml = legalNotesToPrint.outerHTML;
+
+
+            const printHTML = `
+                ${integratedHeaderHtml}
+                <div class="print-content-wrapper" style="padding-top: 1rem;">
+                    ${appContentHtml}
+                    ${detailsHtml}
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc;">
+                        ${footerContentHtml}
+                    </div>
+                </div>
+            `;
+
+
+            // Crea la finestra di stampa
+            const style = document.querySelector('style').innerHTML;
+            const printWindow = window.open('', '', 'height=600,width=800');
+            
+            if (!printWindow) {
+                console.error("Impossibile aprire la finestra di stampa. Controllare le impostazioni di blocco dei popup.");
+                return;
+            }
+
+            printWindow.document.write('<html><head><title>Stampa Sezione</title>');
+            printWindow.document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+            printWindow.document.write(`<style>${style}</style>`);
+            
+            printWindow.document.write('</head><body class="print-container">');
+            printWindow.document.write(printHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close(); 
+            
+            printWindow.onload = () => {
+                printWindow.focus();
+                printWindow.print();
+            };
+        };
+
         // --- LOGICA MODAL DI PERSONALIZZAZIONE STUDIO (AVVOCATO) ---
 
         /**
@@ -2321,7 +2437,7 @@
                 if (feesStartupBreakdownAvvioImponibileEl) feesStartupBreakdownAvvioImponibileEl.textContent = formatCurrency(breakdownAvvioImponibile);
                 // Corretto errore di sintassi qui
                 if (feesStartupBreakdownAvvioIvaEl) feesStartupBreakdownAvvioIvaEl.textContent = formatCurrency(breakdownAvvioIVA);
-                if (feesStartupBreakdownIndennitaImponibileEl) feesStartupBreakdownAvvioImponibileEl.textContent = formatCurrency(breakdownIndennitaImponibile);
+                if (feesStartupBreakdownIndennitaImponibileEl) feesStartupBreakdownIndennitaImponibileEl.textContent = formatCurrency(breakdownIndennitaImponibile);
                 if (feesStartupBreakdownIndennitaIvaEl) feesStartupBreakdownIndennitaIvaEl.textContent = formatCurrency(breakdownIndennitaIVA);
             }
             feesNegativeEl.textContent = formatCurrency(negativeOutcomeFees);
