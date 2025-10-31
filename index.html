@@ -433,6 +433,14 @@
             box-shadow: 0 0 8px rgba(185, 28, 28, 0.5); /* Ombra rossa leggera */
         }
         
+        /* AGGIUNTO: Stile per i pulsanti Indeterminato Avvocato - Selezionato (Usa Navy) */
+        .forensic-ind-button.selected {
+            background-color: #1e3a8a !important; /* Navy */
+            color: white !important; /* Testo bianco */
+            border: 2px solid #1e3a8a !important; /* Bordo Navy */
+            box-shadow: 0 0 8px rgba(30, 58, 138, 0.5); /* Ombra blu leggera */
+        }
+        
         /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
         /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
         /* PULSANTI DI RESET E SELECT PRECEDENTI RIMOSSI PER PULIZIA */
@@ -571,15 +579,16 @@
                         Servitù (x50)
                     </div>
 
-                    <!-- Pulsante Reset -->
+                    <!-- Pulsante Reset (RIMOSSO DA QUI) -->
+                    <!-- 
                     <div class="w-full sm:w-auto pt-2 sm:pt-0">
                         <button id="art15-resetButton" 
-                                onclick="resetArt15Calcolatore()"
                                 class="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out font-medium text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M3 2v6h6M3 6h18M21 22v-6h-6M21 18H3"/><path d="M22 8a10 10 0 1 0-2.82 7.18"/></svg>
                             Reset
                         </button>
                     </div>
+                     -->
                 </div>
             </fieldset>
 
@@ -652,8 +661,10 @@
             </div>
 
             <!-- Sezione Risultato Mediazione -->
-            <div class="mt-3">
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center total-summary-box border-slate-800">
+            <!-- MODIFICATO: Aggiunto flex-col sm:flex-row gap-2 items-stretch -->
+            <div class="mt-3 flex flex-col sm:flex-row gap-2 items-stretch">
+                <!-- MODIFICATO: Aggiunto flex-grow per farla accorciare -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center total-summary-box border-slate-800 flex-grow">
                     <!-- Etichetta -->
                     <h2 class="text-lg font-black text-dark-title mb-1 sm:mb-0">
                         VALORE LITE (Art. 15 c.p.c.)
@@ -664,6 +675,13 @@
                         <span>€</span>
                     </div>
                 </div>
+                
+                <!-- PULSANTE RESET (SPOSTATO QUI) -->
+                <button id="art15-resetButton" 
+                        class="flex-shrink-0 flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M3 2v6h6M3 6h18M21 22v-6h-6M21 18H3"/><path d="M22 8a10 10 0 1 0-2.82 7.18"/></svg>
+                    Reset
+                </button>
             </div>
             
             <!-- Rimosso il contenitore dei pulsanti d'azione (compresi Copia Valore e Reset) -->
@@ -1050,6 +1068,45 @@
                         />
                     </div>
                 </div>
+
+                <!-- NUOVO BLOCCO VALORE INDETERMINABILE AVVOCATO (INSERITO QUI) -->
+                <div id="forensic-indeterminate-box" class="mt-4 p-3 input-box-highlight rounded-xl shadow-inner print-hide border border-slate-400">
+                    <fieldset>
+                        <legend class="block text-base font-bold text-gray-700 mb-2">Gestione Valore Indeterminabile (Avvocato):</legend>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            
+                            <!-- Uso la classe base art15-card-button per lo stile, e forensic-ind-button per la logica JS -->
+                            <div id="forensic-ind-bassa-btn" 
+                                 class="art15-card-button forensic-ind-button" 
+                                 data-tier="bassa"
+                                 onclick="selectForensicIndeterminate(this, 'bassa')">
+                                Indeterminabile complessità bassa
+                            </div>
+                            
+                            <div id="forensic-ind-media-btn" 
+                                 class="art15-card-button forensic-ind-button" 
+                                 data-tier="media"
+                                 onclick="selectForensicIndeterminate(this, 'media')">
+                                Indeterminabile complessità media
+                            </div>
+
+                            <div id="forensic-ind-alta-btn" 
+                                 class="art15-card-button forensic-ind-button" 
+                                 data-tier="alta"
+                                 onclick="selectForensicIndeterminate(this, 'alta')">
+                                Indeterminabile complessità alta
+                            </div>
+
+                            <div id="forensic-ind-importante-btn" 
+                                 class="art15-card-button forensic-ind-button" 
+                                 data-tier="importante"
+                                 onclick="selectForensicIndeterminate(this, 'importante')">
+                                Indeterminabile di particolare importanza
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <!-- FINE NUOVO BLOCCO -->
 
                 <!-- Alert/Risultati Compensi Avvocato -->
                 <div id="forensic-alert" class="hidden bg-red-100 p-3 rounded-lg shadow-md border-l-4 border-red-700 text-red-800 font-medium text-sm mt-4">
@@ -1484,6 +1541,70 @@
         
         // Variabile globale per tenere traccia del moltiplicatore Art. 15 selezionato
         let currentArt15Multiplier = 200;
+
+        // AGGIUNTO: Variabile globale per il tier indeterminabile dell'avvocato
+        let currentForensicIndeterminateTier = null;
+        let currentForensicIndeterminateTierName = ""; // Per la stampa
+
+        // AGGIUNTO: Costante con i nuovi valori dalla tabella DOCX
+        const FORENSIC_INDETERMINATE_FEES = {
+            'bassa': {
+                activation: { min: 268, medium: 536, max: 804 },
+                negotiation: { min: 536, medium: 1071, max: 1607 },
+                conciliation: { min: 1044, medium: 2088, max: 3132 }
+            },
+            'media': {
+                activation: { min: 386, medium: 772, max: 1158 },
+                negotiation: { min: 772, medium: 1544, max: 2316 },
+                conciliation: { min: 1505, medium: 3010, max: 4515 }
+            },
+            'alta': {
+                activation: { min: 504, medium: 1008, max: 1512 },
+                negotiation: { min: 1008, medium: 2016, max: 3024 },
+                conciliation: { min: 1966, medium: 3931, max: 5897 }
+            },
+            'importante': {
+                activation: { min: 685, medium: 1370, max: 2055 },
+                negotiation: { min: 1371, medium: 2741, max: 4112 },
+                conciliation: { min: 2672, medium: 5343, max: 8015 }
+            }
+        };
+
+
+        // AGGIUNTO: Funzione per gestire la selezione dei pulsanti Indeterminato Avvocato
+        window.selectForensicIndeterminate = (selectedElement, tier) => {
+            const valueInput = document.getElementById('forensic-litigation-value');
+            const buttons = document.querySelectorAll('.forensic-ind-button');
+            
+            // Controlla se il pulsante cliccato è GIÀ selezionato
+            if (currentForensicIndeterminateTier === tier) {
+                // DESELEZIONA
+                currentForensicIndeterminateTier = null;
+                currentForensicIndeterminateTierName = "";
+                selectedElement.classList.remove('selected');
+                
+                // Riabilita l'input del valore e lo svuota
+                valueInput.removeAttribute('disabled');
+                valueInput.value = ''; // Svuota per permettere nuovo inserimento
+                valueInput.placeholder = "es. 15000 o Indeterminabile";
+                
+            } else {
+                // SELEZIONA
+                currentForensicIndeterminateTier = tier;
+                currentForensicIndeterminateTierName = selectedElement.textContent.trim();
+                
+                // Aggiorna la UI dei pulsanti
+                buttons.forEach(btn => btn.classList.remove('selected'));
+                selectedElement.classList.add('selected');
+                
+                // Disabilita l'input del valore e mostra il tier selezionato
+                valueInput.setAttribute('disabled', 'true');
+                valueInput.value = currentForensicIndeterminateTierName;
+            }
+
+            // In ogni caso, ricalcola i compensi
+            calculateForensicFees();
+        };
 
 
         // --- FUNZIONI DI UTILITY ---
@@ -2228,6 +2349,56 @@
                 }
             }
 
+            // --- NUOVA LOGICA: COLLEGAMENTO INDETERMINATO MEDIAZIONE -> AVVOCATO (SOLO SELEZIONE) ---
+            // Collega i pulsanti Basso/Medio/Alto della Mediazione a quelli dell'Avvocato,
+            // come richiesto, senza toccare le tabelle di calcolo sottostanti.
+            
+            if (isIndeterminabileSelection) {
+                // Mediazione è INDETERMINABILE: Seleziona il pulsante Avvocato corrispondente.
+                let targetButton = null;
+                let targetTier = null;
+
+                if (indeterminateLevel === 'basso') {
+                    targetButton = document.getElementById('forensic-ind-bassa-btn');
+                    targetTier = 'bassa';
+                } else if (indeterminateLevel === 'medio') {
+                    targetButton = document.getElementById('forensic-ind-media-btn');
+                    targetTier = 'media';
+                } else if (indeterminateLevel === 'alto') {
+                    targetButton = document.getElementById('forensic-ind-alta-btn');
+                    targetTier = 'alta';
+                }
+
+                // Seleziona il pulsante target (se esiste e non è già selezionato)
+                // NON selezioniamo nulla se l'utente ha scelto "particolare importanza" (non deve essere sovrascritto)
+                if (targetButton && currentForensicIndeterminateTier !== targetTier && currentForensicIndeterminateTier !== 'importante') {
+                    // Chiamiamo la funzione che gestisce la selezione dell'avvocato.
+                    // Questo aggiornerà l'UI (pulsante e input disabilitato) e 
+                    // attiverà il ricalcolo dell'avvocato usando la tabella indeterminabile corretta.
+                    window.selectForensicIndeterminate(targetButton, targetTier);
+                }
+                
+            } else {
+                // Mediazione è DETERMINABILE: Deseleziona il pulsante Avvocato (se non è 'importante').
+                
+                // Se un pulsante (basso, medio, alto) è correntemente selezionato...
+                if (currentForensicIndeterminateTier === 'bassa' || currentForensicIndeterminateTier === 'medio' || currentForensicIndeterminateTier === 'alta') {
+                    
+                    // Troviamo il pulsante attualmente selezionato
+                    const currentButton = document.querySelector(`.forensic-ind-button[data-tier="${currentForensicIndeterminateTier}"]`);
+                    
+                    if (currentButton) {
+                        // Chiamiamo la funzione di deselezione (cliccando su se stesso)
+                        // Questo riattiverà l'input del valore e ricalcolerà l'avvocato
+                        // usando il valore numerico sincronizzato.
+                        window.selectForensicIndeterminate(currentButton, currentForensicIndeterminateTier);
+                    }
+                }
+                // Se è 'importante' o 'null' (già deselezionato), non facciamo nulla.
+            }
+            // --- FINE NUOVA LOGICA ---
+
+
             // === LOGICA BLINK (Corretta per gestire il rimpiazzo del titolo) ===
             // Usa il Navy originale per il testo del titolo
             const originalTitleHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6 text-accent-mediation-navy"><path d="M12 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7"/><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg> Spese di Mediazione - Valori Minimi`;
@@ -2503,12 +2674,63 @@
         // TABELLA COMPENSI DETTAGLIATA PER MEDIAZIONE (DM 55/2014)
         const FORENSIC_FEE_TABLE = [
             // Fase di Mediazione (Tabelle 1, 2 e 3 del DM 55/2014)
-            { min: 0, max: 1100, activation: { min: 32, medium: 63, max: 95 }, negotiation: { min: 63, medium: 126, max: 189 }, conciliation: { min: 123, medium: 246, max: 369 } },
-            { min: 1100.01, max: 5200, activation: { min: 142, medium: 284, max: 426 }, negotiation: { min: 284, medium: 567, max: 851 }, conciliation: { min: 553, medium: 1106, max: 1659 } },
-            { min: 5200.01, max: 26000, activation: { min: 221, medium: 441, max: 662 }, negotiation: { min: 441, medium: 882, max: 1323 }, conciliation: { min: 860, medium: 1720, max: 2580 } },
-            { min: 26000.01, max: 52000, activation: { min: 268, medium: 536, max: 804 }, negotiation: { min: 536, medium: 1071, max: 1607 }, conciliation: { min: 1044, medium: 2088, max: 3132 } },
-            { min: 52000.01, max: 260000, activation: { min: 504, medium: 1008, max: 1512 }, negotiation: { min: 1008, medium: 2016, max: 3024 }, conciliation: { min: 1966, medium: 3931, max: 5897 } },
-            { min: 260000.01, max: 520000, activation: { min: 685, medium: 1370, max: 2055 }, negotiation: { min: 1371, medium: 2741, max: 4112 }, conciliation: { min: 2672, medium: 5343, max: 8015 } },
+            // Aggiornata con i valori medi da file Valore.docx e min/max calcolati (50%/150%)
+            { min: 0, max: 1100,
+                activation: { min: 31.50, medium: 63.00, max: 94.50 },
+                negotiation: { min: 63.00, medium: 126.00, max: 189.00 },
+                conciliation: { min: 123.00, medium: 246.00, max: 369.00 }
+            },
+            { min: 1100.01, max: 5200,
+                activation: { min: 142.00, medium: 284.00, max: 426.00 },
+                negotiation: { min: 283.50, medium: 567.00, max: 850.50 },
+                conciliation: { min: 553.00, medium: 1106.00, max: 1659.00 }
+            },
+            { min: 5200.01, max: 26000,
+                activation: { min: 220.50, medium: 441.00, max: 661.50 },
+                negotiation: { min: 441.00, medium: 882.00, max: 1323.00 },
+                conciliation: { min: 860.00, medium: 1720.00, max: 2580.00 }
+            },
+            { min: 26000.01, max: 52000,
+                activation: { min: 268.00, medium: 536.00, max: 804.00 },
+                negotiation: { min: 535.50, medium: 1071.00, max: 1606.50 },
+                conciliation: { min: 1044.00, medium: 2088.00, max: 3132.00 }
+            },
+            { min: 52000.01, max: 260000,
+                activation: { min: 504.00, medium: 1008.00, max: 1512.00 },
+                negotiation: { min: 1008.00, medium: 2016.00, max: 3024.00 },
+                conciliation: { min: 1965.50, medium: 3931.00, max: 5896.50 }
+            },
+            { min: 260000.01, max: 520000,
+                activation: { min: 685.00, medium: 1370.00, max: 2055.00 },
+                negotiation: { min: 1370.50, medium: 2741.00, max: 4111.50 },
+                conciliation: { min: 2671.50, medium: 5343.00, max: 8014.50 }
+            },
+            // Nuovi scaglioni dal file (valori medi dal file, min/max calcolati)
+            { min: 520000.01, max: 1000000,
+                activation: { min: 890.50, medium: 1781.00, max: 2671.50 },
+                negotiation: { min: 1781.65, medium: 3563.30, max: 5344.95 },
+                conciliation: { min: 3472.95, medium: 6945.90, max: 10418.85 }
+            },
+            { min: 1000000.01, max: 2000000,
+                activation: { min: 1157.65, medium: 2315.30, max: 3472.95 },
+                negotiation: { min: 2316.15, medium: 4632.29, max: 6948.44 },
+                conciliation: { min: 4514.84, medium: 9029.67, max: 13544.51 }
+            },
+            { min: 2000000.01, max: 4000000,
+                activation: { min: 1504.95, medium: 3009.89, max: 4514.84 },
+                negotiation: { min: 3010.99, medium: 6021.98, max: 9032.97 },
+                conciliation: { min: 5869.29, medium: 11738.57, max: 17607.86 }
+            },
+            { min: 4000000.01, max: 8000000,
+                activation: { min: 1956.43, medium: 3912.86, max: 5869.29 },
+                negotiation: { min: 3914.29, medium: 7828.57, max: 11742.86 },
+                conciliation: { min: 7625.07, medium: 15250.14, max: 22875.21 }
+            },
+            { min: 8000000.01, max: Infinity,
+                activation: { min: 2543.36, medium: 5086.72, max: 7630.08 },
+                negotiation: { min: 5088.57, medium: 10177.14, max: 15265.71 },
+                conciliation: { min: 9912.59, medium: 19825.18, max: 29737.77 }
+            }
         ];
         
         const FORENSIC_STATUTORY_COSTS = {
@@ -2612,10 +2834,21 @@
             const rawValue = parseValue(valueStr); // Usa parseValue
             
             // Logica per determinare se il valore è indeterminabile, nullo o numerico
-            const isIndeterminabile = valueStr === 'indeterminabile';
-            const litigationValue = isIndeterminabile || isNaN(rawValue) || rawValue < 0 ? 0 : rawValue; 
+            // MODIFICA: 'isIndeterminabile' ora controlla ANCHE se è stato premuto un pulsante
+            const isIndeterminabileButton = currentForensicIndeterminateTier !== null;
+            const isIndeterminabileInput = valueStr === 'indeterminabile' && !isIndeterminabileButton;
+            const litigationValue = isIndeterminabileButton || isIndeterminabileInput || isNaN(rawValue) || rawValue < 0 ? 0 : rawValue; 
             
-            const feeTier = getForensicFeeTier(litigationValue);
+            let feeTier = null;
+
+            // --- NUOVA LOGICA: CONTROLLA SE È STATO PREMUTO UN PULSANTE INDETERMINABILE ---
+            if (isIndeterminabileButton) {
+                feeTier = FORENSIC_INDETERMINATE_FEES[currentForensicIndeterminateTier];
+            } else if (!isIndeterminabileInput) {
+                // Altrimenti, cerca la fascia di compenso standard in base al valore
+                feeTier = getForensicFeeTier(litigationValue);
+            }
+            // Se isIndeterminabileInput è true, feeTier rimane null (gestito sotto)
             
             // Variabili di livello selezionato (anche se il calcolo fallisce, manteniamo l'ultima selezione)
             const activationLevel = document.querySelector('input[name="activation-level"]:checked')?.value || 'medium';
@@ -2623,22 +2856,29 @@
             const conciliationLevel = document.querySelector('input[name="conciliation-level"]:checked')?.value || 'medium';
 
             // Aggiornamento Valore Lite per la Stampa (App Avvocato)
-            let printValueText = `Valore Lite: ${isIndeterminabile ? 'Indeterminabile (Non Calcolabile)' : (valueStr === '' ? 'Non specificato' : formatCurrency(litigationValue))}`;
+            let printValueText = `Valore Lite: ${isIndeterminabileInput ? 'Indeterminabile (Non Calcolabile)' : (valueStr === '' ? 'Non specificato' : formatCurrency(litigationValue))}`;
+            
+            // NUOVA CONDIZIONE PER STAMPA PULSANTE INDETERMINABILE
+            if (isIndeterminabileButton) {
+                printValueText = `Valore Lite: ${currentForensicIndeterminateTierName}`;
+            }
+
             forensicPrintValueEl.innerHTML = `<p class="font-bold print-litigation-value border-b border-gray-300 pb-2">${printValueText}</p>`;
             
             
             // Gestione Fascia non Calcolabile o Valore Vuoto o Indeterminabile
-            if (isIndeterminabile || !feeTier || valueInput.value.trim() === '' || litigationValue === 0) {
+            // MODIFICA: Aggiunto !isIndeterminabileButton a questa logica
+            if ((isIndeterminabileInput || !feeTier || valueInput.value.trim() === '' || litigationValue === 0) && !isIndeterminabileButton) {
                 
                 document.getElementById('forensic-results').classList.remove('hidden');
                 alertDiv.classList.add('hidden');
                 const zeroFee = formatCurrency(0);
 
-                if (isIndeterminabile) {
+                if (isIndeterminabileInput) {
                      // Caso Indeterminabile (non calcolabile nell'app avvocato)
                      document.getElementById('forensic-results').classList.add('hidden');
                      alertDiv.classList.remove('hidden');
-                     alertMsg.textContent = `Valore della lite "Indeterminabile" non calcolabile per i compensi tabellari (DM 55/2014). Inserire un valore numerico.`;
+                     alertMsg.textContent = `Valore della lite "Indeterminabile" non calcolabile per i compensi tabellari (DM 55/2014). Selezionare una delle opzioni "Gestione Valore Indeterminabile" qui sopra.`;
                 }
                 else if (litigationValue === 0 && valueStr !== '') {
                      // Caso Valore 0 (non calcolabile nell'app avvocato)
@@ -2950,3 +3190,9 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
